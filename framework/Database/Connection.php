@@ -16,7 +16,7 @@
 
          function __construct()
          {
-             $this->config = $this->getConfig();
+             //$this->config = $this->getConfig();
          }
 
          /*
@@ -40,40 +40,42 @@
          */
          public function connect()
          {
-             $this->con = mysql_connect(
-                     $this->config['DB_HOST'],
-                     $this->config['DB_USERNAME'],
-                     $this->config['DB_PASSWORD']
-                 );
-             if (!$this->con) {
-                 Helper::returnJson('1001', '数据库连接错误！');
-             }Helper::dd($this->table);
+            $this->config = $this->getConfig();
+            $this->con = mysql_connect(
+                    $this->config['DB_HOST'],
+                    $this->config['DB_USERNAME'],
+                    $this->config['DB_PASSWORD']
+                );
+            if (!$this->con) {
+                Helper::returnJson('1001', '数据库连接错误！');
+            }//Helper::dd($this->table);
 
-             $con_db = mysql_select_db($this->config['DB_NAME'], $this->con);
-             if (!$con_db) {
-                 Helper::returnJson('1001', '数据库不存在！');
-             }
+            $con_db = mysql_select_db($this->config['DB_NAME'], $this->con);
+            if (!$con_db) {
+                Helper::returnJson('1001', '数据库不存在！');
+            }
 
-             mysql_query('set names utf8');
+            mysql_query('set names utf8');
          }
 
          /*
          * 获取所有数据
          */
         public function all(){
-             $sql = 'SELECT * FROM '.$this->table;
-             $result = mysql_query($sql, $this->con);
-             return $this->toArray($result);
+            $sql = 'SELECT * FROM '.$this->table;
+            $result = mysql_query($sql, $this->con);
+            return $this->toArray($result);
         }
 
         /*
          * 将从数据库查到的数据转化为数组
          */
-        protected function toArray(){
-             while ($row = mysql_fetch_assoc($result)) {
-                 $data[] = $row;
-             }
-             return $data;
+        protected function toArray($result = null){
+            $data = [];
+            while ($row = mysql_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+            return $data;
         }
     }
 ?>
