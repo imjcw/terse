@@ -8,7 +8,16 @@ ul,li{
     margin: 0;
     padding: 0;
 }
-
+/*滚动条宽度*/  
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+/* Handle样式 */  
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: #31373B;
+}
 .mf_left,.mf_right{
     float: left;
     height:100%;
@@ -16,6 +25,7 @@ ul,li{
 .mf_left{
     width:200px;
     background-color: #282D30;
+    overflow: auto;
 }
     .mf_left .left_top{
         padding: 30px;

@@ -52,43 +52,7 @@
             </div>
 
             <!--内容-->
-            <div class="ui text menu" style="padding:0 8px;margin-bottom: 0;">
-                <span class="header item">栏目总数：<?php echo $this->count;?> 个</span>
-                <a class="item right" href="/test/add" style="background: #F1C40F;padding: 10px;border-radius: 5px;">添加栏目</a>
-            </div>
-            <!--             <h4 class="ui top attached header" style="margin-top: 0;">Header</h4>
-        <div class="ui buttom attached segment">Panel content</div>
-        -->
-        <table class="ui unstackable selectable single striped line table" style="margin-top:0;">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>栏目</th>
-                    <th>文档</th>
-                    <th>是否隐藏</th>
-                    <th>创建时间</th>
-                    <th>简介</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($this->pageData as $val) { ?>
-                <tr>
-                    <td class="collapsing"><?php echo $val['id']; ?></td>
-                    <td><?php echo $val['column']; ?></td>
-                    <td>0 篇</td>
-                    <td>否</td>
-                    <td>20151201</td>
-                    <td>这里是一些简洁的简介内容。</td>
-                    <td>
-                        <a class="edit" href="/test/edit?id=<?php echo $val['id']; ?>">修改</a>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;
-                        <a class="delete" href="/test/doDelete?id=<?php echo $val['id']; ?>">删除</a>
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+           出了一点问题
     </div>
 </div>
 </body>

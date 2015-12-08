@@ -52,21 +52,20 @@
             </div>
 
             <!--内容-->
-            <div class="ui segment">
-                <form class="ui form" action="/test/doAdd" method="post">
-                    <div class="field">
-                        <label>栏目名称</label>
-                        <input type="text" name="name" placeholder="栏目名称" value=""></div>
-                    <div class="field">
-                        <label>栏目描述</label>
-                        <textarea name="description" placeholder="栏目描述" value=""></textarea>
-                    </div>
-                    <div class="field" style="text-align: center;">
-                        <button class="ui primary button">保存</button>
-                        <a class="ui button go_back" href="#">放弃</a>
-                    </div>
-                </form>
-            </div>
+            <h3 class="ui top attached header">添加栏目</h3>
+            <form class="ui form buttom attached segment" action="/test/doEdit?id=<?php echo $this->pageData['id']; ?>" method="post">
+                <div class="field">
+                    <label>栏目名称</label>
+                    <input type="text" name="column" placeholder="栏目名称" value="<?php echo $this->pageData['column']; ?>"></div>
+                <div class="field">
+                    <label>栏目描述</label>
+                    <textarea name="description" placeholder="栏目描述"><?php echo $this->pageData['description'];?></textarea>
+                </div>
+                <div class="field" style="text-align: center;">
+                    <button class="ui blue submit button">保存</button>
+                    <a class="ui button go_back" href="#">放弃</a>
+                </div>
+            </form>
         </div>
     </div>
 <script type="text/javascript">

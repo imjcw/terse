@@ -5,7 +5,8 @@ require_once 'framework/Routing/Route.php';
 require_once 'framework/Http/Response.php';
 define('ROOT', dirname(__FILE__));
 
-$uri = Route::getUri();
+$route = new Route();
+$uri = $route->getBaseUri();
 if ($uri !== '/') {
     $data = explode('/', $uri);
     $controller = ucfirst($data[0]);
