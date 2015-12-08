@@ -14,8 +14,6 @@ if ($uri !== '/') {
     $action = isset($data[1]) ? $data[1] : 'index';
     if ($controller != 'Favicon.icoController') {
         require_once 'app/Http/Controller/'.$controller.'.php';
-        //call_user_func(array($controller.'Controller' , 'index'));
-        //$controller::$action();
         $test = new $controller;
         $test->$action();
     }
