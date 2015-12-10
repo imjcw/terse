@@ -2,12 +2,11 @@
     /**
     *  请求
     */
-    class Response
+    class Response extends Page
     {
         public function view($name = ''){
-            ob_start();
-            require_once ROOT.'/resources/views/'.$name.'.html';
-            return ob_end_flush();
+            $page = Page::init();
+            $page->exportToBrowser($name);
         }
 
         public function redirect($url = '', $http_code = 200){

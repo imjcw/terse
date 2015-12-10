@@ -5,11 +5,11 @@
     class AuthController
     {
         public function login(){
-            Response::view('auth/login');
+            view('auth/login');
         }
 
         public function doLogin(){
-            Helper::dd($_POST);
+            dd($_POST);
         }
     }
 ?>

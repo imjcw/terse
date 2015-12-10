@@ -27,7 +27,7 @@
              if (isset($config_file_path)) {
                  include $config_file_path;
              }else{
-                 Helper::dd('配置文件不存在，或者路径错误！');
+                 returnJson('配置文件不存在，或者路径错误！');
              }
 
              if (isset($database)) {
@@ -47,12 +47,12 @@
                 $this->config['DB_PASSWORD']
             );
             if (!$this->con) {
-                Helper::returnJson('1001', '数据库连接错误！');
+                returnJson('1001', '数据库连接错误！');
             }//Helper::dd($this->table);
 
             $con_db = mysql_select_db($this->config['DB_NAME'], $this->con);
             if (!$con_db) {
-                Helper::returnJson('1001', '数据库不存在！');
+                returnJson('1001', '数据库不存在！');
             }
 
             mysql_query('set names utf8');

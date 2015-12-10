@@ -2,12 +2,12 @@
 /**
 * 常用的命令
 */
-class Helper
-{
-    /*
-    * 输出数组并结束运行
-    */
-    public function dd($obj = ''){
+
+/**
+* 中断程序并输出，调试用
+*/
+if (!function_exists('dd')) {
+    function dd($obj = ''){
         if (is_array($obj)) {
             echo "<pre>";
             print_r($obj);
@@ -17,11 +17,13 @@ class Helper
         }
         die;
     }
+}
 
-    /*
-    * 返回信息
-    */
-   public function returnJson($status = '2000', $info = '', $data = ''){
+/**
+* 返回信息
+*/
+if (!function_exists('returnJson')) {
+    function returnJson($status = '2000', $info = '', $data = ''){
         $array = [
             'status' => $status,
             'info' => $info,
@@ -32,6 +34,16 @@ class Helper
         }
         
         return json_encode($array);
+   }
+}
+
+/**
+* 展现模板
+*/
+if (!function_exists('view')) {
+    function view($name = ''){
+        $view = new Response();
+        return $view->view($name);
    }
 }
 ?>

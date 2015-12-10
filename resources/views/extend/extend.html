@@ -32,42 +32,6 @@
         }
     </style>
 <body>
-    <div class="ui middle aligned center aligned grid">
-        <div class="column">
-            <div class="ui attached message" style="border-bottom:1px solid #eeeeee;">
-                <div class="ui blue image header"> 
-                    TERSE
-                </div>
-            </div>
-            <form class="ui large form attached fluid segment" method="post" action="/auth/doLogin">
-                <div class="field">
-                    <div class="ui left icon input">
-                        <i class="user icon"></i>
-                        <input type="text" name="name" placeholder="User Name">
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui left icon input">
-                        <i class="lock icon"></i>
-                        <input type="password" name="password" placeholder="Password">
-                    </div>
-                </div>
-                <div class="ui fluid large blue submit button">登 录</div>
-            </form>
-            <div class="ui bottom attached message">
-                Copyright &copy; <a href="#">marvin</a>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.ui.form').form({
-                fields: {
-                    name : 'empty',
-                    password : 'empty',
-                }
-            });
-        });
-    </script>
+<?php export(); ?>
 </body>
 </html>
