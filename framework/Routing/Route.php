@@ -4,9 +4,6 @@
     */
     class Route
     {
-        /*
-        * 获取Uri
-        */
         protected function getUri(){
             $uri = substr($_SERVER['REQUEST_URI'], 1);
             return $uri ? $uri : '/';

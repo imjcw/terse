@@ -7,12 +7,12 @@
         /*
         * 数据库配置信息
         */
-        protected $config = [];
+        protected $config = array();
 
         /*
         * 数据库连接
         */
-        protected $con = [];
+        protected $con = array();
 
          function __construct()
          {
@@ -69,7 +69,7 @@
          /*
          * 新增
          */
-        public function insert($data = []){
+        public function insert($data = array()){
             if (is_array($data)) {
                 $result = $this->makeData($data);
                 $set = implode(',', $result['key']);
@@ -85,7 +85,7 @@
          /*
          * 更新
          */
-        public function update($field = [], $where = []){
+        public function update($field = array(), $where = array()){
             $data = is_array($field) ? $this->makeSet($field) : $field;
             $set = implode(',', $data);
 
@@ -99,7 +99,7 @@
          /*
          * 删除
          */
-        public function delete($where = []){
+        public function delete($where = array()){
             $condition = is_array($where) ? $this->makeSet($where) : $where;
             $con = implode(' and ', $condition);
             $sql = 'DELETE FROM '.$this->table.' WHERE '.$con;
@@ -139,7 +139,7 @@
          * 将从数据库查到的数据转化为数组
          */
         protected function toArray($result = null, $one = ''){
-            $data = [];
+            $data = array();
             while ($row = mysql_fetch_assoc($result)) {
                 $data[] = $row;
             }
