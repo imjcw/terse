@@ -5,11 +5,11 @@
     class AuthController
     {
         public function login(){
-            view('auth/login');
+            return view('auth/login');
         }
 
         public function doLogin(){
-            dd($_POST);
+            var_dump($_POST);
         }
     }
 ?>

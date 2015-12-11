@@ -4,9 +4,18 @@
     */
     class Response extends Page
     {
+        protected static $init;
+
+        public static function init(){
+            if (!self::$init) {
+                self::$init = new Response();
+            }
+            return self::$init;
+        }
+
         public function view($name = ''){
             $page = Page::init();
-            $page->exportToBrowser($name);
+            return $page->exportToBrowser($name);
         }
 
         public function redirect($url = '', $http_code = 200){

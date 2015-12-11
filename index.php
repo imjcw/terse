@@ -18,7 +18,10 @@ if ($uri !== '/') {
             $contol = new $controller;
             $methods = get_class_methods($contol);
             if (in_array($value, $methods)) {
-                $contol->$value();
+                $view = $contol->$value();
+                if (is_object($view)) {
+                    $view->compile();
+                }
             }
             break;
         }

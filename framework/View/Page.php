@@ -6,13 +6,13 @@
     {
         protected static $init;
 
-        protected $extend = '';
-
         protected $content = '';
 
         protected $data = '';
 
-        public function init(){
+        protected $path = '';
+
+        public static function init(){
             if (!self::$init) {
                 self::$init = new Page();
             }
@@ -20,7 +20,7 @@
         }
 
         public function extend($path = ''){
-            $this->extend = $path;
+            $this->compile($path);
         }
 
         public function start(){
@@ -36,23 +36,23 @@
         }
 
         public function exportToBrowser($name = ''){
-            $this->compile($name);
-            $this->compile($this->extend);
+            $this->path = ROOT.'/resources/views/'.$name.'.html';
+            return $this;
         }
 
         public function compile($path = ''){
             if (!empty($this->data)) {
-                foreach ($this->data as $key => $value) {
-                    $$key = $value;
-                }
+                extract($this->data);
             }
-            if (!empty($path)) {
-                require_once ROOT.'/resources/views/'.$path.'.html';
+            if (empty($path)) {
+                $path = $this->path;
             }
+            require_once $path;
         }
 
         public function with($pageData = array()){
             $this->data = $pageData;
+            return $this;
         }
     }
 ?>

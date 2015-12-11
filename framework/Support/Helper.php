@@ -42,8 +42,18 @@ if (!function_exists('returnJson')) {
 */
 if (!function_exists('view')) {
     function view($name = ''){
-        $view = new Response();
+        $view = Response::init();
         return $view->view($name);
+   }
+}
+
+/**
+* 展现模板
+*/
+if (!function_exists('redirect')) {
+    function redirect($url = '', $http_code = 200){
+        $redirect = Response::init();
+        return $redirect->redirect($url, $http_code);
    }
 }
 ?>
