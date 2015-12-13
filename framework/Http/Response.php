@@ -18,8 +18,8 @@
             return $page->exportToBrowser($name);
         }
 
-        public function redirect($url = '', $http_code = 200){
-            header("Location: $url", true, $http_code);
+        public function redirect($url = '', $replace = true, $http_code = 302){
+            header("Location: $url", $replace, $http_code);
             return true;
         }
     }

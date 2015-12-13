@@ -8,5 +8,5 @@
 ////column
 //$routers['column'] = array('index', 'add', 'edit', 'doAdd', 'doEdit', 'doDelete','test');
 //
-$routers = array('error', 'auth', 'column');
+$routes = array('error', 'auth', 'column', 'article', 'admin', 'test');
 ?>

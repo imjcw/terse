@@ -8,6 +8,8 @@
 
         protected $content = '';
 
+        protected $extend = '';
+
         protected $data = '';
 
         protected $path = '';
@@ -19,8 +21,8 @@
             return self::$init;
         }
 
-        public function extend($path = ''){
-            $this->compile($path);
+        public function extend($name = ''){
+            $this->extend = $this->buildPath($name);
         }
 
         public function start(){
@@ -29,6 +31,7 @@
 
         public function stop(){
             $this->content = ob_get_clean();
+            $this->compile($this->extend);
         }
 
         public function export(){
@@ -36,8 +39,12 @@
         }
 
         public function exportToBrowser($name = ''){
-            $this->path = ROOT.'/resources/views/'.$name.'.html';
+            $this->path = $this->buildPath($name);
             return $this;
+        }
+
+        public function buildPath($name = ''){
+            return ROOT.'/resources/views/'.$name.'.html';
         }
 
         public function compile($path = ''){

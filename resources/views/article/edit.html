@@ -1,0 +1,29 @@
+<?php extend('extend/extend'); ?>
+<?php start(); ?>
+<!--内容-->
+<h3 class="ui top attached header">修改文章</h3>
+<form class="ui form buttom attached segment" action="/article/doEdit?id=<?php echo $id; ?>" method="post">
+    <div class="field">
+        <label>文章名称</label>
+        <input type="text" name="article" placeholder="文章名称" value="<?php echo $article; ?>"></div>
+    <div class="field">
+        <label>文章描述</label>
+        <textarea name="description" placeholder="文章描述"><?php echo $description;?></textarea>
+    </div>
+    <div class="field">
+        <label>文章内容</label>
+        <textarea name="content" placeholder="文章内容"><?php echo $content;?></textarea>
+    </div>
+    <div class="field" style="text-align: center;">
+        <button class="ui blue submit button">保存</button>
+        <a class="ui button go_back" href="#">放弃</a>
+    </div>
+</form>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.go_back').click(function(){
+        history.back();
+    });
+});
+</script>
+<?php stop(); ?>

@@ -2,9 +2,9 @@
     /**
     * 
     */
-    class ColumnController extends Connection
+    class AdminController extends Connection
     {
-        public $table = '`column`';
+        public $table = '`admin`';
         public $pageData = '';
         public $count = '';
 
@@ -12,14 +12,14 @@
             $this->connect();
             $this->pageData = $this->all();
             $this->count = count($this->pageData);
-            return view('column/index')->with(array(
+            return view('admin/index')->with(array(
                 'count' => $this->count,
                 'pageData' => $this->pageData
             ));
         }
 
         public function add(){
-            return view('column/add');
+            return view('admin/add');
         }
 
         public function doAdd(){
@@ -34,7 +34,7 @@
             $id = $_GET['id'];
             $this->connect();
             $this->pageData = $this->one('`id` = '.$id);
-            return view('column/edit')->with($this->pageData);
+            return view('admin/edit')->with($this->pageData);
         }
 
         public function doEdit(){

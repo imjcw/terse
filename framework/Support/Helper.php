@@ -24,16 +24,26 @@ if (!function_exists('dd')) {
 */
 if (!function_exists('returnJson')) {
     function returnJson($status = '2000', $info = '', $data = ''){
-        $array = [
+        $array = array(
             'status' => $status,
             'info' => $info,
-        ];
+        );
 
         if (!empty($data)) {
             $array['data'] = $data;
         }
         
         return json_encode($array);
+   }
+}
+
+/**
+* 展现模板
+*/
+if (!function_exists('getRoutes')) {
+    function getRoutes(){
+        require_once ROOT.'/app/Http/Routes.php';
+        return $routes;
    }
 }
 
@@ -48,12 +58,12 @@ if (!function_exists('view')) {
 }
 
 /**
-* 展现模板
+* 跳转页面
 */
 if (!function_exists('redirect')) {
-    function redirect($url = '', $http_code = 200){
+    function redirect($url = '', $replace = true, $http_code = 302){
         $redirect = Response::init();
-        return $redirect->redirect($url, $http_code);
+        return $redirect->redirect($url, $replace, $http_code);
    }
 }
 ?>

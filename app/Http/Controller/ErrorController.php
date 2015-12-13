@@ -5,7 +5,7 @@
     class ErrorController
     {
         public function index(){
-            Response::view('error');
+            return view('error');
         }
     }
 ?>

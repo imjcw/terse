@@ -2,13 +2,17 @@
 <?php start(); ?>
 <!--内容-->
 <div class="ui segment">
-    <form class="ui form" action="/column/doAdd" method="post">
+    <form class="ui form" action="/article/doAdd" method="post">
         <div class="field">
-            <label>栏目名称</label>
-            <input type="text" name="column" placeholder="栏目名称"></div>
+            <label>文章名称</label>
+            <input type="text" name="article" placeholder="文章名称"></div>
         <div class="field">
-            <label>栏目描述</label>
-            <textarea name="description" placeholder="栏目描述"></textarea>
+            <label>文章描述</label>
+            <textarea name="description" placeholder="文章描述"></textarea>
+        </div>
+        <div class="field">
+            <label>文章内容</label>
+            <textarea name="content" placeholder="文章内容"></textarea>
         </div>
         <div class="field" style="text-align: center;">
             <button class="ui primary button">保存</button>
