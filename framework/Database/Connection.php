@@ -58,6 +58,15 @@
             mysql_query('set names utf8');
          }
 
+         /**
+          * 关闭数据库链接
+          * @author marvin <imjcw@imjcw.com>
+          * @date   2015-12-14
+          */
+         public function close(){
+            mysql_close($this->con);
+         }
+
          /*
          * 执行sql语句
          */
