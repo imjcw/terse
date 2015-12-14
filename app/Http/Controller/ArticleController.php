@@ -2,19 +2,16 @@
     /**
     * 
     */
-    class ArticleController extends Connection
+    class ArticleController
     {
-        public $table = '`article`';
-        public $pageData = '';
-        public $count = '';
-
         public function index(){
-            $this->connect();
-            $this->pageData = $this->all();
-            $this->count = count($this->pageData);
+            $article = model('article');
+            $pageData = $article->all();
+            $count = count($pageData);
+
             return view('article/index')->with(array(
-                'count' => $this->count,
-                'pageData' => $this->pageData
+                'count' => $count,
+                'pageData' => $pageData
             ));
         }
 
@@ -23,33 +20,28 @@
         }
 
         public function doAdd(){
-            $data = $_POST;
-            $this->connect();
-            $result = $this->insert($data);
+            $article = model('article');
+            $result = $article->addArticle();
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
 
         public function edit(){
-            $id = $_GET['id'];
-            $this->connect();
-            $this->pageData = $this->one('`id` = '.$id);
-            return view('article/edit')->with($this->pageData);
+            $article = model('article');
+            $pageData = $article->getOne();
+            return view('article/edit')->with($pageData);
         }
 
         public function doEdit(){
-            $id = $_GET['id'];
-            $data = $_POST;
-            $this->connect();
-            $result = $this->update($data,array('id' => $id));
+            $article = model('article');
+            $result = $article->editArticle();
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
 
         public function doDelete(){
-            $id = $_GET['id'];
-            $this->connect();
-            $result = $this->delete(array('id' => $id));
+            $article = model('article');
+            $result = $article->deleteArticle();
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
