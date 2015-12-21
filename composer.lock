@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "20f1473af0acd1203811e8534f7c2d7c",
+    "content-hash": "c21e9e66d327dec43741fd2d517ce012",
+    "packages": [
+        {
+            "name": "terse/framework",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/imjcw/framework.git",
+                "reference": "2301176ef642aa5f47a6f52e6058535d533dc82d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/imjcw/framework/zipball/2301176ef642aa5f47a6f52e6058535d533dc82d",
+                "reference": "2301176ef642aa5f47a6f52e6058535d533dc82d",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lib\\": "src/Lib/"
+                },
+                "files": [
+                    "Lib/Support/Helper.php",
+                    "Lib/Support/Page.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "蒋陈伟",
+                    "email": "imjcw@imjcw.com"
+                }
+            ],
+            "description": "a simple framework.",
+            "time": "2015-12-21 09:54:05"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "terse/framework": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

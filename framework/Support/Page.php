@@ -1,4 +1,5 @@
 <?php
+namespace Support\Page;
 /**
 * 模板命令
 */

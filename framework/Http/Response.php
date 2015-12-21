@@ -1,4 +1,5 @@
 <?php
+    namespace Http;
     /**
     *  请求
     */

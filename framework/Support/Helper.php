@@ -1,4 +1,5 @@
 <?php
+namespace Support\Helper;
 /**
 * 常用的命令
 */
