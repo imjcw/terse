@@ -13,18 +13,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/imjcw/framework.git",
-                "reference": "2301176ef642aa5f47a6f52e6058535d533dc82d"
+                "reference": "1824b759396cb06e23ef1ebb19389acabb489e74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imjcw/framework/zipball/2301176ef642aa5f47a6f52e6058535d533dc82d",
-                "reference": "2301176ef642aa5f47a6f52e6058535d533dc82d",
+                "url": "https://api.github.com/repos/imjcw/framework/zipball/1824b759396cb06e23ef1ebb19389acabb489e74",
+                "reference": "1824b759396cb06e23ef1ebb19389acabb489e74",
                 "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Lib\\": "src/Lib/"
+                    "Lib\\": "Lib/"
                 },
                 "files": [
                     "Lib/Support/Helper.php",
@@ -39,7 +39,7 @@
                 }
             ],
             "description": "a simple framework.",
-            "time": "2015-12-21 09:54:05"
+            "time": "2015-12-22 02:22:51"
         }
     ],
     "packages-dev": [],

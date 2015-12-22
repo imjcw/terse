@@ -1,8 +1,11 @@
 <?php
-use Lib\Support\Helper;
+use Lib\Routing\Route;
+
 require 'vendor/autoload.php';
 define('ROOT', dirname(__FILE__));
-dd('test');
+$route = Route::init();
+$route->run();
+//dd('test');
 //require_once 'framework/Support/Helper.php';
 //require_once 'framework/View/Page.php';
 //require_once 'framework/Database/Connection.php';
