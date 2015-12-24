@@ -1,5 +1,7 @@
 <?php
     namespace Factory;
+
+    use Lib\Database\Connection;
     /**
     * model factory
     */

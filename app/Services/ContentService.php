@@ -1,43 +1,41 @@
 <?php
     namespace App\Services;
 
-    use App\Models\ArticleModel;
+    use App\Models\ContentModel;
 
     /**
     * Article Service
     */
-    class ArticleService
+    class ContentService
     {
-        public function getAllArticles()
-        {
-            $article_model = new ArticleModel();
-            return $article_model->all();
-        }
-
-        public function getOneArticle($id = 0)
+        public function getContentById($id = 0)
         {
             if (empty($id)) {
                 return false;
             }
 
-            $article_model = new ArticleModel();
-            return $article_model
+            $content_model = new ContentModel();
+            return $content_model
                         ->where('id', $id)
                         ->one();
         }
 
-        public function addOneArticle($data = array())
+        public function insertContent($data = array())
         {
             if (empty($data)) {
                 return false;
             }
             $data['create_time'] = NULL;
 
-            $article_model = new ArticleModel();
-            return $article_model->insert($data);
+            $content_model = new ContentModel();
+            $result = $content_model->insert($data);
+            if (!$result) {
+                return false;
+            }
+            return mysql_insert_id();
         }
 
-        public function editOneArticle($id = 0, $data = array())
+        public function updateContentById($id = 0, $data = array())
         {
             if (empty($id)) {
                 return false;
@@ -47,8 +45,8 @@
                 return false;
             }
 
-            $article_model = new ArticleModel();
-            return $article_model
+            $content_model = new ContentModel();
+            return $content_model
                         ->where('id', $id)
                         ->update($data);
         }

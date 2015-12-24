@@ -1,13 +1,13 @@
 <?php
     namespace App\Models;
-    
+
     use Lib\Factory\Model;
     /**
     * 文章模型
     */
     class ArticleModel extends Model
     {
-        public $table = '`article`';
+        protected $table = '`article`';
 
         public function addArticle(){
             $data = $_POST;

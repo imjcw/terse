@@ -1,5 +1,5 @@
 <?php
-namespace Support\Page;
+use Lib\View\Page;
 /**
 * 模板命令
 */

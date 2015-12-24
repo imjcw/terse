@@ -1,5 +1,5 @@
 <?php
-namespace Support\Helper;
+use Lib\Http\Response;
 /**
 * 常用的命令
 */

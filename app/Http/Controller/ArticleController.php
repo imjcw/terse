@@ -23,21 +23,40 @@
         }
 
         public function doAdd(){
-            $article = model('article');
-            $result = $article->addArticle();
+            $data = $_POST;
+            if (empty($data)) {
+                return json('error');
+            }
+
+            $article_biz = new ArticleBiz();
+            $result = $article_biz->addArticle($data);
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
 
         public function edit(){
-            $article = model('article');
-            $pageData = $article->getOne();
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return json('error');
+            }
+
+            $article_biz = new ArticleBiz();
+            $pageData = $article_biz->getOne($id);
             return view('article/edit')->with($pageData);
         }
 
         public function doEdit(){
-            $article = model('article');
-            $result = $article->editArticle();
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return json('error');
+            }
+            $data = $_POST;
+            if (empty($data)) {
+                return json('error');
+            }
+
+            $article_biz = new ArticleBiz();
+            $pageData = $article_biz->editArticle($id, $data);
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
