@@ -1,12 +1,14 @@
 <?php
-use Lib\Database\Connection;
+    use Lib\Database\Connection;
+    use App\Biz\ArticleBiz;
     /**
     * 
     */
     class TestController extends Connection
     {
         public function test(){
-            return view('map');
+            $test = new ArticleBiz();
+            $test->hehe();
         }
     }
 ?>

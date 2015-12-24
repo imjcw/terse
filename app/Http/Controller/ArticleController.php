@@ -1,13 +1,15 @@
 <?php
-use Lib\Database\Connection;
+    namespace App\Http\Controller;
+
+    use App\Biz\ArticleBiz;
     /**
-    * 
+    * Article Controller
     */
     class ArticleController
     {
         public function index(){
-            $article = model('article');
-            $pageData = $article->all();
+            $article_biz = new ArticleBiz();
+            $pageData = $article_biz->getAll();
             $count = count($pageData);
 
             return view('article/index')->with(array(

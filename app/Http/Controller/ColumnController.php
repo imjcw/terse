@@ -1,5 +1,6 @@
 <?php
-use Lib\Database\Connection;
+    namespace App\Http\Controller;
+    use Lib\Database\Connection;
     /**
     * 
     */
