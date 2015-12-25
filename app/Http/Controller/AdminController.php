@@ -1,23 +1,21 @@
 <?php
     namespace App\Http\Controller;
 
+    use App\Biz\AdminBiz;
     use App\Http\Controller\BaseController;
     /**
     * 
     */
     class AdminController extends BaseController
     {
-        public $table = '`admin`';
-        public $pageData = '';
-        public $count = '';
-
         public function index(){
-            $this->connect();
-            $this->pageData = $this->all();
-            $this->count = count($this->pageData);
+            $admin_biz = new AdminBiz();
+            $pageData = $admin_biz->getAll();
+            $count = count($pageData);
+
             return view('admin/index')->with(array(
-                'count' => $this->count,
-                'pageData' => $this->pageData
+                'count' => $count,
+                'pageData' => $pageData
             ));
         }
 
@@ -27,33 +25,57 @@
 
         public function doAdd(){
             $data = $_POST;
-            $this->connect();
-            $result = $this->insert($data);
+            if (empty($data)) {
+                return json('error', '请输入相关参数！');
+            }
+
+            $admin_biz = new AdminBiz();
+            $result = $admin_biz->addAdmin($data);
             $page = $result ? 'index' : '/error';
+
             return redirect($page);
         }
 
         public function edit(){
-            $id = $_GET['id'];
-            $this->connect();
-            $this->pageData = $this->one('`id` = '.$id);
-            return view('admin/edit')->with($this->pageData);
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return json('error', '参数错误！');
+            }
+
+            $admin_biz = new AdminBiz();
+            $pageData = $admin_biz->getOne($id);
+
+            return view('admin/edit')->with($pageData);
         }
 
         public function doEdit(){
-            $id = $_GET['id'];
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return json('error', '参数错误！');
+            }
+
             $data = $_POST;
-            $this->connect();
-            $result = $this->update($data,array('id' => $id));
+            if (empty($data)) {
+                return json('error', '请输入相关参数！');
+            }
+
+            $admin_biz = new AdminBiz();
+            $result = $admin_biz->getOne($id);
             $page = $result ? 'index' : '/error';
+
             return redirect($page);
         }
 
         public function doDelete(){
-            $id = $_GET['id'];
-            $this->connect();
-            $result = $this->delete(array('id' => $id));
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return json('error', '参数错误！');
+            }
+
+            $admin_biz = new AdminBiz();
+            $result = $this->deleteAdmin($id));
             $page = $result ? 'index' : '/error';
+
             return redirect($page);
         }
     }

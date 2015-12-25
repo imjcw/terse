@@ -12,7 +12,7 @@
         }
 
         public function login(){
-            if ($_SESSION['user_id']) {
+            if (isset($_SESSION['user_id'])) {
                 return redirect('/article/index');
             }
             return view('auth/login');

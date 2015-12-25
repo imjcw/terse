@@ -1,7 +1,7 @@
 <?php
-    namespace App\Services;
+    namespace App\Service;
 
-    use App\Models\ColumnModel;
+    use App\Model\ColumnModel;
 
     /**
     * Article Service

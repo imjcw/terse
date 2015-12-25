@@ -1,12 +1,12 @@
 <?php
-    namespace App\Models;
+    namespace App\Model;
     
     use Lib\Factory\Model;
 
     /**
     * Auth 模型
     */
-    class AuthModel extends Model
+    class AdminModel extends Model
     {
         protected $table = '`admin_user`';
     }
