@@ -23,8 +23,8 @@ if (!function_exists('dd')) {
 /**
 * 返回信息
 */
-if (!function_exists('returnJson')) {
-    function returnJson($status = '2000', $info = '', $data = ''){
+if (!function_exists('json')) {
+    function json($status = '2000', $info = '', $data = ''){
         $array = array(
             'status' => $status,
             'info' => $info,

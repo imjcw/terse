@@ -3,10 +3,11 @@
 
     use App\Biz\ArticleBiz;
     use App\Biz\ColumnBiz;
+    use App\Http\Controller\BaseController;
     /**
     * Article Controller
     */
-    class ArticleController
+    class ArticleController extends BaseController
     {
         public function index(){
             $article_biz = new ArticleBiz();

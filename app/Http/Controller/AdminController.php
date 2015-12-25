@@ -1,5 +1,7 @@
 <?php
-use Lib\Database\Connection;
+    namespace App\Http\Controller;
+
+    use Lib\Database\Connection;
     /**
     * 
     */
@@ -55,4 +57,3 @@ use Lib\Database\Connection;
             return redirect($page);
         }
     }
-?>
