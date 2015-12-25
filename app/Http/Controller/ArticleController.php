@@ -1,57 +1,76 @@
 <?php
-    /**
-    * 
-    */
-    class ArticleController extends Connection
-    {
-        public $table = '`article`';
-        public $pageData = '';
-        public $count = '';
+    namespace App\Http\Controller;
 
+    use App\Biz\ArticleBiz;
+    use App\Biz\ColumnBiz;
+    /**
+    * Article Controller
+    */
+    class ArticleController
+    {
         public function index(){
-            $this->connect();
-            $this->pageData = $this->all();
-            $this->count = count($this->pageData);
+            $article_biz = new ArticleBiz();
+            $pageData = $article_biz->getAll();
+            $count = count($pageData);
+
             return view('article/index')->with(array(
-                'count' => $this->count,
-                'pageData' => $this->pageData
+                'count' => $count,
+                'pageData' => $pageData
             ));
         }
 
         public function add(){
-            return view('article/add');
+            $column_biz = new ColumnBiz();
+            $column_list = $column_biz->getAll();
+            
+            return view('article/add')->with(array('column' => $column_list));
         }
 
         public function doAdd(){
             $data = $_POST;
-            $this->connect();
-            $result = $this->insert($data);
+            if (empty($data)) {
+                return json('error');
+            }
+
+            $article_biz = new ArticleBiz();
+            $result = $article_biz->addArticle($data);
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
 
         public function edit(){
-            $id = $_GET['id'];
-            $this->connect();
-            $this->pageData = $this->one('`id` = '.$id);
-            return view('article/edit')->with($this->pageData);
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return json('error');
+            }
+
+            $article_biz = new ArticleBiz();
+            $pageData = $article_biz->getOne($id);
+            $column_biz = new ColumnBiz();
+            $column_list = $column_biz->getAll();
+            return view('article/edit')->with(array('pageData' => $pageData, 'column' => $column_list));
         }
 
         public function doEdit(){
-            $id = $_GET['id'];
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return json('error');
+            }
             $data = $_POST;
-            $this->connect();
-            $result = $this->update($data,array('id' => $id));
+            if (empty($data)) {
+                return json('error');
+            }
+
+            $article_biz = new ArticleBiz();
+            $result = $article_biz->editArticle($id, $data);
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
 
         public function doDelete(){
-            $id = $_GET['id'];
-            $this->connect();
-            $result = $this->delete(array('id' => $id));
+            $article = model('article');
+            $result = $article->deleteArticle();
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
     }
-?>

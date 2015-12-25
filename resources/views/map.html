@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>map</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" type="text/css" href="/public/include/semantic/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/main.css">
+    <script type="text/javascript" src="/public/include/jquery/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="/public/include/semantic/semantic.min.js"></script>
+    <script type="text/javascript" src="/public/js/main.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vNKCuiFx51ilar7lEbNer0Ib"></script>
+    <style type="text/css">
+    .menu .ui.dropdown.selection{
+        border: 0;
+        border-right: 1px  solid rgba(34,36,38,.15);
+        border-radius: 0;
+        min-width: auto;
+    }
+    </style>
+</head>
+<body style="overflow: hidden;">
+    <div class="ui menu" style="height: 40px;margin: 0; border-radius: 0;">
+        <a id="forward" class="active blue item">前进</a>
+        <a id="back" class="blue item">后退</a>
+        <a id="cancel" class="blue item">清除</a>
+        <a id="hide_zone" class="blue item">隐藏已划分区域</a>
+        <a id="divide" class="blue item">启用路区划分</a>
+        <a id="save" class="blue item">保存路区</a>
+        <a id="zone_edit" class="blue item">保存编辑</a>
+        <div class="ui form ">
+            <div class="field">
+                <select class="ui dropdown">
+                    <option value="1">上海市</option>
+                    <option value="2">北京市</option>
+                    <option value="3">三里屯</option>
+                </select>
+            </div>
+        </div>
+        <div class="right menu">
+            <div class="ui search">
+                <div class="ui left icon input">
+                    <input id="search" class="prompt" type="text" placeholder="Search ..."> <i class="search icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--搜索提示-->
+    <div class="ui inline cookie nag" style="position: absolute;top: 40px;;left: 0;z-index: 1;border-radius: 0;">
+        <span class="title">所在路区为XXXX</span>
+        <i class="close icon"></i>
+    </div>
+    <div style="height: -moz-calc(100% - 40px);height: -webkit-calc(100% - 40px);height: calc(100% - 40px);" id="allmap"></div>
+
+    <!--弹出窗-->
+    <div class="ui long modal form">
+        <div class="header">保存选择区域</div>
+        <div class="content">
+            <div class="field">
+                <label>*请输入区域名：</label>
+                <input name="area_name" type="text" placeholder="请输入区域"></div>
+            <div class="two fields">
+                <div class="field">
+                    <label>*选择配送站：</label>
+                    <select name="site" class="mf_dropdown ui dropdown">
+                        <option value="1">站点1</option>
+                        <option value="2">站点2</option>
+                        <option value="3">站点3</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>*选择路区：</label>
+                    <select name="site" class="mf_dropdown ui dropdown">
+                        <option value="1">配送站1</option>
+                        <option value="2">配送站2</option>
+                        <option value="3">配送站3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="actions center">
+            <button type="submit" class="ui blue submit button"> <i class="save icon"></i>
+                确认
+            </button>
+            <button class="ui red button cancel">
+                <i class="close icon"></i>
+                取消
+            </button>
+        </div>
+    </div>
+
+    <!--菜单-->
+    <div class="ui inverted vertical menu" style="display: none;">
+        <a id="edit" class="item">编辑该路区</a>
+        <a id="delete" class="item">删除该路区</a>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    //页面基本效果
+    //菜单
+    $('.ui.menu a').click(function(){
+        $(this).addClass('active').siblings().removeClass('active');
+    });
+
+    //弹出层
+    $('#save').click(function(){
+        $('.long.modal').modal({
+            closable: false
+        }).modal('show');
+    });
+    $('#zone_edit').click(function(){
+        $('.long.modal').modal({
+            closable: false
+        }).modal('show');
+        $('.long.modal .header').html('保存编辑');
+    });
+    $('.cancel').click(function(){
+        $('.long.modal').modal('hide');
+        return false;
+    });
+    //获取回车搜索响应事件
+    $(function(){
+        $('#search').bind('keypress',function(event){
+            if(event.keyCode == '13'){
+                $('.cookie.nag').nag({
+                    key : 'accepts-cookies',
+                    value : true
+                });
+            }
+        });
+    });
+
+
+    //地图
+    //建立一个存放点的数组
+    var divide = false;
+
+    //建立一个存放点的数组
+    var pointArr = [];
+
+    //临时坐标存放数组
+    var tempArr;
+
+    //定义新线段的变量
+    var polyline;
+
+    //定义面积变量
+    var Polygon;
+
+    //标注存放数组
+    var markerArr = [];
+
+    //临时标注存放数组
+    var tempMarkArr;
+
+    //计数前进和后退步骤
+    var step = 0;
+
+    //标记是否有可以前进的记录
+    var hasBack = false;
+
+    //表明显示已划分区域没有被点击
+    var displayzone = false;
+
+    //存储已划分的区域
+    var exsitZone = [];
+
+    //设置当前城市
+    var setCurrentCity = [];
+
+    //用于搜索时，绘制相关标注
+    var searchPoint = null;
+
+    //删除路区
+    var delPolygon;
+
+    //是否选择了路区
+    var selectZone = false;
+
+    //判断是新建路区保存还是编辑路区保存
+    var action = '';
+
+    //计算多边形中心点
+    var cLng = 0;
+    var cLat = 0;
+
+    //路区名，路区重命名时使用
+    var zoneName = '';
+
+    var cityName = [];
+
+    //Map 创建
+    //{enableMapClick:false}关闭百度地图自带标注的信息窗口
+    var map = new BMap.Map('allmap', {enableMapClick:false});
+    map.centerAndZoom('上海',11);
+
+    //开启鼠标滚轮缩放
+    map.enableScrollWheelZoom(true);
+    var zoom = 11;
+
+    //增加路区的标记点
+    function addZonePointer(e){
+        if (!divide) {
+            return;
+        }
+        //若没有选择任何路区，则返回
+        if(selectZone){
+            return;
+        }
+
+        $('#item').fadeOut();
+
+        hasBack = false;
+        step = 0;
+
+        //如果有撤销，则将零时存储数据赋给点集合
+        if(tempArr){
+            pointArr = tempArr;
+            tempArr = null;
+        }
+
+        //如果临时标注存储数组存在数据，说明有执行过撤销，则在标注存储数组中去除相应的标注信息，并使临时标注数组为空
+        //pop()函数用于删除数组的最后一条记录
+        if(tempMarkArr){
+            for(var i in tempMarkArr){
+                markerArr.pop();
+            }
+            tempMarkArr = null;
+        }
+
+        //如果有线段，去除线段
+        if(polyline){
+            map.removeOverlay(polyline);
+        }
+
+        //获取鼠标点击的当前点
+        var point = new BMap.Point(e.point.lng, e.point.lat);
+        pointArr.push(point);   //将所有获取到的点存放到数组里
+
+
+        //新建标注并显示
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+        markerArr.push(marker); //将标注存放到数组里
+
+        //连接各标注
+        polyline = new BMap.Polyline(pointArr,{
+            strokeColor:"blue",
+            strokeWeight:2,
+            strokeOpacity:0.5
+        });
+        marker.disableDragging();
+        map.addOverlay(polyline);
+    }
+    map.addEventListener("click",addZonePointer);
+
+});
+</script>

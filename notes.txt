@@ -1,0 +1,37 @@
+CREATE TABLE `column`(
+`id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`name` varchar(30) COMMENT '栏目名称',
+`description` varchar(300) COMMENT '栏目简介',
+`level` tinyint DEFAULT 1 COMMENT '栏目等级',
+`father_id` tinyint DEFAULT 0 COMMENT '父级栏目',
+`create_time` timestamp DEFAULT '0000-00-00 00:00:00',
+`update_time` timestamp DEFAULT now() ON UPDATE now()
+)ENGINE= InnoDB CHARACTER SET utf8;
+
+CREATE TABLE `article`(
+`id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`title` varchar(30) NOT NULL COMMENT '文章标题',
+`description` varchar(300) COMMENT '文章简介',
+`content_id` int(11) NOT NULL COMMENT '文章内容ID',
+`column_id` tinyint NOT NULL COMMENT '文章栏目ID',
+`is_show` tinyint default 1 COMMENT '是否显示文章',
+`create_time` timestamp DEFAULT '0000-00-00 00:00:00',
+`update_time` timestamp DEFAULT now() ON UPDATE now()
+)ENGINE= InnoDB CHARACTER SET utf8;
+
+CREATE TABLE `content`(
+`id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`content` text COMMENT '文章内容',
+`create_time` timestamp DEFAULT '0000-00-00 00:00:00',
+`update_time` timestamp DEFAULT now() ON UPDATE now()
+)ENGINE = InnoDB CHARACTER SET utf8;
+
+CREATE TABLE `admin_user`(
+`id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`name` varchar(15) NOT NULL COMMENT '管理员用户名',
+`password` varchar(32) NOT NULL COMMENT '管理员密码',
+`nickname` varchar(32) DEFAULT '管理员' COMMENT '管理员昵称',
+`creator` tinyint DEFAULT 0 COMMENT '创建者',
+`create_time` timestamp DEFAULT '0000-00-00 00:00:00',
+`update_time` timestamp DEFAULT now() ON UPDATE now()
+)ENGINE = InnoDB CHARACTER SET utf8;

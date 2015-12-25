@@ -1,4 +1,5 @@
 <?php
+    namespace Routing;
     /**
     * 路由获取
     */

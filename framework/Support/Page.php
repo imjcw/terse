@@ -1,4 +1,5 @@
 <?php
+use Lib\View\Page;
 /**
 * 模板命令
 */

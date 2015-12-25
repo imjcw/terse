@@ -1,4 +1,7 @@
 <?php
+    namespace Http;
+
+    use Lib\View\Page;
     /**
     *  请求
     */

@@ -1,4 +1,5 @@
 <?php
+use Lib\Http\Response;
 /**
 * 常用的命令
 */
@@ -37,8 +38,20 @@ if (!function_exists('returnJson')) {
    }
 }
 
+if (!function_exists('model')) {
+    function model($model = ''){
+        if(empty($model)){
+            return returnJson('1003', '未指定model名！');
+        }
+        $model = ucfirst($model);
+        $class = $model.'Model';
+        require_once ROOT.'/app/Models/'.$class.'.php';
+        return (new $class());
+    }
+}
+
 /**
-* 展现模板
+* 获取配置文件的路由
 */
 if (!function_exists('getRoutes')) {
     function getRoutes(){

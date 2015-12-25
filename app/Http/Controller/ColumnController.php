@@ -1,17 +1,20 @@
 <?php
+    namespace App\Http\Controller;
+
+    use App\Biz\ColumnBiz;
     /**
     * 
     */
-    class ColumnController extends Connection
+    class ColumnController
     {
-        public $table = '`column`';
         public $pageData = '';
         public $count = '';
 
         public function index(){
-            $this->connect();
-            $this->pageData = $this->all();
+            $column_biz = new ColumnBiz();
+            $this->pageData = $column_biz->getAll();
             $this->count = count($this->pageData);
+
             return view('column/index')->with(array(
                 'count' => $this->count,
                 'pageData' => $this->pageData
@@ -24,32 +27,50 @@
 
         public function doAdd(){
             $data = $_POST;
-            $this->connect();
-            $result = $this->insert($data);
+            if (empty($data)) {
+                return returnJson('error');
+            }
+
+            $column_biz = new ColumnBiz();
+            $result = $column_biz->addColumn($data);
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
 
         public function edit(){
-            $id = $_GET['id'];
-            $this->connect();
-            $this->pageData = $this->one('`id` = '.$id);
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return returnJson('error');
+            }
+            $column_biz = new ColumnBiz();
+            $this->pageData = $column_biz->getOne($id);
             return view('column/edit')->with($this->pageData);
         }
 
         public function doEdit(){
-            $id = $_GET['id'];
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return returnJson('error');
+            }
             $data = $_POST;
-            $this->connect();
-            $result = $this->update($data,array('id' => $id));
+            if (empty($data)) {
+                return returnJson('error');
+            }
+
+            $column_biz = new ColumnBiz();
+            $result = $column_biz->editColumn($data, $id);
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
 
         public function doDelete(){
-            $id = $_GET['id'];
-            $this->connect();
-            $result = $this->delete(array('id' => $id));
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return returnJson('error');
+            }
+
+            $column_biz = new ColumnBiz();
+            $result = $column_biz->deleteColumn($id);
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }

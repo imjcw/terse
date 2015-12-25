@@ -1,4 +1,6 @@
 <?php
+    namespace App\Http\Controller;
+    
     /**
     * 错误页
     */
