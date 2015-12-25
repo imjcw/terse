@@ -1,9 +1,11 @@
 <?php
-use Lib\Database\Connection;
+    namespace App\Http\Controller;
+
+    use App\Http\Controller\BaseController;
     /**
     * 
     */
-    class ArticleController extends Connection
+    class ArticleController extends BaseController
     {
         public $table = '`recycle`';
         public $pageData = '';

@@ -1,11 +1,11 @@
 <?php
     namespace App\Http\Controller;
 
-    use Lib\Database\Connection;
+    use App\Http\Controller\BaseController;
     /**
     * 
     */
-    class AdminController extends Connection
+    class AdminController extends BaseController
     {
         public $table = '`admin`';
         public $pageData = '';

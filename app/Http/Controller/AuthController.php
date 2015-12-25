@@ -2,7 +2,6 @@
     namespace App\Http\Controller;
 
     use App\Biz\AuthBiz;
-    use App\Http\Controller\BaseController;
     /**
     * 登陆
     */

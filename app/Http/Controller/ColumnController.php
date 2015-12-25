@@ -2,10 +2,11 @@
     namespace App\Http\Controller;
 
     use App\Biz\ColumnBiz;
+    use App\Http\Controller\BaseController;
     /**
     * 
     */
-    class ColumnController
+    class ColumnController extends BaseController
     {
         public $pageData = '';
         public $count = '';
