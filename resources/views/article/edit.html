@@ -2,17 +2,26 @@
 <?php start(); ?>
 <!--内容-->
 <h3 class="ui top attached header">修改文章</h3>
-<form class="ui form buttom attached segment" action="/article/doEdit?id=<?php echo $id; ?>" method="post">
+<form class="ui form buttom attached segment" action="/article/doEdit?id=<?= $pageData['id'] ?>" method="post">
     <div class="field">
         <label>文章名称</label>
-        <input type="text" name="title" placeholder="文章名称" value="<?php echo $title; ?>"></div>
+        <input type="text" name="title" placeholder="文章名称" value="<?= $pageData['title'] ?>"></div>
+        <div class="field">
+             <label>所属栏目：</label>
+             <select name="test" class="mf_dropdown ui dropdown">
+                <option value="0">请选择</option>
+                <?php foreach ($column as $value): ?>
+                <option value="<?= $value['id'] ?>"><?= $value['title'] ?></option>
+                <?php endforeach; ?>
+             </select>
+        </div>
     <div class="field">
         <label>文章描述</label>
-        <textarea name="description" placeholder="文章描述"><?php echo $description;?></textarea>
+        <textarea name="description" placeholder="文章描述"><?= $pageData['description']?></textarea>
     </div>
     <div class="field">
         <label>文章内容</label>
-        <textarea name="content" placeholder="文章内容"><?php echo $content;?></textarea>
+        <textarea name="content" placeholder="文章内容"><?= $pageData['content']?></textarea>
     </div>
     <div class="field" style="text-align: center;">
         <button class="ui blue submit button">保存</button>
@@ -24,6 +33,7 @@ $(document).ready(function(){
     $('.go_back').click(function(){
         history.back();
     });
+    $('.mf_dropdown.ui.dropdown.selection .menu').children().removeClass('active selected');
 });
 </script>
 <?php stop(); ?>

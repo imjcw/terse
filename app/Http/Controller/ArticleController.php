@@ -2,6 +2,7 @@
     namespace App\Http\Controller;
 
     use App\Biz\ArticleBiz;
+    use App\Biz\ColumnBiz;
     /**
     * Article Controller
     */
@@ -19,7 +20,10 @@
         }
 
         public function add(){
-            return view('article/add');
+            $column_biz = new ColumnBiz();
+            $column_list = $column_biz->getAll();
+            
+            return view('article/add')->with(array('column' => $column_list));
         }
 
         public function doAdd(){
@@ -42,7 +46,9 @@
 
             $article_biz = new ArticleBiz();
             $pageData = $article_biz->getOne($id);
-            return view('article/edit')->with($pageData);
+            $column_biz = new ColumnBiz();
+            $column_list = $column_biz->getAll();
+            return view('article/edit')->with(array('pageData' => $pageData, 'column' => $column_list));
         }
 
         public function doEdit(){
@@ -56,7 +62,7 @@
             }
 
             $article_biz = new ArticleBiz();
-            $pageData = $article_biz->editArticle($id, $data);
+            $result = $article_biz->editArticle($id, $data);
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }
@@ -68,4 +74,3 @@
             return redirect($page);
         }
     }
-?>

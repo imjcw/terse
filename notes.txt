@@ -11,7 +11,7 @@ CREATE TABLE `column`(
 CREATE TABLE `article`(
 `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `title` varchar(30) NOT NULL COMMENT '文章标题',
-`description` varchar(300) COMMENT '文章简洁',
+`description` varchar(300) COMMENT '文章简介',
 `content_id` int(11) NOT NULL COMMENT '文章内容ID',
 `column_id` tinyint NOT NULL COMMENT '文章栏目ID',
 `is_show` tinyint default 1 COMMENT '是否显示文章',

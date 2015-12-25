@@ -7,6 +7,15 @@
             <label>文章名称</label>
             <input type="text" name="title" placeholder="文章名称"></div>
         <div class="field">
+             <label>所属栏目：</label>
+             <select name="column_id" class="mf_dropdown ui dropdown">
+                <option value="0">请选择</option>
+                <?php foreach ($column as $value): ?>
+                <option value="<?= $value['id'] ?>"><?= $value['title'] ?></option>
+                <?php endforeach; ?>
+             </select>
+        </div>
+        <div class="field">
             <label>文章描述</label>
             <textarea name="description" placeholder="文章描述"></textarea>
         </div>

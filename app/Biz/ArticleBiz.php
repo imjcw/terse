@@ -57,7 +57,7 @@
         }
 
         public function editArticle($id = 0, $data = array())
-        {dd($data);
+        {
             if (empty($id)) {
                 return false;
             }
@@ -66,15 +66,14 @@
                 return false;
             }
 
-            $content_service = new ContentService();
-            $result = $content_service->updateContentById($data['content_id'], array('content' => $data['content']));
-
-            if (!$result) {
-                return false;
-            }
+            $content = $data['content'];
             unset($data['content']);
-
             $column_service = new ArticleService();
-            $result = $column_service->editOneArticle($id, $data);
+            $content_id = $column_service->editOneArticle($id, $data);
+
+            $content_service = new ContentService();
+            $result = $content_service->updateContentById($content_id, array('content' => $content));
+
+            return $result;
         }
     }

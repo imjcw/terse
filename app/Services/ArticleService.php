@@ -48,8 +48,17 @@
             }
 
             $article_model = new ArticleModel();
-            return $article_model
+            $result = $article_model
                         ->where('id', $id)
                         ->update($data);
+            if (!$result) {
+                return false;
+            }
+
+            $content_id = $article_model
+                                ->select('content_id')
+                                ->where('id', $id)
+                                ->one();
+            return $content_id['content_id'];
         }
     }
