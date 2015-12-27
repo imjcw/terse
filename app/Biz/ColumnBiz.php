@@ -1,10 +1,10 @@
 <?php
     namespace App\Biz;
 
-    use App\Services\ColumnService;
+    use App\Service\ColumnService;
 
     /**
-    * Article Biz
+    * Column Biz
     */
     class ColumnBiz
     {

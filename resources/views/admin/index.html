@@ -21,16 +21,16 @@
     <tbody>
         <?php foreach ($pageData as $val) { ?>
         <tr>
-            <td class="collapsing"><?php echo $val['id']; ?></td>
-            <td><?php echo $val['name']; ?></td>
-            <td><?php echo $val['username']; ?></td>
+            <td class="collapsing"><?= $val['id']; ?></td>
+            <td><?= $val['nickname']; ?></td>
+            <td><?= $val['name']; ?></td>
             <td>否</td>
             <td>20151201</td>
             <td>这里是一些简洁的简介内容。</td>
             <td>
-                <a class="edit" href="/admin/edit?id=<?php echo $val['id']; ?>">修改</a>
+                <a class="edit" href="/admin/edit?id=<?= $val['id']; ?>">修改</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/admin/doDelete?id=<?php echo $val['id']; ?>">删除</a>
+                <a class="delete" href="/admin/doDelete?id=<?= $val['id']; ?>">删除</a>
             </td>
         </tr>
         <?php } ?>

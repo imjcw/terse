@@ -32,6 +32,7 @@ CREATE TABLE `admin_user`(
 `password` varchar(32) NOT NULL COMMENT '管理员密码',
 `nickname` varchar(32) DEFAULT '管理员' COMMENT '管理员昵称',
 `creator` tinyint DEFAULT 0 COMMENT '创建者',
+`description` varchar(300) DEFAULT '暂无管理员描述' COMMENT '描述',
 `create_time` timestamp DEFAULT '0000-00-00 00:00:00',
 `update_time` timestamp DEFAULT now() ON UPDATE now()
 )ENGINE = InnoDB CHARACTER SET utf8;
