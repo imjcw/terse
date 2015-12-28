@@ -73,7 +73,7 @@
             }
 
             $admin_biz = new AdminBiz();
-            $result = $this->deleteAdmin($id));
+            $result = $this->deleteAdmin($id);
             $page = $result ? 'index' : '/error';
 
             return redirect($page);
