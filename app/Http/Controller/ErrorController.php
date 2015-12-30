@@ -10,4 +10,3 @@
             return view('error');
         }
     }
-?>
