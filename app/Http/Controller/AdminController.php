@@ -60,7 +60,7 @@
             }
 
             $admin_biz = new AdminBiz();
-            $result = $admin_biz->getOne($id);
+            $result = $admin_biz->editAdmin($id, $data);
             $page = $result ? 'index' : '/error';
 
             return redirect($page);
@@ -73,7 +73,7 @@
             }
 
             $admin_biz = new AdminBiz();
-            $result = $this->deleteAdmin($id);
+            $result = $admin_biz->deleteAdmin($id);
             $page = $result ? 'index' : '/error';
 
             return redirect($page);

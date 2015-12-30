@@ -11,7 +11,17 @@
         public function getAllArticles()
         {
             $article_model = new ArticleModel();
-            return $article_model->all();
+            return $article_model
+                        ->where(array('is_use' => 1))
+                        ->all();
+        }
+
+        public function getAllDeletedArticles()
+        {
+            $article_model = new ArticleModel();
+            return $article_model
+                        ->where('is_use', 0)
+                        ->all();
         }
 
         public function getOneArticle($id = 0)
@@ -60,5 +70,31 @@
                                 ->where('id', $id)
                                 ->one();
             return $content_id['content_id'];
+        }
+
+        public function updateOneArticleStatus($id = 0)
+        {
+            if (empty($id)) {
+                return false;
+            }
+
+            $article_model = new ArticleModel();
+            $result = $article_model
+                        ->where('id', $id)
+                        ->update(array('is_use' => 0));
+            return $result;
+        }
+
+        public function deleteOneArticle($id = 0)
+        {
+            if (empty($id)) {
+                return false;
+            }
+
+            $article_model = new ArticleModel();
+            $result = $article_model
+                        ->where('id', $id)
+                        ->delete();
+            return $result;
         }
     }

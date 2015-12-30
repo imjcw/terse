@@ -69,8 +69,13 @@
         }
 
         public function doDelete(){
-            $article = model('article');
-            $result = $article->deleteArticle();
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return json('error');
+            }
+
+            $article_biz = new ArticleBiz();
+            $result = $article_biz->deleteArticle($id);
             $page = $result ? 'index' : '/error';
             return redirect($page);
         }

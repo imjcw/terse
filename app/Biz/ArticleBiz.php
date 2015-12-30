@@ -76,4 +76,14 @@
 
             return $result;
         }
+
+        public function deleteArticle($id = 0)
+        {
+            if (empty($id)) {
+                return false;
+            }
+
+            $article_service = new ArticleService();
+            return $article_service->updateOneArticleStatus($id);
+        }
     }

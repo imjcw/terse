@@ -13,17 +13,70 @@
             return $admin_service->getAllAdmins();
         }
 
+        public function getOne($id = 0)
+        {
+            if (empty($id)) {
+                return false;
+            }
+
+            $admin_service = new AdminService();
+            $admin = $admin_service->getOneAdmin($id);
+            $admin['password'] = '';
+
+            return $admin;
+        }
+
         public function addAdmin($data = array())
         {
             if (empty($data)) {
                 return false;
             }
 
+            $admin_service = new AdminService();
+            $result = $admin_service->checkExit($data['name']);
+            if ($result) {
+                return false;
+            }
+
+            $encrypt_password = $this->encrypt_password($data['name'], $data['password']);
+            $data['password'] = $encrypt_password;
+            return $admin_service->addOneAdmin($data);
+        }
+
+        public function editAdmin($id = 0, $data = array())
+        {
+            if (empty($id)) {
+                return false;
+            }
+
+            if (empty($data)) {
+                return false;
+            }
+
+            $admin_service = new AdminService();
+            $result = $admin_service->checkExit($data['name']);
+            if ($result) {
+                return false;
+            }
+
             $encrypt_password = $this->encrypt_password($data['name'], $data['password']);
             $data['password'] = $encrypt_password;
 
+            $result = $admin_service->editOneAdmin($id, $data);
+
+            return $result;
+        }
+
+        public function deleteAdmin($id = 0)
+        {
+            if (empty($id)) {
+                return false;
+            }
+
             $admin_service = new AdminService();
-            return $admin_service->addOneAdmin($data);
+            $result = $admin_service->deleteOneAdmin($id);
+
+            return $result;
         }
 
         public function encrypt_password($username = '', $password = '')

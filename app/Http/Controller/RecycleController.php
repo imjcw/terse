@@ -1,31 +1,34 @@
 <?php
     namespace App\Http\Controller;
 
+    use App\Biz\RecycleBiz;
     use App\Http\Controller\BaseController;
     /**
     * 
     */
-    class ArticleController extends BaseController
+    class RecycleController extends BaseController
     {
-        public $table = '`recycle`';
-        public $pageData = '';
-        public $count = '';
-
         public function index(){
-            $this->connect();
-            $this->pageData = $this->all();
-            $this->count = count($this->pageData);
-            return view('recycle/index')->with(array(
-                'count' => $this->count,
-                'pageData' => $this->pageData
+            $recyle_biz = new RecycleBiz();
+            $pageData = $recyle_biz->getAll();
+            $count = count($pageData);
+
+            return view('article/index')->with(array(
+                'count' => $count,
+                'pageData' => $pageData
             ));
         }
 
         public function doDelete(){
-            $id = $_GET['id'];
-            $this->connect();
-            $result = $this->delete(array('id' => $id));
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return json('error', '参数错误！');
+            }
+
+            $recyle_biz = new RecycleBiz();
+            $result = $recyle_biz->deleteArticle($id);
             $page = $result ? 'index' : '/error';
+
             return redirect($page);
         }
     }
