@@ -13,7 +13,7 @@
             $pageData = $recyle_biz->getAll();
             $count = count($pageData);
 
-            return view('article/index')->with(array(
+            return view('recycle/index')->with(array(
                 'count' => $count,
                 'pageData' => $pageData
             ));

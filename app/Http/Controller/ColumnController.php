@@ -13,12 +13,12 @@
 
         public function index(){
             $column_biz = new ColumnBiz();
-            $this->pageData = $column_biz->getAll();
-            $this->count = count($this->pageData);
+            $pageData = $column_biz->getAll();
+            $count = count($pageData);
 
             return view('column/index')->with(array(
-                'count' => $this->count,
-                'pageData' => $this->pageData
+                'count' => $count,
+                'pageData' => $pageData
             ));
         }
 
@@ -44,8 +44,8 @@
                 return returnJson('error');
             }
             $column_biz = new ColumnBiz();
-            $this->pageData = $column_biz->getOne($id);
-            return view('column/edit')->with($this->pageData);
+            $pageData = $column_biz->getOne($id);
+            return view('column/edit')->with($pageData);
         }
 
         public function doEdit(){
