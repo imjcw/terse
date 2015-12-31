@@ -32,6 +32,12 @@
             $data['create_time'] = NULL;
 
             $column_service = new ColumnService();
+            $result = $column_service->checkExit($data['name']);
+            if ($result) {
+                return false;
+            }
+
+            $column_service = new ColumnService();
             $result = $column_service->insertNewColumn($data);
             return $result;
         }
@@ -46,6 +52,12 @@
             }
 
             $column_service = new ColumnService();
+            $result = $column_service->checkExit($data['name']);
+            if ($result) {
+                return false;
+            }
+
+            $column_service = new ColumnService();
             return $column_service->editOneColumn($data, $id);
         }
 
@@ -56,6 +68,6 @@
             }
 
             $column_service = new ColumnService();
-            return $column_service->deleteOneColumn($id);
+            return $column_service->updateOneColumnStatus($id);
         }
     }

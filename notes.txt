@@ -35,7 +35,18 @@ CREATE TABLE `admin_user`(
 `nickname` varchar(32) DEFAULT '管理员' COMMENT '管理员昵称',
 `creator` tinyint DEFAULT 0 COMMENT '创建者',
 `description` varchar(300) DEFAULT '暂无管理员描述' COMMENT '描述',
-`is_use` tinyint default 1 COMMENT '是否启用管理员',
+`is_use` tinyint DEFAULT 1 COMMENT '是否启用管理员',
+`create_time` timestamp DEFAULT '0000-00-00 00:00:00',
+`update_time` timestamp DEFAULT now() ON UPDATE now()
+)ENGINE = InnoDB CHARACTER SET utf8;
+
+CREATE TABLE `setting`(
+`id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`url` varchar(30) NOT NULL COMMENT '网址',
+`title` varchar(60) NOT NULL COMMENT '网站名称',
+`description` varchar(150) COMMENT '网站简介',
+`keywords` varchar(100) COMMENT '网站关键词',
+`copyright` varchar(100) COMMENT '版权信息',
 `create_time` timestamp DEFAULT '0000-00-00 00:00:00',
 `update_time` timestamp DEFAULT now() ON UPDATE now()
 )ENGINE = InnoDB CHARACTER SET utf8;
