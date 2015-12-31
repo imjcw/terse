@@ -19,6 +19,20 @@
             ));
         }
 
+        public function reuse()
+        {
+            $id = intval($_GET['id']);
+            if (empty($id)) {
+                return json('error', '参数错误！');
+            }
+
+            $recyle_biz = new RecycleBiz();
+            $result = $recyle_biz->reuseArticle($id);
+            $page = $result ? 'index' : '/error';
+
+            return redirect($page);
+        }
+
         public function doDelete(){
             $id = intval($_GET['id']);
             if (empty($id)) {

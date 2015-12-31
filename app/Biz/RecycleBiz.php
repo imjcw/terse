@@ -2,6 +2,7 @@
     namespace App\Biz;
 
     use App\Service\ArticleService;
+    use App\Service\ContentService;
     /**
     * Admin Biz
     */
@@ -20,6 +21,25 @@
             }
 
             $article_service = new ArticleService();
-            return $article_service->deleteOneArticle($id);
+            $article = $article_service->deleteOneArticle($id);
+
+            if (!$article) {
+                return false;
+            }
+
+            $content_service = new ContentService();
+            $result = $content_service->deleteOneContent($article['content_id']);
+
+            return $result;
+        }
+
+        public function reuseArticle($id = 0)
+        {
+            if (empty($id)) {
+                return false;
+            }
+
+            $article_service = new ArticleService();
+            return $article_service->updateOneArticleStatus($id, 1);
         }
     }

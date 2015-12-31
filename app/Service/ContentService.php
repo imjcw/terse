@@ -50,4 +50,16 @@
                         ->where('id', $id)
                         ->update($data);
         }
+
+        public function deleteOneContent($id = 0)
+        {
+            if (empty($id)) {
+                return false;
+            }
+
+            $content_model = new ContentModel();
+            return $content_model
+                        ->where('id', $id)
+                        ->delete();
+        }
     }
