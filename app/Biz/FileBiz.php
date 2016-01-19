@@ -1,7 +1,7 @@
 <?php
     namespace App\Biz;
 
-    //use App\Service\ColumnService;
+    use App\Service\FileService;
 
     /**
     * Article Biz
@@ -76,5 +76,12 @@
             }
 
             return round($size, 2).$arr[$i];
+        }
+
+        public function getTemplates()
+        {
+            $file_service = new FileService();
+            $result = $file_service->getTemplates();
+            return $result;
         }
     }

@@ -8,9 +8,6 @@
     */
     class ColumnController extends BaseController
     {
-        public $pageData = '';
-        public $count = '';
-
         public function index(){
             $column_biz = new ColumnBiz();
             $pageData = $column_biz->getAll();

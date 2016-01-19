@@ -2,7 +2,7 @@
 <?php start(); ?>
 <!--内容-->
 <div class="ui text menu" style="padding:0 8px;margin-bottom: 0;">
-    <span class="header item">文章总数：<?php echo $count;?> 个</span>
+    <span class="header item">文章总数：<?=$count?> 个</span>
 </div>
 <table class="ui unstackable selectable single striped line table" style="margin-top:0;">
     <thead>
@@ -18,18 +18,21 @@
     <tbody>
         <?php foreach ($pageData as $val) { ?>
         <tr>
-            <td class="collapsing"><?php echo $val['id']; ?></td>
-            <td><?php echo $val['title']; ?></td>
+            <td class="collapsing"><?=$val['id']?></td>
+            <td><?=$val['title']?></td>
             <td>否</td>
             <td>20151201</td>
             <td>这里是一些简洁的简介内容。</td>
             <td>
-                <a class="edit" href="/recycle/reuse?id=<?php echo $val['id']; ?>">修改</a>
+                <a class="edit" href="/recycle/reuse?id=<?=$val['id']?>">恢复</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/recycle/doDelete?id=<?php echo $val['id']; ?>">删除</a>
+                <a class="delete" href="/recycle/doDelete?id=<?=$val['id']?>">删除</a>
             </td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
-<?php stop(); ?>
+<script type="text/javascript">
+    $('.sub_nav a:eq(3)').addClass('active');
+</script>
+<?php stop();?>

@@ -6,7 +6,7 @@
     /**
     * 
     */
-    class FileController extends BaseController
+    class FileController
     {
         public static $url;
 
@@ -16,11 +16,14 @@
             $file_biz = new FileBiz();
             $pageData = $file_biz->readDir($path);
             $count = count($pageData['file']) + count($pageData['dir']);
+
+            $templates = $file_biz->getTemplates();
             
             return view('file/index')->with(array(
                 'count' => $count,
                 'realPath' => $path,
-                'pageData' => $pageData
+                'pageData' => $pageData,
+                'templates' => $templates
             ));
         }
 

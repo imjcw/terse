@@ -5,7 +5,20 @@
     <span class="header item">文件总数：<?=$count?> 个</span>
     <a class="item right" href="/file/index.html" style="background: #F1C40F;padding: 10px;border-radius: 5px;">返回根目录</a>
 </div>
-
+<div class="ui two column grid">
+    <?php foreach ($templates as $template): ?>
+    <div class="column">
+        <div class="ui fluid card">
+            <div class="image">
+                <img src="<?=$template['img_src']?>">
+            </div>
+            <div class="content">
+                <a class="header"><?=$template['name']?></a>
+            </div>
+        </div>
+    </div>
+    <?php endforeach ?>
+</div>
 <table class="ui unstackable selectable single striped line table" style="margin-top:0;">
     <thead>
         <tr>

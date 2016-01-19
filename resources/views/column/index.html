@@ -2,7 +2,7 @@
 <?php start(); ?>
 <!--内容-->
 <div class="ui text menu" style="padding:0 8px;margin-bottom: 0;">
-    <span class="header item">栏目总数：<?php echo $count;?> 个</span>
+    <span class="header item">栏目总数：<?=$count?> 个</span>
     <a class="item right" href="/column/add" style="background: #F1C40F;padding: 10px;border-radius: 5px;">添加栏目</a>
 </div>
 
@@ -11,8 +11,7 @@
         <tr>
             <th>ID</th>
             <th>栏目</th>
-            <th>文档</th>
-            <th>是否隐藏</th>
+            <th>文章</th>
             <th>创建时间</th>
             <th>简介</th>
             <th>操作</th>
@@ -21,19 +20,21 @@
     <tbody>
         <?php foreach ($pageData as $val) { ?>
         <tr>
-            <td class="collapsing"><?php echo $val['id']; ?></td>
-            <td><?php echo $val['name']; ?></td>
+            <td class="collapsing"><?=$val['id']?></td>
+            <td><?=$val['name']?></td>
             <td>0 篇</td>
-            <td>否</td>
-            <td>20151201</td>
-            <td>这里是一些简洁的简介内容。</td>
+            <td><?=$val['create_time']?></td>
+            <td><?=$val['description']?></td>
             <td>
-                <a class="edit" href="/column/edit?id=<?php echo $val['id']; ?>">修改</a>
+                <a class="edit" href="/column/edit?id=<?=$val['id']?>">修改</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/column/doDelete?id=<?php echo $val['id']; ?>">删除</a>
+                <a class="delete" href="/column/doDelete?id=<?=$val['id']?>">删除</a>
             </td>
         </tr>
-        <?php } ?>
+        <?php }?>
     </tbody>
 </table>
-<?php stop(); ?>
+<script type="text/javascript">
+    $('.sub_nav a:eq(0)').addClass('active');
+</script>
+<?php stop();?>
