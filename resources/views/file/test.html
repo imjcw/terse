@@ -1,0 +1,246 @@
+<?php extend('extend/extend'); ?>
+<?php start(); ?>
+<style type="text/css">
+    .list{
+        padding: 25px 0;
+    }
+</style>
+<div class="ui top attached tabular menu">
+    <a class="item active" data-tab="1">上海</a>
+    <a class="item" data-tab="2">北京</a>
+    <a class="item" data-tab="3">天津</a>
+    <a class="item" data-tab="4">苏州</a>
+    <a class="item" data-tab="5">无锡</a>
+    <a class="item" data-tab="6">杭州</a>
+    <a class="item" data-tab="7">广州</a>
+    <a class="item" data-tab="8">深圳</a>
+</div>
+<div class="ui bottom attached tab segment active" data-tab="1">
+    <form class="ui form">
+        <div class="list">
+            <h3 class="site">
+                <div class="ui master checkbox">
+                    <input type="checkbox" name="selected_distribution[]">
+                    <label style="font-size: 20px;">21号站</label>
+                </div>
+            </h3>
+            <div class="ui grid">
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" checked="checked" value="2012" name="selected_distribution[]">
+                        <label>2102</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" value="2103" name="selected_distribution[]">
+                        <label>2103</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2104</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2105</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2102</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2103</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" checked="checked" value="2104" name="selected_distribution[]">
+                        <label>2104</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2105</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2104</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2105</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <h3 class="site">
+                <div class="ui master checkbox">
+                    <input type="checkbox" name="selected_distribution[]">
+                    <label style="font-size: 20px;">22号站</label>
+                </div>
+            </h3>
+            <div class="ui grid">
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" checked="checked" name="selected_distribution[]">
+                        <label>2202</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2203</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2204</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2205</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2202</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2203</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2204</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="test">
+                        <label>2205</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="selected_distribution[]">
+                        <label>2104</label>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <div class="ui child checkbox">
+                        <input type="checkbox" name="test">
+                        <label>2105</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div style="text-align: center;">
+        <button class="ui basic submit button"><b>提交</b></button>
+    </div>
+</div>
+<div class="ui bottom attached tab segment" data-tab="2">Third</div>
+<div class="ui bottom attached tab segment" data-tab="3">Third</div>
+<div class="ui bottom attached tab segment" data-tab="4">Second</div>
+<div class="ui bottom attached tab segment" data-tab="5">Second</div>
+<div class="ui bottom attached tab segment" data-tab="6">Second</div>
+<div class="ui bottom attached tab segment" data-tab="7">Second</div>
+<div class="ui bottom attached tab segment" data-tab="8">Second</div>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.menu .item').tab();
+$('.master.checkbox').checkbox({
+    // check all children
+    onChecked: function() {
+      var $childCheckbox  = $(this).closest('.checkbox').parent('h3').siblings('.grid').find('.checkbox');
+      $childCheckbox.checkbox('check');
+    },
+    // uncheck all children
+    onUnchecked: function() {
+      var $childCheckbox  = $(this).closest('.checkbox').parent('h3').siblings('.grid').find('.checkbox');
+      $childCheckbox.checkbox('uncheck');
+    }
+});
+$('.child.checkbox').checkbox({
+    // Fire on load to set parent value
+    fireOnInit : true,
+    // Change parent state on each child checkbox change
+    onChange   : function() {
+      var $listGroup      = $(this).closest('.grid'),
+            $parentCheckbox = $listGroup.siblings('.site').children('.checkbox'),
+            $checkbox       = $listGroup.find('.checkbox'),
+            allChecked      = true,
+            allUnchecked    = true;
+      // check to see if all other siblings are checked or unchecked
+      $checkbox.each(function() {
+        if( $(this).checkbox('is checked') ) {
+            allUnchecked = false;
+        }
+        else {
+            allChecked = false;
+        }
+      });
+      // set parent checkbox state, but dont trigger its onChange callback
+      if(allChecked) {
+        $parentCheckbox.checkbox('set checked');
+      }
+      else if(allUnchecked) {
+        $parentCheckbox.checkbox('set unchecked');
+      }
+      else {
+        $parentCheckbox.checkbox('set indeterminate');
+      }
+    }
+});
+$('.submit.button').click(function(){
+    $.post('get',{
+        data: $(".ui.active .ui.form").serialize()
+    },function(d){
+        if (d['status'] == '2000') {
+            alert(d['info']);
+        }
+    },'json');
+});
+    //$('.ui.form .submit.button').api({
+    //    url: 'get',
+    //    method : 'POST',
+    //    serializeForm: true,
+    //    data : {
+    //        foo: 'baz'
+    //    },
+    //    beforeSend: function(settings) {
+    //  // form data is editable in before send
+    //  // open console to inspect object
+    //  console.log(settings.data);
+    //  return settings;
+    //},
+    //    onSuccess: function(data) {
+    //        alert(data);
+    //    }
+    //});
+});
+</script>
+<?php stop(); ?>

@@ -50,3 +50,14 @@ CREATE TABLE `setting`(
 `create_time` timestamp DEFAULT '0000-00-00 00:00:00',
 `update_time` timestamp DEFAULT now() ON UPDATE now()
 )ENGINE = InnoDB CHARACTER SET utf8;
+
+CREATE TABLE `template`(
+`id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`name` varchar(30) NOT NULL COMMENT '模板名称',
+`dir_src` varchar(60) NOT NULL COMMENT '模板链接',
+`img_src` varchar(60) NOT NULL COMMENT '图片链接',
+`is_use` varchar(150) NOT NULL DEFAULT 0 COMMENT '是否启用',
+`create_time` timestamp DEFAULT '0000-00-00 00:00:00',
+`update_time` timestamp DEFAULT now() ON UPDATE now()
+)ENGINE = InnoDB CHARACTER SET utf8;
+
