@@ -42,11 +42,8 @@ CREATE TABLE `admin_user`(
 
 CREATE TABLE `setting`(
 `id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-`url` varchar(30) NOT NULL COMMENT '网址',
-`title` varchar(60) NOT NULL COMMENT '网站名称',
-`description` varchar(150) COMMENT '网站简介',
-`keywords` varchar(100) COMMENT '网站关键词',
-`copyright` varchar(100) COMMENT '版权信息',
+`name` varchar(30) NOT NULL COMMENT '配置名',
+`value` varchar(300) NOT NULL COMMENT '配置值',
 `create_time` timestamp DEFAULT '0000-00-00 00:00:00',
 `update_time` timestamp DEFAULT now() ON UPDATE now()
 )ENGINE = InnoDB CHARACTER SET utf8;
