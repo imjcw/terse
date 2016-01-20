@@ -13,4 +13,18 @@
             //$admin_service = new TemplateService();
             //return $admin_service->getAllAdmins();
         }
+
+        public function getTemplates()
+        {
+            $file_service = new TemplateService();
+            $result = $file_service->getTemplates();
+            return $result;
+        }
+
+        public function choose($name)
+        {
+            $file_service = new TemplateService();
+            $result = $file_service->choose($name);
+            return $result;
+        }
     }

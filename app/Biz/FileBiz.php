@@ -11,7 +11,6 @@
         public function readDir($path)
         {
             $arr = array();
-            $path = ROOT.'/resources/show/template_01'.$path;
             $handle = opendir($path);
             $i = 0;
 
@@ -76,12 +75,5 @@
             }
 
             return round($size, 2).$arr[$i];
-        }
-
-        public function getTemplates()
-        {
-            $file_service = new FileService();
-            $result = $file_service->getTemplates();
-            return $result;
         }
     }

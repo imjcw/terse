@@ -6,7 +6,7 @@
     /**
     * 栏目模型
     */
-    class FileModel extends Model
+    class TemplateModel extends Model
     {
         protected $table = '`template`';
     }

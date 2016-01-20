@@ -10,12 +10,21 @@
     {
         public function index(){
             $template_biz = new TemplateBiz();
-            $templates = $template_biz->getAll();dd($templates);
+            $templates = $template_biz->getTemplates();
             $count = count($templates);
 
-            return view('admin/index')->with(array(
+            return view('template/index')->with(array(
                 'count' => $count,
-                'pageData' => $pageData
+                'templates' => $templates
             ));
+        }
+
+        public function choose()
+        {
+            $name = $_GET['name'];
+            $template_biz = new TemplateBiz();
+            $result = $template_biz->choose($name);
+            $page = $result ? 'index' : '/error';
+            return redirect($page);
         }
     }
