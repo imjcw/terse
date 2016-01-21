@@ -1,7 +1,7 @@
 $(document).ready(function(){
     // 全局对象
     var site = {};
-    site.path = window.location.pathname.replace(/(\/*$)/g, "");
+    site.path = window.location.pathname.replace(/\/(\w+\.\w+)(\?.*)*/, "");alert(site.path);
     // 判断选中的菜单
     $(".terse.nav .subnav a").each(function(){
         var href = $(this).attr("href").replace(/(\/*$)/g, "");
@@ -30,3 +30,6 @@ $(document).ready(function(){
         }
     });
 });
+//\/(\w+-\w+\.\w+)(\?.*)*
+//\/(\w+\.\w+\.\w+)(\?.*)*
+//\/(\w+-.*)(\?.*)*
