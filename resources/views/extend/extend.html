@@ -2,57 +2,97 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>admin</title>
     <link rel="stylesheet" type="text/css" href="/public/include/semantic/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="/public/css/main.css">
     <script type="text/javascript" src="/public/include/jquery/jquery-2.1.4.js"></script>
     <script type="text/javascript" src="/public/include/semantic/semantic.min.js"></script>
     <script type="text/javascript" src="/public/js/main.js"></script>
-<body>
-    <div class="mf_left">
-        <div class="left_top">
-            <img class="ui medium circular image" src="/public/img/jenny.jpg">
+</head>
+<body style="overflow: hidden;">
+    <div class="terse page left">
+        <div class="logo">
+            LOGO
         </div>
-        <div class="left_bottom">
-            <ul>
-                <li>
-                    <a href="/article/index" class="click"> <i class="heartbeat icon"></i>
-                        核心
-                    </a>
-                </li>
-                <li>
-                    <a href="/setting/index"> <i class="setting icon"></i>
-                        系统设置
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <!--left toolbar end-->
-    <div class="mf_right">
-        <div class="ui text menu right_top" style="">
-            <span class="header item"><?php echo date('Y-m-d'); ?> 星期<?php $weekArray = array('日', '一', '二', '三', '四', '五', '六'); echo $weekArray[date('w')]; ?> <?php echo date('H:i'); ?></span>
-            <div class="right menu">
-                <a class="item" href="/">
-                    <i class="dashboard icon"></i>
-                    系统主页
+        <ul class="terse nav">
+            <li class="tip">MAIN NAVIGATION</li>
+            <li>
+                <a href="#">
+                    <i class="dropdown icon terse right"></i>
+                    <i class="file text outline icon"></i>
+                    设置
                 </a>
+                <ul class="subnav">
+                    <li>
+                        <a href="/column/index">
+                            栏目管理
+                            <i class="radio icon terse left"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/article/index">
+                            文档管理
+                            <i class="radio icon terse left"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            设置三峡
+                            <i class="radio icon terse left"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            设置私下
+                            <i class="radio icon terse left"></i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="dropdown icon terse right"></i>
+                    <i class="file text outline icon"></i>
+                    设置
+                </a>
+                <ul class="subnav">
+                    <li>
+                        <a href="#">
+                            test
+                            <i class="radio icon terse left"></i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="dropdown icon terse right"></i>
+                    <i class="file text outline icon"></i>
+                    设置
+                </a>
+                <ul class="subnav">
+                    <li></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+        <!--left toolbar end-->
+    <div class="terse page right">
+        <div class="terse page top">
+            <span class="terse left">
+                <?php echo date('Y-m-d'); ?> 星期<?php $weekArray = array('日', '一', '二', '三', '四', '五', '六'); echo $weekArray[date('w')]; ?>
+            </span>
+            <span class="terse right">
                 <a class="item" href="/auth/outLogin">
                     <i class="user icon"></i>
                     登出
                 </a>
-            </div>
+            </span>
         </div>
-        <div class="right_bottom">
-            <!--二级标题-->
-            <div class="ui buttons sub_nav" style="width: 100%;">
-                <a href="/column/index" class="ui button">栏目管理</a>
-                <a href="/article/index" class="ui button">文章管理</a>
-                <a href="/admin/index" class="ui button">管理员管理</a>
-                <a href="/recycle/index" class="ui button">回收站</a>
-            </div>
+        <div class="terse page bottom">
             <?php export(); ?>
+        </div>
     </div>
-</div>
 </body>
 </html>
