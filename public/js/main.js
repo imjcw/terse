@@ -1,11 +1,11 @@
 $(document).ready(function(){
     // 全局对象
-    var site = {};
-    site.path = window.location.pathname.replace(/\/(\w+\.\w+)(\?.*)*/, "");alert(site.path);
+    var path;
+    path = window.location.pathname.match(/\/(\w+)(-\w+)*\//g);
     // 判断选中的菜单
     $(".terse.nav .subnav a").each(function(){
-        var href = $(this).attr("href").replace(/(\/*$)/g, "");
-        if (site.path == href ) {
+        var href = $(this).attr("href").match(/\/(\w+)(-\w+)*\//g);
+        if (path[0] == href[0] ) {
             //选中当前所在栏目
             $(this).addClass('selected');
             $(this).parents(".subnav").siblings("a").addClass("selected");
