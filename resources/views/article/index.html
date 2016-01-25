@@ -1,14 +1,14 @@
 <?php extend('extend/extend'); ?>
 <?php start(); ?>
 <!--内容-->
-<div class="ui text menu" style="padding:0 8px;margin-bottom: 0;">
-    <span class="header item">文章总数：<?=$count?> 个</span>
-    <a class="item right" href="/article/add" style="background: #F1C40F;padding: 10px;border-radius: 5px;">添加文章</a>
-</div>
-<table class="ui unstackable selectable single striped line table" style="margin-top:0;">
+<a class="ui blue basic button" href="/article/add"><i class="tiny plus icon"></i> 添加</a>
+<a class="ui red basic button" href="/article/add"><i class="tiny remove icon"></i> 批量删除</a>
+
+<table class="ui blue unstackable selectable celled table">
     <thead>
         <tr>
             <th>ID</th>
+            <th>序号</th>
             <th>标题</th>
             <th>所属栏目</th>
             <th>是否显示</th>
@@ -19,7 +19,8 @@
     <tbody>
         <?php foreach ($pageData as $val) { ?>
         <tr>
-            <td class="collapsing"><?=$val['id']?></td>
+            <td class="collapsing"></td>
+            <td><?=$val['id']?></td>
             <td><?=$val['title']?></td>
             <td><?=$val['column_id']?></td>
             <td><?=$val['is_show']?></td>
