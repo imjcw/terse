@@ -12,12 +12,13 @@ $(document).ready(function(){
             $(this).parents(".subnav").show();
             $(this).parents(".subnav").siblings("a").children(".dropdown").css("transform", "rotate(0deg) ").css('transition', 'transform 0.2s ease 0s');
             return false;
-        };
+        }
 
     });
     //左侧导航
     $('.terse.nav>li>a').click(function(){
         if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
             $(this).siblings('ul.subnav').slideUp();
             $(this).children('.terse.right').css("transform", "rotate(90deg) ").css('transition', 'transform 0.2s ease 0s');
         }else{
@@ -30,6 +31,3 @@ $(document).ready(function(){
         }
     });
 });
-//\/(\w+-\w+\.\w+)(\?.*)*
-//\/(\w+\.\w+\.\w+)(\?.*)*
-//\/(\w+-.*)(\?.*)*
