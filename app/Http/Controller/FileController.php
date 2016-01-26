@@ -13,7 +13,7 @@
             'html' => 'html5',
             'css' => 'css3',
             'js' => 'file code outline',
-            'image' => 'file image outline',
+            'jpg' => 'file image outline',
             'folder' => 'folder outline'
         );
 
@@ -21,15 +21,31 @@
 
         public function index()
         {
-            //$path_name = isset($_GET['path']) ? $_GET['path'] : '';
-            //$file_biz = new FileBiz();
-            //$path = ROOT.'/resources/show/template_01'.$path_name;
-            //$pageData = $file_biz->readDir($path);
-            //$count = count($pageData['file']) + count($pageData['dir']);
-//
+            $path_name = isset($_GET['path']) ? $_GET['path'] : '';
+            $file_biz = new FileBiz();
+            $path = ROOT.'/resources/show/template_01'.$path_name;
+            $pageData = $file_biz->readDir($path);
+            $count = count($pageData['file']) + count($pageData['dir']);
+            $data = array();
+            foreach ($pageData['file'] as $key => $filename) {
+                $ext = pathinfo($filename['item'],PATHINFO_EXTENSION);
+                $data['file'][$key]['class'] = $this->icon[$ext];
+                $data['file'][$key]['action'] = $filename['action'];
+                $data['file'][$key]['name'] = $filename['item'];
+            }
+            foreach ($pageData['dir'] as $key => $dir) {
+                $ext = pathinfo($dir['item'],PATHINFO_EXTENSION);
+                $data['dir'][$key]['class'] = $this->icon['folder'];
+                $data['dir'][$key]['action'] = $dir['action'];
+                $data['dir'][$key]['name'] = $dir['item'];
+            }
+
             //$templates = $file_biz->getTemplates();
             
-            return view('file/index');
+            return view('file/index')->with(array(
+                'pageData' => $data,
+                'realPath' => $path
+            ));
         }
 
         public function edit()

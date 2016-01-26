@@ -33,49 +33,32 @@
         color: #000000;
     }
 </style>
-<h3 class="ui top attached header"><i class="archive icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文件管理</h3>
+<h3 class="ui top attached header">
+    <i class="archive icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文件管理
+</h3>
 <div class="ui attached segment">
     <ul class="terse list">
-        <li class="item">
-            <i class="blue folder outline icon"></i>
-            <a href="">文件夹</a>
-        </li>
+        <?php foreach ($pageData['file'] as $file): ?>
         <li class="item">
             <span class="terse right">
                 <i class="small circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted"></i>
                 <i class="small circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted"></i>
                 <i class="small circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted"></i>
             </span>
-            <i class="blue file image outline icon"></i>
-            <a href="">图片</a>
+            <i class="blue <?=$file['class']?> icon"></i>
+            <a href="<?=$file['action']?>?path=<?=$realPath.'/'.$file['name']?>"><?=$file['name']?></a>
         </li>
+        <?php endforeach ?>
+        <?php foreach ($pageData['dir'] as $dirs): ?>
         <li class="item">
             <span class="terse right">
                 <i class="small circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted"></i>
-                <i class="small circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted"></i>
                 <i class="small circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted"></i>
             </span>
-            <i class="blue html5 icon"></i>
-            <a href="">index.html</a>
+            <i class="blue <?=$dirs['class']?> icon"></i>
+            <a href="<?=$dirs['action']?>?path=<?=$realPath.'/'.$dirs['name']?>"><?=$dirs['name']?></a>
         </li>
-        <li class="item">
-            <span class="terse right">
-                <i class="small circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted"></i>
-                <i class="small circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted"></i>
-                <i class="small circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted"></i>
-            </span>
-            <i class="blue css3 icon"></i>
-            <a href="">main.css</a>
-        </li>
-        <li class="item">
-            <span class="terse right">
-                <i class="small circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted"></i>
-                <i class="small circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted"></i>
-                <i class="small circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted"></i>
-            </span>
-            <i class="blue file code outline icon"></i>
-            <a href="">main.js</a>
-        </li>
+        <?php endforeach ?>
         <li class="item">
             <i class="reply icon"></i>
             <a href="">返回上级目录</a>
