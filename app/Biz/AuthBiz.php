@@ -1,29 +1,28 @@
 <?php
-    namespace App\Biz;
+namespace App\Biz;
 
-    use App\Service\AdminService;
+use App\Biz\BaseBiz;
+use App\Service\AdminService;
 
+class AuthBiz extends BaseBiz
+{
     /**
-    * Auth Biz
-    */
-    class AuthBiz
+     * 登陆验证
+     * @param  string $username 用户名
+     * @param  string $password 密码
+     * @return [type] [description]
+     * @author marvin <imjcw@imjcw.com>
+     * @date   2016-01-25
+     */
+    public function checkAuth($username = '', $password = '')
     {
-        public function checkAuth($username = '', $password = '')
-        {
-            $encrypt_password = $this->encrypt_password($username,$password);
+        $encrypt_password = $this->encrypt_password($username,$password);
 
-            $auth_service = new AdminService();
-            $admin = $auth_service->checkUserInfo($username, $encrypt_password);
-            if ($admin) {
-                return $admin['id'];
-            }
-            return false;
+        $auth_service = new AdminService();
+        $admin = $auth_service->checkUserInfo($username, $encrypt_password);
+        if ($admin) {
+            return $admin['id'];
         }
-
-        public function encrypt_password($username = '', $password = '')
-        {
-            $string = 'asijia*&7hu34';
-            $encrypt_password = md5(md5($username.$string.$password));
-            return $encrypt_password;
-        }
+        return false;
     }
+}

@@ -4,11 +4,15 @@ namespace App\Http\Controller;
 use App\Biz\ArticleBiz;
 use App\Biz\ColumnBiz;
 use App\Http\Controller\BaseController;
-/**
-* Article Controller
-*/
+
 class ArticleController extends BaseController
 {
+    /**
+     * 展示文章页面
+     * @return [type]     [description]
+     * @author marvin <imjcw@imjcw.com>
+     * @date   2016-01-25
+     */
     public function index(){
         $article_biz = new ArticleBiz();
         $pageData = $article_biz->getAll();
@@ -20,6 +24,11 @@ class ArticleController extends BaseController
         ));
     }
 
+    /**
+     * 展示文章添加页面
+     * @author marvin <imjcw@imjcw.com>
+     * @date   2016-01-25
+     */
     public function add(){
         $column_biz = new ColumnBiz();
         $column_list = $column_biz->getAll();
@@ -27,6 +36,12 @@ class ArticleController extends BaseController
         return view('article/add')->with(array('column' => $column_list));
     }
 
+    /**
+     * 新增文章操作
+     * @return [type]     [description]
+     * @author marvin <imjcw@imjcw.com>
+     * @date   2016-01-25
+     */
     public function doAdd(){
         $data = $_POST;
         if (empty($data)) {
@@ -39,6 +54,12 @@ class ArticleController extends BaseController
         return redirect($page);
     }
 
+    /**
+     * 展示编辑文章页面
+     * @return [type]     [description]
+     * @author marvin <imjcw@imjcw.com>
+     * @date   2016-01-25
+     */
     public function edit(){
         $id = intval($_GET['id']);
         if (empty($id)) {
@@ -52,6 +73,12 @@ class ArticleController extends BaseController
         return view('article/edit')->with(array('pageData' => $pageData, 'column' => $column_list));
     }
 
+    /**
+     * 编辑文章操作
+     * @return [type]     [description]
+     * @author marvin <imjcw@imjcw.com>
+     * @date   2016-01-25
+     */
     public function doEdit(){
         $id = intval($_GET['id']);
         if (empty($id)) {
@@ -68,6 +95,12 @@ class ArticleController extends BaseController
         return redirect($page);
     }
 
+    /**
+     * 删除文章操作
+     * @return [type]     [description]
+     * @author marvin <imjcw@imjcw.com>
+     * @date   2016-01-25
+     */
     public function doDelete(){
         $id = intval($_GET['id']);
         if (empty($id)) {

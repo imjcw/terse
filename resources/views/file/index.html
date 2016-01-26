@@ -1,6 +1,100 @@
 <?php extend('extend/extend'); ?>
 <?php start(); ?>
 <!--内容-->
+<style type="text/css">
+    .ui.attached.header{
+        margin-top: 0;
+    }
+    ul,li{
+        list-style: none;
+    }
+    li:hover{
+        background-color: #EFEFEF;
+    }
+    .ui.segment{
+        padding: 0;
+    }
+    .terse.list .item{
+        line-height: 30px;
+        border-bottom: 1px solid #EEEEEE;
+        padding: 5px 20px;
+    }
+    .terse.list .item:last-child{
+        border: 0;
+    }
+    .terse.list a{
+        font-size: 16px;
+        color: #444444;
+    }
+    .ui.popup{
+        padding: .3em .5em;
+    }
+    .icon.link{
+        color: #000000;
+    }
+</style>
+<h3 class="ui top attached header"><i class="archive icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文件管理</h3>
+<div class="ui attached segment">
+    <ul class="terse list">
+        <li class="item">
+            <i class="blue folder outline icon"></i>
+            <a href="">文件夹</a>
+        </li>
+        <li class="item">
+            <span class="terse right">
+                <i class="small circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted"></i>
+                <i class="small circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted"></i>
+                <i class="small circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted"></i>
+            </span>
+            <i class="blue file image outline icon"></i>
+            <a href="">图片</a>
+        </li>
+        <li class="item">
+            <span class="terse right">
+                <i class="small circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted"></i>
+                <i class="small circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted"></i>
+                <i class="small circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted"></i>
+            </span>
+            <i class="blue html5 icon"></i>
+            <a href="">index.html</a>
+        </li>
+        <li class="item">
+            <span class="terse right">
+                <i class="small circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted"></i>
+                <i class="small circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted"></i>
+                <i class="small circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted"></i>
+            </span>
+            <i class="blue css3 icon"></i>
+            <a href="">main.css</a>
+        </li>
+        <li class="item">
+            <span class="terse right">
+                <i class="small circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted"></i>
+                <i class="small circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted"></i>
+                <i class="small circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted"></i>
+            </span>
+            <i class="blue file code outline icon"></i>
+            <a href="">main.js</a>
+        </li>
+        <li class="item">
+            <i class="reply icon"></i>
+            <a href="">返回上级目录</a>
+        </li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $('.icon.link').popup({
+        inline: true
+    });
+    $('.write.link').click(function(){
+        var label_a = $(this).parent().siblings('a');
+        var filename = label_a.html();
+        var href = label_a.attr('href');
+    });
+</script>
+<?php stop(); ?>
+
+<!-- 
 <div class="ui text menu" style="padding:0 8px;margin-bottom: 0;">
     <span class="header item">文件总数：<?=$count?> 个</span>
     <a class="item right" href="/file/index.html" style="background: #F1C40F;padding: 10px;border-radius: 5px;">返回根目录</a>
@@ -66,4 +160,4 @@
         ?>
     </tbody>
 </table>
-<?php stop(); ?>
+ -->

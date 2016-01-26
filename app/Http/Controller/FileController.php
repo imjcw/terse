@@ -9,24 +9,27 @@
     */
     class FileController
     {
+        protected $icon = array(
+            'html' => 'html5',
+            'css' => 'css3',
+            'js' => 'file code outline',
+            'image' => 'file image outline',
+            'folder' => 'folder outline'
+        );
+
         public static $url;
 
         public function index()
         {
-            $path_name = isset($_GET['path']) ? $_GET['path'] : '';
-            $file_biz = new FileBiz();
-            $path = ROOT.'/resources/show/template_01'.$path_name;
-            $pageData = $file_biz->readDir($path);
-            $count = count($pageData['file']) + count($pageData['dir']);
-
-            $templates = $file_biz->getTemplates();
+            //$path_name = isset($_GET['path']) ? $_GET['path'] : '';
+            //$file_biz = new FileBiz();
+            //$path = ROOT.'/resources/show/template_01'.$path_name;
+            //$pageData = $file_biz->readDir($path);
+            //$count = count($pageData['file']) + count($pageData['dir']);
+//
+            //$templates = $file_biz->getTemplates();
             
-            return view('file/index')->with(array(
-                'count' => $count,
-                'realPath' => $path,
-                'pageData' => $pageData,
-                'templates' => $templates
-            ));
+            return view('file/index');
         }
 
         public function edit()
