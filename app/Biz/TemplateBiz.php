@@ -14,6 +14,12 @@
             //return $admin_service->getAllAdmins();
         }
 
+        /**
+         * 从数据库读取所有的模板信息
+         * @return [type] [description]
+         * @author marvin <imjcw@imjcw.com>
+         * @date   2016-01-27
+         */
         public function getTemplates()
         {
             $file_service = new TemplateService();

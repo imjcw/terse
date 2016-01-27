@@ -44,6 +44,7 @@ CREATE TABLE `setting`(
 `id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `name` varchar(30) NOT NULL COMMENT '配置名',
 `value` varchar(300) NOT NULL COMMENT '配置值',
+`description` varchar(300) NOT NULL COMMENT '阐释',
 `create_time` timestamp DEFAULT '0000-00-00 00:00:00',
 `update_time` timestamp DEFAULT now() ON UPDATE now()
 )ENGINE = InnoDB CHARACTER SET utf8;
@@ -58,3 +59,4 @@ CREATE TABLE `template`(
 `update_time` timestamp DEFAULT now() ON UPDATE now()
 )ENGINE = InnoDB CHARACTER SET utf8;
 
+INSERT INTO `setting`(`name`,`value`,`description`) VALUES('url','http://marvin.club/','网址'),('name','test','名称'),('description','just a test','描述'),('keywords','','关键词'),('copyright','','备案信息'),('template_name','','模板名称'),('template_path','','模板地址');

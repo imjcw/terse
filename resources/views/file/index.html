@@ -18,6 +18,10 @@
         line-height: 30px;
         border-bottom: 1px solid #EEEEEE;
         padding: 5px 20px;
+        color: #444444;
+    }
+    .terse.list .text{
+        font-size: 16px;
     }
     .terse.list .item:last-child{
         border: 0;
@@ -38,109 +42,94 @@
 </h3>
 <div class="ui attached segment">
     <ul class="terse list">
+        <?php if (empty($pageData)): ?>
+        <li class="item terse center text">
+            该文件夹下没有任何文件或文件夹
+        </li>
+        <?php endif ?>
         <?php foreach ($pageData['file'] as $file): ?>
         <li class="item">
             <span class="terse right">
-                <i class="small circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted"></i>
-                <i class="small circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted"></i>
-                <i class="small circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted"></i>
+                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file/edit?path=<?=$realPath.'/'.$file['name']?>"></i>
+                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="/file/view?path=<?=$realPath.'/'.$file['name']?>"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file/delete?path=<?=$realPath.'/'.$file['name']?>"></i>
             </span>
             <i class="blue <?=$file['class']?> icon"></i>
-            <a href="<?=$file['action']?>?path=<?=$realPath.'/'.$file['name']?>"><?=$file['name']?></a>
+            <span class="text"><?=$file['name']?></span>
         </li>
         <?php endforeach ?>
         <?php foreach ($pageData['dir'] as $dirs): ?>
         <li class="item">
             <span class="terse right">
-                <i class="small circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted"></i>
-                <i class="small circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted"></i>
+                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file/edit?path=<?=$realPath.'/'.$dirs['name']?>"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file/delete?path=<?=$realPath.'/'.$dirs['name']?>"></i>
             </span>
             <i class="blue <?=$dirs['class']?> icon"></i>
-            <a href="<?=$dirs['action']?>?path=<?=$realPath.'/'.$dirs['name']?>"><?=$dirs['name']?></a>
+            <a href="?path=<?=$realPath.'/'.$dirs['name']?>"><?=$dirs['name']?></a>
         </li>
         <?php endforeach ?>
         <li class="item">
+            <span class="terse right">
+                <i class="circular blue folder icon link" data-content="新增文件夹" data-position="bottom center" data-variation="inverted"></i>
+                <i class="circular blue file icon link" data-content="新增文件" data-position="bottom center" data-variation="inverted"></i>
+                <i class="circular blue upload icon link" data-content="上传文件" data-position="bottom center" data-variation="inverted"></i>
+            </span>
             <i class="reply icon"></i>
-            <a href="">返回上级目录</a>
+            <a href="?path=<?=$return?>">返回上级目录</a>
         </li>
     </ul>
 </div>
+<!--删除提示-->
+<div class="ui small modal transition delete" style="margin-top: -98px;">
+    <div class="header">删除提示！</div>
+    <div class="content">
+        <p>删除文件后将无法恢复，确认删除？</p>
+    </div>
+    <div class="actions">
+        <div class="ui right labeled icon negative button cancel">
+            不
+            <i class="close icon"></i>
+        </div>
+        <div class="ui positive right labeled icon button">
+            是
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
+$(document).ready(function(){
+    var del_href;
+    //开启提示框
     $('.icon.link').popup({
         inline: true
     });
+
+    //编辑
     $('.write.link').click(function(){
-        var label_a = $(this).parent().siblings('a');
-        var filename = label_a.html();
-        var href = label_a.attr('href');
+        var href = $(this).attr('data-action');
+        window.location = href;
     });
+
+    //查看
+    $('.unhide.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_blank');
+    });
+
+    //删除提示
+    $('.trash.link').click(function(){
+        $('.small.modal.delete').modal({
+            closable: false
+        }).modal('show');
+        del_href = $(this).attr('data-action');
+    });
+
+    //删除
+    $('.delete .positive').click(function(){
+        $.get(del_href,function(e){
+            console.log(e);
+        });
+    });
+});
 </script>
 <?php stop(); ?>
-
-<!-- 
-<div class="ui text menu" style="padding:0 8px;margin-bottom: 0;">
-    <span class="header item">文件总数：<?=$count?> 个</span>
-    <a class="item right" href="/file/index.html" style="background: #F1C40F;padding: 10px;border-radius: 5px;">返回根目录</a>
-</div>
-<div class="ui two column grid">
-    <?php foreach ($templates as $template): ?>
-    <div class="column">
-        <div class="ui fluid card">
-            <div class="image">
-                <img src="<?=$template['img_src']?>">
-            </div>
-            <div class="content">
-                <a class="header"><?=$template['name']?></a>
-            </div>
-        </div>
-    </div>
-    <?php endforeach ?>
-</div>
-<table class="ui unstackable selectable single striped line table" style="margin-top:0;">
-    <thead>
-        <tr>
-            <th class="collapsing">序号</th>
-            <th>名称</th>
-            <th>大小</th>
-            <th>创建时间</th>
-            <th>修改时间</th>
-            <th>操作</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-            $i = 0;
-            foreach ($pageData as $type) { 
-                foreach ($type as $file) {
-                    $i++;
-        ?>
-        <tr>
-            <td class="collapsing"><?=$i?></td>
-            <td>
-                <a href="<?=$file['action']?>?path=<?=$realPath.'/'.$file['item']?>">
-                    <?=$file['item']?>
-                </a>
-            </td>
-            <td><?=$file['size']?></td>
-            <td><?=$file['create_time']?></td>
-            <td><?=$file['update_time']?></td>
-            <td>
-                <a class="edit" href="/column/edit?id=">修改</a>
-                &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/column/doDelete?id=">删除</a>
-            </td>
-        </tr>
-        <?php
-                }
-            }
-            if (empty($pageData)) {
-        ?>
-        <tr>
-            <td colspan="6" style="text-align: center;">该目录下没有文件</td>
-        </tr>
-        <?php
-            }
-        ?>
-    </tbody>
-</table>
- -->
