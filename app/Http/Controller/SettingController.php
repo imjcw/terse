@@ -11,16 +11,16 @@
         public function index()
         {
             $setting_biz = new SettingBiz();
-            $pageData = $setting_biz->getInfo();
-            return view('setting/index')->with($pageData);
+            $pageData = $setting_biz->getAll();
+            foreach ($pageData as $value) {
+                $data[$value['name']] = $value['value'];
+            }
+            return view('setting/index')->with($data);
         }
 
         public function updateSystemInfo()
         {
             $data = $_POST;
-            if (empty($data)) {
-                return false;
-            }
 
             $setting_biz = new SettingBiz();
             $result = $setting_biz->updateSystemInfo($data);

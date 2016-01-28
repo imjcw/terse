@@ -7,18 +7,14 @@
     */
     class SettingBiz
     {
-        public function getInfo()
+        public function getAll()
         {
             $setting_service = new SettingService();
-            return $setting_service->getOne();
+            return $setting_service->getAll();
         }
 
         public function updateSystemInfo($data = array())
         {
-            if (empty($data)) {
-                return false;
-            }
-
             $setting_service = new SettingService();
             return $setting_service->updateSystemInfo($data);
         }

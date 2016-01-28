@@ -1,0 +1,40 @@
+<?php extend('extend/extend'); ?>
+<?php start(); ?>
+<!--内容-->
+<a class="ui blue basic button" href="/article/add"><i class="tiny plus icon"></i> 添加</a>
+<a class="ui red basic button" href="/article/add"><i class="tiny remove icon"></i> 批量删除</a>
+
+<table class="ui blue unstackable selectable celled table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>序号</th>
+            <th>标题</th>
+            <th>所属栏目</th>
+            <th>是否显示</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($pageData as $val) { ?>
+        <tr>
+            <td class="collapsing"></td>
+            <td><?=$val['id']?></td>
+            <td><?=$val['title']?></td>
+            <td><?=$val['column_id']?></td>
+            <td><?=$val['is_show']?></td>
+            <td><?=$val['create_time']?></td>
+            <td>
+                <a class="edit" href="/article/edit?id=<?=$val['id']?>">修改</a>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <a class="delete" href="/article/doDelete?id=<?=$val['id']?>">删除</a>
+            </td>
+        </tr>
+        <?php } ?>
+    </tbody>
+</table>
+<script type="text/javascript">
+    $('.sub_nav a:eq(1)').addClass('active');
+</script>
+<?php stop(); ?>

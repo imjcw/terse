@@ -1,0 +1,36 @@
+<?php extend('extend/extend'); ?>
+<?php start(); ?>
+<!--内容-->
+<h3 class="ui top attached header">添加栏目</h3>
+<form class="ui form buttom attached segment" action="/column/doEdit?id=<?=$id?>" method="post">
+    <div class="field">
+        <label>栏目名称</label>
+        <input type="text" name="name" placeholder="栏目名称" value="<?=$name?>"></div>
+    <div class="field">
+        <label>父级栏目：</label>
+        <select class="mf_dropdown ui dropdown">
+            <option value="0">请选择</option>
+            <option value="1">选择一</option>
+            <option value="2">选择二</option>
+            <option value="3">选择三</option>
+        </select>
+    </div>
+    <div class="field">
+        <label>栏目描述</label>
+        <textarea name="description" placeholder="栏目描述">
+            <?=$description?></textarea>
+    </div>
+    <div class="field" style="text-align: center;">
+        <button class="ui blue submit button">保存</button>
+        <a class="ui button go_back" href="#">放弃</a>
+    </div>
+</form>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.go_back').click(function(){
+        history.back();
+    });
+    $('.sub_nav a:eq(0)').addClass('active');
+});
+</script>
+<?php stop(); ?>

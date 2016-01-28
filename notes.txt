@@ -52,6 +52,7 @@ CREATE TABLE `setting`(
 CREATE TABLE `template`(
 `id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `name` varchar(30) NOT NULL COMMENT '模板名称',
+`nickname` varchar(30) NOT NULL COMMENT '模板',
 `dir_src` varchar(300) NOT NULL COMMENT '模板链接',
 `img_src` varchar(300) NOT NULL COMMENT '图片链接',
 `is_use` tinyint NOT NULL DEFAULT 0 COMMENT '是否启用',
@@ -60,3 +61,10 @@ CREATE TABLE `template`(
 )ENGINE = InnoDB CHARACTER SET utf8;
 
 INSERT INTO `setting`(`name`,`value`,`description`) VALUES('url','http://marvin.club/','网址'),('name','test','名称'),('description','just a test','描述'),('keywords','','关键词'),('copyright','','备案信息'),('template_name','','模板名称'),('template_path','','模板地址');
+
+update `setting` 
+SET `value` = CASE `name`
+ WHEN 'template_name' THEN '1'
+ WHEN 'template_path' THEN '2'
+ END
+WHERE `name` in ('template_path','template_name');

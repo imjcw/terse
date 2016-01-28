@@ -9,11 +9,10 @@
     <?php foreach ($templates as $template): ?>
         <div class="ui link card <?=$template['is_use'] ? '' : 'template' ?> ">
             <div class="image">
+                <img src="<?=$template['img_src']?>">
             <?php if ($template['is_use']): ?>
-                <span style="padding: 5px;position: absolute;border-radius: 0 .28571429rem .28571429rem 0; top: 10px; left: 0;display: block; background-color: rgba(255,255,255,0.7) !important;z-index:999;"><i class="mini circular write icon link"></i><i class="mini circular trash outline icon link"></i></span>
                 <div class="ui red bottom right attached label">已启用</div>
             <?php endif ?>
-                <img src="<?=$template['img_src']?>">
             </div>
             <div class="content">
                 <span class="header terse center" href="/template/choose?name=<?=$template['name']?>"><?=$template['nickname']?></span>

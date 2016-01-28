@@ -31,7 +31,7 @@
         {
             $path_name = isset($_GET['path']) ? $_GET['path'] : '';
             $file_biz = new FileBiz();
-            $path = ROOT.'/resources/show/template_01'.$path_name;
+            $path = ROOT.'/resources/app-front/template_01'.$path_name;
             $isMatched = preg_match('/\/(\w+)(-\w+)*(\/(\w+)(-\w+)*)*\//', $path_name, $matches);
             if (!$isMatched) {
                 $matche = '';

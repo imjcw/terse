@@ -1,0 +1,39 @@
+<?php extend('extend/extend'); ?>
+<?php start(); ?>
+<!--内容-->
+<div class="ui segment">
+    <form class="ui form" action="/article/doAdd" method="post">
+        <div class="field">
+            <label>文章名称</label>
+            <input type="text" name="title" placeholder="文章名称"></div>
+        <div class="field">
+             <label>所属栏目：</label>
+             <select name="column_id" class="mf_dropdown ui dropdown">
+                <option value="0">请选择</option>
+                <?php foreach ($column as $value): ?>
+                <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                <?php endforeach; ?>
+             </select>
+        </div>
+        <div class="field">
+            <label>文章描述</label>
+            <textarea name="description" placeholder="文章描述"></textarea>
+        </div>
+        <div class="field">
+            <label>文章内容</label>
+            <textarea name="content" placeholder="文章内容"></textarea>
+        </div>
+        <div class="field" style="text-align: center;">
+            <button class="ui primary button">保存</button>
+            <a class="ui button go_back" href="#">放弃</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.go_back').click(function(){
+        history.back();
+    });
+});
+</script>
+<?php stop(); ?>

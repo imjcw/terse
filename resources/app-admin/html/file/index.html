@@ -1,0 +1,135 @@
+<?php extend('extend/extend'); ?>
+<?php start(); ?>
+<!--内容-->
+<style type="text/css">
+    .ui.attached.header{
+        margin-top: 0;
+    }
+    ul,li{
+        list-style: none;
+    }
+    li:hover{
+        background-color: #EFEFEF;
+    }
+    .ui.segment{
+        padding: 0;
+    }
+    .terse.list .item{
+        line-height: 30px;
+        border-bottom: 1px solid #EEEEEE;
+        padding: 5px 20px;
+        color: #444444;
+    }
+    .terse.list .text{
+        font-size: 16px;
+    }
+    .terse.list .item:last-child{
+        border: 0;
+    }
+    .terse.list a{
+        font-size: 16px;
+        color: #444444;
+    }
+    .ui.popup{
+        padding: .3em .5em;
+    }
+    .icon.link{
+        color: #000000;
+    }
+</style>
+<h3 class="ui top attached header">
+    <i class="archive icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文件管理
+</h3>
+<div class="ui attached segment">
+    <ul class="terse list">
+        <?php if (empty($pageData)): ?>
+        <li class="item terse center text">
+            该文件夹下没有任何文件或文件夹
+        </li>
+        <?php endif ?>
+        <?php foreach ($pageData['file'] as $file): ?>
+        <li class="item">
+            <span class="terse right">
+                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file/edit?path=<?=$realPath.'/'.$file['name']?>"></i>
+                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="/file/view?path=<?=$realPath.'/'.$file['name']?>"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file/delete?path=<?=$realPath.'/'.$file['name']?>"></i>
+            </span>
+            <i class="blue <?=$file['class']?> icon"></i>
+            <span class="text"><?=$file['name']?></span>
+        </li>
+        <?php endforeach ?>
+        <?php foreach ($pageData['dir'] as $dirs): ?>
+        <li class="item">
+            <span class="terse right">
+                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file/edit?path=<?=$realPath.'/'.$dirs['name']?>"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file/delete?path=<?=$realPath.'/'.$dirs['name']?>"></i>
+            </span>
+            <i class="blue <?=$dirs['class']?> icon"></i>
+            <a href="?path=<?=$realPath.'/'.$dirs['name']?>"><?=$dirs['name']?></a>
+        </li>
+        <?php endforeach ?>
+        <li class="item">
+            <span class="terse right">
+                <i class="circular blue folder icon link" data-content="新增文件夹" data-position="bottom center" data-variation="inverted"></i>
+                <i class="circular blue file icon link" data-content="新增文件" data-position="bottom center" data-variation="inverted"></i>
+                <i class="circular blue upload icon link" data-content="上传文件" data-position="bottom center" data-variation="inverted"></i>
+            </span>
+            <i class="reply icon"></i>
+            <a href="?path=<?=$return?>">返回上级目录</a>
+        </li>
+    </ul>
+</div>
+<!--删除提示-->
+<div class="ui small modal transition delete" style="margin-top: -98px;">
+    <div class="header">删除提示！</div>
+    <div class="content">
+        <p>删除文件后将无法恢复，确认删除？</p>
+    </div>
+    <div class="actions">
+        <div class="ui right labeled icon negative button cancel">
+            不
+            <i class="close icon"></i>
+        </div>
+        <div class="ui positive right labeled icon button">
+            是
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    var del_href;
+    //开启提示框
+    $('.icon.link').popup({
+        inline: true
+    });
+
+    //编辑
+    $('.write.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.location = href;
+    });
+
+    //查看
+    $('.unhide.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_blank');
+    });
+
+    //删除提示
+    $('.trash.link').click(function(){
+        $('.small.modal.delete').modal({
+            closable: false
+        }).modal('show');
+        del_href = $(this).attr('data-action');
+    });
+
+    //删除
+    $('.delete .positive').click(function(){
+        $.get(del_href,function(e){
+            console.log(e);
+        });
+    });
+});
+</script>
+<?php stop(); ?>
