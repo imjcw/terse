@@ -20,6 +20,9 @@
         padding: 5px 20px;
         color: #444444;
     }
+    .terse.list .item .button{
+        vertical-align: top;
+    }
     .terse.list .text{
         font-size: 16px;
     }
@@ -35,6 +38,10 @@
     }
     .icon.link{
         color: #000000;
+    }
+    .hehe{
+        display: inline-block;
+        padding: 0 5px;
     }
 </style>
 <h3 class="ui top attached header">
@@ -55,7 +62,7 @@
                 <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file/delete?path=<?=$realPath.'/'.$file['name']?>"></i>
             </span>
             <i class="blue <?=$file['class']?> icon"></i>
-            <span class="text"><?=$file['name']?></span>
+            <span class="text name"><?=$file['name']?></span><span class="text"><?=$file['ext']?></span>
         </li>
         <?php endforeach ?>
         <?php foreach ($pageData['dir'] as $dirs): ?>
@@ -107,7 +114,24 @@ $(document).ready(function(){
     //编辑
     $('.write.link').click(function(){
         var href = $(this).attr('data-action');
-        window.location = href;
+        if ($(this).parent('span').siblings('span.name').attr('contenteditable')) {
+            $(this).parent('span').siblings('span.name').focus();
+            return;
+        }
+        $(this).parent('span').siblings('span.name').attr('contenteditable', "true");
+        $(this).parent('span').siblings('span.name').focus();
+        $(this).parent('span').siblings('span.name').addClass('hehe');
+        $(this).parents('.item').append('<button class="ui mini blue basic button">确认</button>');
+        $(this).parents('.item').append('<button class="ui mini grey basic button">取消</button>');
+        //window.location = href;
+    });
+
+    //取消
+    $('.item').on('click','.grey.button',function(){
+        $(this).siblings('span.name').removeAttr('contenteditable');
+        $(this).siblings('span.name').removeClass('hehe');
+        $(this).siblings('button').remove();
+        $(this).remove();
     });
 
     //查看

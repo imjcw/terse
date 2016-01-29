@@ -45,7 +45,8 @@
                 $ext = pathinfo($filename['item'],PATHINFO_EXTENSION);
                 $data['file'][$key]['class'] = $this->icon[$ext];
                 $data['file'][$key]['action'] = $filename['action'];
-                $data['file'][$key]['name'] = $filename['item'];
+                $data['file'][$key]['name'] = basename($filename['item'],'.'.$ext);
+                $data['file'][$key]['ext'] = '.'.$ext;
             }
             foreach ($pageData['dir'] as $key => $dir) {
                 $ext = pathinfo($dir['item'],PATHINFO_EXTENSION);
