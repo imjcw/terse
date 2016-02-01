@@ -9,6 +9,7 @@
     <script type="text/javascript" src="/public/include/jquery/jquery-2.1.4.js"></script>
     <script type="text/javascript" src="/public/include/semantic/semantic.min.js"></script>
     <script type="text/javascript" src="/public/js/main.js"></script>
+    <?php export('style'); ?>
 </head>
 <body style="overflow: hidden;">
     <div class="terse page left">
@@ -33,6 +34,12 @@
                     <li>
                         <a href="/article/index">
                             文档管理
+                            <i class="radio icon terse left"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/recycle/index">
+                            回收站
                             <i class="radio icon terse left"></i>
                         </a>
                     </li>
@@ -90,7 +97,7 @@
             </span>
         </div>
         <div class="terse page bottom">
-            <?php export(); ?>
+            <?php export('content'); ?>
         </div>
     </div>
 </body>

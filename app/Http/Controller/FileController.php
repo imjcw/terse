@@ -46,7 +46,7 @@
                 $data['file'][$key]['class'] = $this->icon[$ext];
                 $data['file'][$key]['action'] = $filename['action'];
                 $data['file'][$key]['name'] = basename($filename['item'],'.'.$ext);
-                $data['file'][$key]['ext'] = '.'.$ext;
+                $data['file'][$key]['ext'] = $ext;
             }
             foreach ($pageData['dir'] as $key => $dir) {
                 $ext = pathinfo($dir['item'],PATHINFO_EXTENSION);
@@ -68,18 +68,18 @@
         public function edit()
         {//dd(dirname(__FILE__));
             $path = isset($_GET['path']) ? $_GET['path'] : '';
-            self::$url = 'http://'.$_SERVER['HTTP_HOST'].'/resources/show/template_01'.$path;
+            $ext = isset($_GET['ext']) ? $_GET['ext'] : '';
+            $exts = array('html','js');
+            if (!in_array($ext, $exts)) {
+                return redirect('/file/index');
+            }
+            $url = 'http://'.$_SERVER['HTTP_HOST'].'/resources/show/template_01'.$path.'.'.$ext;
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, self::$url);
+            curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curl, CURLOPT_HEADER, 0);
             $content = curl_exec($curl);
             curl_close($curl);
-            $ext = pathinfo($path,PATHINFO_EXTENSION);
-            $exts = array('html','js');
-            if (!in_array($ext, $exts)) {
-                $content = '';
-            }
             return view('file/edit')->with(array('content' => $content, 'filename' => basename($path)));
         }
 

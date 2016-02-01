@@ -69,4 +69,10 @@ class SettingService
         }
         return $model->update(array('value' => $params['template_name']));
     }
+
+    public function getCurrentTemplate()
+    {
+        $model = new SettingModel();
+        return $model->where('name','template_name')->one();
+    }
 }
