@@ -4,8 +4,9 @@ namespace App\Http\Controller;
 use App\Biz\TemplateBiz;
 use App\Http\Controller\BaseController;
 
-class TemplateController
+class FrontController
 {
+    public $template = 'template_01';
     /**
      * 模板管理显示
      * @return [type] [description]
@@ -13,14 +14,7 @@ class TemplateController
      * @date   2016-01-27
      */
     public function index(){
-        $template_biz = new TemplateBiz();
-        $templates = $template_biz->getTemplates();
-        $count = count($templates);
-
-        return view('template/index')->with(array(
-            'count' => $count,
-            'templates' => $templates
-        ));
+        return view($this->template.'/article','front');
     }
 
     /**

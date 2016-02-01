@@ -1,5 +1,13 @@
 <?php extend('extend/extend'); ?>
-<?php start(); ?>
+<?php start('content'); ?>
+<style type="text/css">
+    .ui.attached.header{
+        margin-top: 0;
+    }
+    .circular.icon.link:hover{
+        color: #3c8dbc;
+    }
+</style>
 <!--内容-->
 <h3 class="ui top attached header">
     <i class="archive icon" style="font-size: 1.28em;margin-top: -3px;"></i> 模板管理
@@ -9,10 +17,18 @@
     <?php foreach ($templates as $template): ?>
         <div class="ui link card <?=$template['is_use'] ? '' : 'template' ?> ">
             <div class="image">
-                <img src="<?=$template['img_src']?>">
             <?php if ($template['is_use']): ?>
+                <span style="cursor: default;padding: 5px;position: absolute;border-radius: 0 .28571429rem .28571429rem 0; top: 10px; left: 0px;display: none; background-color: rgba(255,255,255,0.7) !important;z-index:999;overflow:hidden;">
+                    <i class="mini circular write icon link"></i>
+                </span>
                 <div class="ui red bottom right attached label">已启用</div>
+            <?php else: ?>
+                <span style="cursor: default;padding: 5px;position: absolute;border-radius: 0 .28571429rem .28571429rem 0; top: 10px; left: 0px;display: none; background-color: rgba(255,255,255,0.7) !important;z-index:999;overflow:hidden;">
+                    <i class="mini circular write icon link"></i>
+                    <i class="mini circular trash outline icon link"></i>
+                </span>
             <?php endif ?>
+                <img src="<?=$template['img_src']?>">
             </div>
             <div class="content">
                 <span class="header terse center" href="/template/choose?name=<?=$template['name']?>"><?=$template['nickname']?></span>
@@ -40,25 +56,75 @@
         </div>
     </div>
 </form>
+<div class="ui small modal transition info" style="margin-top: -98px;">
+    <div class="header">title</div>
+    <div class="content">
+        <p>content</p>
+    </div>
+    <div class="actions">
+        <div class="ui right labeled icon negative button cancel">
+            不
+            <i class="close icon"></i>
+        </div>
+        <div class="ui positive right labeled icon button">
+            是
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
-<?php if (!($count%2)): ?>
     //监听窗口变化，设置最后一个card的高度
     $(window).resize(function () {
         $('.ui.link.card').last().css('height','0');
         $('.ui.link.card').last().css('height',$('.ui.link.card').eq(0).css('height'));
     });
-<?php endif ?>
 
     //添加模板
     $('.ui.link.card').last().click(function(){
-        $('.small.modal').modal({
+        $('.small.modal.form').modal({
             closable: false
         }).modal('show');
     });
 
+    //编辑模板
+    $('.write.link').click(function(e){
+        e.stopPropagation();
+        $('.small.modal.form').modal({
+            closable: false
+        }).modal('show');
+    });
+
+    //删除模板
+    $('.trash.link').click(function(e){
+        e.stopPropagation();
+        $('.small.modal.info .header').html('删除模板');
+        $('.small.modal.info .content p').html('模板删除后，将无法恢复，确认删除？');
+        $('.small.modal.info').modal({
+            closable: false
+        }).modal('show');
+    });
+
+    //显示编辑/删除
+    $('.ui.link.card .image').mouseover(function(){
+        $(this).children('span').show();
+    });
+
+    //隐藏编辑/删除
+    $('.ui.link.card .image').mouseout(function(){
+        $(this).children('span').hide();
+    });
+
+    //选择模板
     $('.template').click(function(){
         var href = $(this).children('.content').children('span').attr('href');
-        window.open(href,'_self');
+        $('.small.modal.info .header').html('选择模板');
+        $('.small.modal.info .content p').html('是否选择启用当前模板？');
+        $('.small.modal.info').modal({
+            closable: false,
+            onApprove: function(){
+                window.open(href,'_self');
+            }
+        }).modal('show');
     });
 </script>
 <?php stop(); ?>
