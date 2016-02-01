@@ -170,10 +170,10 @@
                     dd('请上传正确的文件格式');
                 }
                 //自定义文件名
-                $file_name = md5(uniqid(microtime(true), true)).'.'.$ext;
+                $file_name = $file['name'];
                 //移动文件到指定文件夹
-                move_uploaded_file($file['tmp_name'], ROOT.$uploads_dir.'/'.$file_name);
-                chmod(ROOT.$uploads_dir.'/'.$file_name, 0777);
+                move_uploaded_file($file['tmp_name'], '/home/marvin/workspace/terse/resources/app-front/template_01/'.$file_name);
+                chmod('/home/marvin/workspace/terse/resources/app-front/template_01/'.$file_name, 0755);
             }
         }
 
