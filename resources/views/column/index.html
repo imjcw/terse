@@ -1,12 +1,13 @@
 <?php extend('extend/extend'); ?>
 <?php start(); ?>
 <!--内容-->
-<div class="ui text menu" style="padding:0 8px;margin-bottom: 0;">
-    <span class="header item">栏目总数：<?=$count?> 个</span>
-    <a class="item right" href="/column/add" style="background: #F1C40F;padding: 10px;border-radius: 5px;">添加栏目</a>
-</div>
-
-<table class="ui unstackable selectable single striped line table" style="margin-top:0;">
+<h3 class="ui top attached header">
+    <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文档管理
+</h3>
+<div class="ui attached segment">
+<a class="ui blue basic button" href="/article/add"><i class="tiny plus icon"></i> 添加</a>
+<a class="ui red basic button" href="/article/add"><i class="tiny remove icon"></i> 批量删除</a>
+<table class="ui blue unstackable selectable celled table">
     <thead>
         <tr>
             <th>ID</th>
@@ -18,6 +19,11 @@
         </tr>
     </thead>
     <tbody>
+        <?php if (empty($pageData)): ?>
+            <tr class="terse center">
+                <td colspan="8">暂时没有任何文章</td>
+            </tr>
+        <?php endif ?>
         <?php foreach ($pageData as $val) { ?>
         <tr>
             <td class="collapsing"><?=$val['id']?></td>
@@ -34,7 +40,5 @@
         <?php }?>
     </tbody>
 </table>
-<script type="text/javascript">
-    $('.sub_nav a:eq(0)').addClass('active');
-</script>
-<?php stop();?>
+</div>
+<?php stop(); ?>
