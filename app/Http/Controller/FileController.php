@@ -148,4 +148,76 @@
             }
             return $result;
         }
+
+        public function test()
+        {
+            $exts = array('html','css','js','jpg','png','gif');
+            //if (!file_exists(ROOT.'/uploads')) {
+            //    mkdir(ROOT.'/uploads', 0755, true);
+            //    chmod(ROOT.'/uploads', 0755);
+            //}
+            $uploads_dir = '/uploads';
+            $file = $_FILES['file'];
+            $error = $this->checkError($file['error']);
+            if ($error == 'ok') {
+                //检查是否为正确的上传方式
+                if (!is_uploaded_file($file['tmp_name'])) {
+                    dd('请使用正确的上传方式');
+                }
+                //检查是否为合法的文件类型
+                $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                if (!in_array($ext, $exts)) {
+                    dd('请上传正确的文件格式');
+                }
+                //自定义文件名
+                $file_name = md5(uniqid(microtime(true), true)).'.'.$ext;
+                //移动文件到指定文件夹
+                move_uploaded_file($file['tmp_name'], ROOT.$uploads_dir.'/'.$file_name);
+                chmod(ROOT.$uploads_dir.'/'.$file_name, 0777);
+            }
+        }
+
+        /**
+         * 检测上传文件错误
+         * @param  int $error 错误码
+         * @return string 
+         * @author marvin <imjcw@imjcw.com>
+         * @date   2016-02-01
+         */
+        public function checkError($error)
+        {
+            switch ($error) {
+                case 0:
+                    $result = 'ok';
+                    break;
+
+                case 1:
+                case 2:
+                    $result = '上传文件过大';
+                    break;
+
+                case 3:
+                    $result = '文件部分上传成功';
+                    break;
+
+                case 4:
+                    $result = '未选择上传文件';
+                    break;
+
+                case 5:
+                case 6:
+                    $result = '无临时目录';
+                    break;
+
+                case 7:
+                case 8:
+                    $result = '系统错误';
+                    break;
+
+                default:
+                    $result = '系统错误';
+                    break;
+            }
+            return $result;
+        }
     }

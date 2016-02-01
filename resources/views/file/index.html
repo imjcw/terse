@@ -103,6 +103,23 @@
         </div>
     </div>
 </div>
+<form class="ui small modal form" action="/file/test" method="post" enctype="multipart/form-data">
+    <div class="header">上传文件</div>
+    <div class="content terse center" style="font-size:18px;cursor:pointer">
+        <i class="icon blue upload"></i> <span>请选择上传文件</span>
+    </div>
+    <input type="file" name="file" style="display:none">
+    <div class="actions terse center">
+        <button class="ui blue button">
+            <i class="save icon"></i>
+            确认
+        </button>
+        <div class="ui negative button">
+            <i class="close icon"></i>
+            取消
+        </div>
+    </div>
+</form>
 <script type="text/javascript">
 $(document).ready(function(){
     var del_href;
@@ -153,6 +170,20 @@ $(document).ready(function(){
         $.get(del_href,function(e){
             console.log(e);
         });
+    });
+
+    //上传
+    $('.circular.upload').click(function(){
+        $('.small.form').modal({
+            closable: false
+        }).modal('show');
+    });
+    $('.small.form .content').click(function(){
+        $('.small.form input:file').click();
+    });
+    $('.small.form input:file').change(function(e){
+        var name = e.target.files[0].name;console.log(e.target.files[0]);
+        $('.small.form .content span').html(name);
     });
 });
 </script>
