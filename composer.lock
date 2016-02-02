@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/imjcw/framework.git",
-                "reference": "fbd552bb85bef7855888d03f488398a668c18331"
+                "reference": "f92e0fffaece2c33fd0cf02a4955094819d39bda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imjcw/framework/zipball/fbd552bb85bef7855888d03f488398a668c18331",
-                "reference": "fbd552bb85bef7855888d03f488398a668c18331",
+                "url": "https://api.github.com/repos/imjcw/framework/zipball/f92e0fffaece2c33fd0cf02a4955094819d39bda",
+                "reference": "f92e0fffaece2c33fd0cf02a4955094819d39bda",
                 "shasum": ""
             },
             "type": "library",
@@ -39,7 +39,7 @@
                 }
             ],
             "description": "a simple framework.",
-            "time": "2016-01-22 01:18:19"
+            "time": "2016-02-01 12:10:02"
         }
     ],
     "packages-dev": [],

@@ -1,9 +1,12 @@
 <?php extend('extend/extend'); ?>
-<?php start(); ?>
+<?php start('content'); ?>
 <!--内容-->
+<h3 class="ui top attached header">
+    <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文档管理
+</h3>
+<div class="ui attached segment">
 <a class="ui blue basic button" href="/article/add"><i class="tiny plus icon"></i> 添加</a>
 <a class="ui red basic button" href="/article/add"><i class="tiny remove icon"></i> 批量删除</a>
-
 <table class="ui blue unstackable selectable celled table">
     <thead>
         <tr>
@@ -17,6 +20,11 @@
         </tr>
     </thead>
     <tbody>
+        <?php if (empty($pageData)): ?>
+            <tr class="terse center">
+                <td colspan="8">暂时没有任何文章</td>
+            </tr>
+        <?php endif ?>
         <?php foreach ($pageData as $val) { ?>
         <tr>
             <td class="collapsing"></td>
@@ -34,6 +42,7 @@
         <?php } ?>
     </tbody>
 </table>
+</div>
 <script type="text/javascript">
     $('.sub_nav a:eq(1)').addClass('active');
 </script>

@@ -12,12 +12,12 @@ class TemplateController
      * @author marvin <imjcw@imjcw.com>
      * @date   2016-01-27
      */
-    public function index(){
+    public function index(){dd($_SERVER);
         $biz = new TemplateBiz();
         $templates = $biz->getTemplates();
         $count = count($templates);
-        foreach ($templates as $key => $template) {
-            $templates[$key]['img_src'] = 'http://'.$_SERVER['HTTP_HOST'].'/app-front'.$template['dir_src'].$template['img_src'];
+        foreach ($templates as $template) {
+            # code...
         }
 
         return view('template/index')->with(array(

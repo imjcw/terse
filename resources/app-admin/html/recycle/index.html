@@ -1,10 +1,11 @@
 <?php extend('extend/extend'); ?>
-<?php start(); ?>
+<?php start('content'); ?>
 <!--内容-->
-<div class="ui text menu" style="padding:0 8px;margin-bottom: 0;">
-    <span class="header item">文章总数：<?=$count?> 个</span>
-</div>
-<table class="ui unstackable selectable single striped line table" style="margin-top:0;">
+<h3 class="ui top attached header">
+    <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文档管理
+</h3>
+<div class="ui attached segment">
+<table class="ui blue unstackable selectable celled table">
     <thead>
         <tr>
             <th>ID</th>
@@ -16,6 +17,11 @@
         </tr>
     </thead>
     <tbody>
+        <?php if (empty($pageData)): ?>
+            <tr class="terse center">
+                <td colspan="8">干净的回收站</td>
+            </tr>
+        <?php endif ?>
         <?php foreach ($pageData as $val) { ?>
         <tr>
             <td class="collapsing"><?=$val['id']?></td>
@@ -32,6 +38,7 @@
         <?php } ?>
     </tbody>
 </table>
+</div>
 <script type="text/javascript">
     $('.sub_nav a:eq(3)').addClass('active');
 </script>

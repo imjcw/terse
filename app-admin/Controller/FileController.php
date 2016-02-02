@@ -220,14 +220,4 @@
             }
             return $result;
         }
-
-        public function createFolder()
-        {
-            $folder = $_POST['name'];
-            if (file_exists(ROOT.'/resources/app-front/template_01/'.$folder)) {
-                return false;
-            }
-            mkdir(ROOT.'/resources/app-front/template_01/'.$folder, 0777, true);
-            chmod(ROOT.'/resources/app-front/template_01/'.$folder, 0777);
-        }
     }
