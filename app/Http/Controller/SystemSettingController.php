@@ -6,7 +6,7 @@
     /**
     * 
     */
-    class SettingController extends BaseController
+    class SystemSettingController extends BaseController
     {
         public function index()
         {

@@ -7,7 +7,7 @@
     /**
     * 
     */
-    class FileController
+    class FileSettingController
     {
         protected $icon = array(
             'html' => 'html5',

@@ -44,7 +44,8 @@
             $data['create_time'] = NULL;
 
             $article_model = new ArticleModel();
-            return $article_model->insert($data);
+            $article_model->insert($data);
+            return mysql_insert_id();
         }
 
         public function editOneArticle($id = 0, $data = array())

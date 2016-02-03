@@ -4,7 +4,7 @@
     /**
     * 错误页
     */
-    class ErrorController
+    class ErrorSettingController
     {
         public function index(){
             return view('error');

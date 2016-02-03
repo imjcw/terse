@@ -1,8 +1,11 @@
 <?php extend('extend/extend'); ?>
-<?php start(); ?>
+<?php start('content'); ?>
 <!--内容-->
-<div class="ui segment">
-    <form class="ui form" action="/article/doAdd" method="post">
+<h3 class="ui top attached header">
+    <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文档管理
+</h3>
+<div class="ui attached segment">
+    <form class="ui form" action="/article-setting/doAdd" method="post">
         <div class="field">
             <label>文章名称</label>
             <input type="text" name="title" placeholder="文章名称"></div>

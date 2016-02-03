@@ -4,7 +4,7 @@ namespace App\Http\Controller;
 use App\Biz\TemplateBiz;
 use App\Http\Controller\BaseController;
 
-class TemplateController
+class TemplateSettingController
 {
     /**
      * 模板管理显示

@@ -6,7 +6,7 @@
     /**
     * 
     */
-    class RecycleController extends BaseController
+    class RecycleSettingController extends BaseController
     {
         public function index(){
             $recyle_biz = new RecycleBiz();

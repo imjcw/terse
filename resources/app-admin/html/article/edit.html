@@ -1,8 +1,11 @@
 <?php extend('extend/extend'); ?>
-<?php start(); ?>
+<?php start('content'); ?>
 <!--内容-->
-<h3 class="ui top attached header">修改文章</h3>
-<form class="ui form buttom attached segment" action="/article/doEdit?id=<?= $pageData['id'] ?>" method="post">
+<h3 class="ui top attached header">
+    <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文档管理
+</h3>
+<div class="ui attached segment">
+<form class="ui form" action="/article-setting/doEdit?id=<?= $pageData['id'] ?>" method="post">
     <div class="field">
         <label>文章名称</label>
         <input type="text" name="title" placeholder="文章名称" value="<?= $pageData['title'] ?>"></div>
@@ -28,6 +31,7 @@
         <a class="ui button go_back" href="#">放弃</a>
     </div>
 </form>
+</div>
 <script type="text/javascript">
 $(document).ready(function(){
     $('.go_back').click(function(){

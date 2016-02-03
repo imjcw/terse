@@ -5,8 +5,8 @@
     <i class="users icon" style="font-size: 1.28em;margin-top: -3px;"></i> 管理员管理
 </h3>
 <div class="ui attached segment">
-<a class="ui blue basic button" href="/article/add"><i class="tiny add user icon"></i> 添加</a>
-<a class="ui red basic button" href="/article/add"><i class="tiny remove user icon"></i> 批量删除</a>
+<a class="ui blue basic button" href="/admin-setting/add"><i class="tiny add user icon"></i> 添加</a>
+<a class="ui red basic button" href="/admin-setting/add"><i class="tiny remove user icon"></i> 批量删除</a>
 <table class="ui blue unstackable selectable celled table">
     <thead>
         <tr>
@@ -34,16 +34,13 @@
             <td>20151201</td>
             <td>这里是一些简洁的简介内容。</td>
             <td>
-                <a class="edit" href="/admin/edit?id=<?=$val['id']?>">修改</a>
+                <a class="edit" href="/admin-setting/edit?id=<?=$val['id']?>">修改</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/admin/doDelete?id=<?=$val['id']?>">删除</a>
+                <a class="delete" href="/admin-setting/doDelete?id=<?=$val['id']?>">删除</a>
             </td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
 </div>
-<script type="text/javascript">
-    $('.sub_nav a:eq(2)').addClass('active');
-</script>
 <?php stop(); ?>

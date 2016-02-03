@@ -5,8 +5,8 @@
     <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文档管理
 </h3>
 <div class="ui attached segment">
-<a class="ui blue basic button" href="/article/add"><i class="tiny plus icon"></i> 添加</a>
-<a class="ui red basic button" href="/article/add"><i class="tiny remove icon"></i> 批量删除</a>
+<a class="ui blue basic button" href="/article-setting/add"><i class="tiny plus icon"></i> 添加</a>
+<a class="ui red basic button" href="/article-setting/add"><i class="tiny remove icon"></i> 批量删除</a>
 <table class="ui blue unstackable selectable celled table">
     <thead>
         <tr>
@@ -34,9 +34,9 @@
             <td><?=$val['is_show']?></td>
             <td><?=$val['create_time']?></td>
             <td>
-                <a class="edit" href="/article/edit?id=<?=$val['id']?>">修改</a>
+                <a class="edit" href="/article-setting/edit?id=<?=$val['id']?>">修改</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/article/doDelete?id=<?=$val['id']?>">删除</a>
+                <a class="delete" href="/article-setting/doDelete?id=<?=$val['id']?>">删除</a>
             </td>
         </tr>
         <?php } ?>
@@ -44,6 +44,5 @@
 </table>
 </div>
 <script type="text/javascript">
-    $('.sub_nav a:eq(1)').addClass('active');
 </script>
 <?php stop(); ?>

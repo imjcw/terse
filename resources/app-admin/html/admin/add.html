@@ -1,8 +1,11 @@
 <?php extend('extend/extend'); ?>
-<?php start(); ?>
+<?php start('content'); ?>
 <!--内容-->
-<div class="ui segment">
-    <form class="ui form" action="/admin/doAdd" method="post">
+<h3 class="ui top attached header">
+    <i class="users icon" style="font-size: 1.28em;margin-top: -3px;"></i> 管理员管理
+</h3>
+<div class="ui attached segment">
+    <form class="ui form" action="/admin-setting/doAdd" method="post">
         <div class="field">
             <label>管理员昵称</label>
             <input type="text" name="nickname" placeholder="管理员昵称" value=""></div>

@@ -1,8 +1,11 @@
 <?php extend('extend/extend'); ?>
-<?php start(); ?>
+<?php start('content'); ?>
 <!--内容-->
-<div class="ui segment">
-    <form class="ui form" action="/column/doAdd" method="post">
+<h3 class="ui top attached header">
+    <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 栏目管理
+</h3>
+<div class="ui attached segment">
+    <form class="ui form" action="/column-setting/doAdd" method="post">
         <div class="field">
             <label>栏目名称</label>
             <input type="text" name="name" placeholder="栏目名称">
@@ -22,7 +25,6 @@ $(document).ready(function(){
     $('.go_back').click(function(){
         history.back();
     });
-    $('.sub_nav a:eq(0)').addClass('active');
 });
 </script>
 <?php stop(); ?>

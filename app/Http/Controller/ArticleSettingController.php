@@ -5,7 +5,7 @@ use App\Biz\ArticleBiz;
 use App\Biz\ColumnBiz;
 use App\Http\Controller\BaseController;
 
-class ArticleController extends BaseController
+class ArticleSettingController extends BaseController
 {
     /**
      * 展示文章页面
@@ -50,6 +50,9 @@ class ArticleController extends BaseController
 
         $article_biz = new ArticleBiz();
         $result = $article_biz->addArticle($data);
+        if (touch(ROOT.'/storage/test/'.$result.'.html')) {
+            file_put_contents(ROOT.'/storage/test/'.$result.'.html','hehe');
+        }
         $page = $result ? 'index' : '/error';
         return redirect($page);
     }
