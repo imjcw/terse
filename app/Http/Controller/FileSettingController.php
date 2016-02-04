@@ -31,7 +31,7 @@
         {
             $path_name = isset($_GET['path']) ? $_GET['path'] : '';
             $file_biz = new FileBiz();
-            $path = ROOT.'/resources/app-front/template_01'.$path_name;
+            $path = ROOT.'/resources/app-front/'.TEMPLATE_NAME.$path_name;
             $isMatched = preg_match('/\/(\w+)(-\w+)*(\/(\w+)(-\w+)*)*\//', $path_name, $matches);
             if (!$isMatched) {
                 $matche = '';
@@ -73,7 +73,7 @@
             if (!in_array($ext, $exts)) {
                 return redirect('/file/index');
             }
-            $url = 'http://'.$_SERVER['HTTP_HOST'].'/resources/show/template_01'.$path.'.'.$ext;
+            $url = 'http://'.$_SERVER['HTTP_HOST'].'/resources/show/'.TEMPLATE_NAME.$path.'.'.$ext;
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -101,7 +101,7 @@
             $path = isset($_GET['path']) ? $_GET['path'] : '';
 
             //判断文件是否存在
-            if (!file_exists(ROOT.'/resources/show/template_01'.$path)) {
+            if (!file_exists(ROOT.'/resources/show/'.TEMPLATE_NAME.$path)) {
                 return "文件不存在！";
             }
             //判断是否为文件夹

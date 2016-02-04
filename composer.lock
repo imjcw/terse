@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "480873bc56dc1377545daea48a96bd54",
+    "hash": "0d972eced5190bfa9806f0e09fa538d5",
     "content-hash": "c21e9e66d327dec43741fd2d517ce012",
     "packages": [
         {
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/imjcw/framework.git",
-                "reference": "f92e0fffaece2c33fd0cf02a4955094819d39bda"
+                "reference": "3662f0f6c3dd4445a3af509b2056ed1ed046ee43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imjcw/framework/zipball/f92e0fffaece2c33fd0cf02a4955094819d39bda",
-                "reference": "f92e0fffaece2c33fd0cf02a4955094819d39bda",
+                "url": "https://api.github.com/repos/imjcw/framework/zipball/3662f0f6c3dd4445a3af509b2056ed1ed046ee43",
+                "reference": "3662f0f6c3dd4445a3af509b2056ed1ed046ee43",
                 "shasum": ""
             },
             "type": "library",
@@ -39,7 +39,7 @@
                 }
             ],
             "description": "a simple framework.",
-            "time": "2016-02-01 12:10:02"
+            "time": "2016-02-04 07:31:40"
         }
     ],
     "packages-dev": [],

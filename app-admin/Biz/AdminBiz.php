@@ -1,5 +1,5 @@
 <?php
-namespace App\Biz;
+namespace Admin\Biz;
 
 use App\Biz\BaseBiz;
 use App\Service\AdminService;

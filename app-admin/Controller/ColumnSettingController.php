@@ -1,9 +1,10 @@
 <?php
-namespace App\Http\Controller;
+namespace Admin\Http\Controller;
 
-use App\Biz\ColumnBiz;
-use App\Http\Controller\BaseController;
-use App\Exception\TranslateException;
+use Admin\Biz\ColumnBiz;
+use Admin\Http\Controller\BaseController;
+use Admin\Exception\TranslateException;
+
 class ColumnSettingController extends BaseController
 {
     public function index(){

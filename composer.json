@@ -4,7 +4,9 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Admin\\": "app-admin/",
+            "Front\\": "app-front/"
         }
     }
 }

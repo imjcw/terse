@@ -51,7 +51,10 @@ class ArticleSettingController extends BaseController
         $article_biz = new ArticleBiz();
         $result = $article_biz->addArticle($data);
         if (touch(ROOT.'/storage/test/'.$result.'.html')) {
-            file_put_contents(ROOT.'/storage/test/'.$result.'.html','hehe');
+            ob_start();
+            require(ROOT.'/resources/app-front/'.TEMPLATE_NAME.'/article.html');
+            $content = ob_get_clean();
+            file_put_contents(ROOT.'/storage/test/'.$result.'.html', $content);
         }
         $page = $result ? 'index' : '/error';
         return redirect($page);

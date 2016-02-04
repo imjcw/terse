@@ -1,17 +1,15 @@
 <?php
-    namespace App\Http\Controller;
+namespace Admin\Http\Controller;
 
-    use App\Http\Controller\AuthController;
-    /**
-    * 
-    */
-    class BaseController
-    {
-        function __construct(){
-            session_start();
-            
-            if (!$_SESSION['user_id']) {
-                return redirect('/auth/login');
-            }
+use Admin\Http\Controller\AuthController;
+
+class BaseController
+{
+    function __construct(){
+        session_start();
+        
+        if (!$_SESSION['user_id']) {
+            return redirect('/auth/login');
         }
     }
+}

@@ -1,10 +1,10 @@
 <?php
-namespace App\Http\Controller;
+namespace Admin\Http\Controller;
 
-use App\Biz\TemplateBiz;
-use App\Http\Controller\BaseController;
+use Admin\Biz\TemplateBiz;
+use Admin\Http\Controller\BaseController;
 
-class TemplateController
+class TemplateSettingController
 {
     /**
      * 模板管理显示
@@ -12,12 +12,12 @@ class TemplateController
      * @author marvin <imjcw@imjcw.com>
      * @date   2016-01-27
      */
-    public function index(){dd($_SERVER);
+    public function index(){
         $biz = new TemplateBiz();
         $templates = $biz->getTemplates();
         $count = count($templates);
-        foreach ($templates as $template) {
-            # code...
+        foreach ($templates as $key => $template) {
+            $templates[$key]['img_src'] = 'http://'.$_SERVER['HTTP_HOST'].'/app-front'.$template['dir_src'].$template['img_src'];
         }
 
         return view('template/index')->with(array(

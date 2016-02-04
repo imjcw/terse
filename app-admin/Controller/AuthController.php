@@ -1,10 +1,8 @@
 <?php
-namespace App\Http\Controller;
+namespace Admin\Http\Controller;
 
-use App\Biz\AuthBiz;
-/**
-* 登陆
-*/
+use Admin\Biz\AuthBiz;
+
 class AuthController
 {
     function __construct(){
@@ -48,7 +46,7 @@ class AuthController
         $result = $auth_biz->checkAuth($username, $password);
         if ($result) {
             $_SESSION['user_id'] = $result;
-            return redirect('/article/index');
+            return redirect('/article-setting/index');
         }
         return json('error', '用户名或密码错误！');
     }
