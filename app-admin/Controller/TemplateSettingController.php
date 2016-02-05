@@ -1,8 +1,8 @@
 <?php
-namespace Admin\Http\Controller;
+namespace Admin\Controller;
 
 use Admin\Biz\TemplateBiz;
-use Admin\Http\Controller\BaseController;
+use Admin\Controller\BaseController;
 
 class TemplateSettingController
 {
@@ -17,7 +17,7 @@ class TemplateSettingController
         $templates = $biz->getTemplates();
         $count = count($templates);
         foreach ($templates as $key => $template) {
-            $templates[$key]['img_src'] = 'http://'.$_SERVER['HTTP_HOST'].'/app-front'.$template['dir_src'].$template['img_src'];
+            $templates[$key]['img_src'] = 'http://'.$_SERVER['HTTP_HOST'].'/public/tpl_img'.$template['img_src'];
         }
 
         return view('template/index')->with(array(

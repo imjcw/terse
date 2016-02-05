@@ -1,8 +1,8 @@
 <?php
-namespace Admin\Http\Controller;
+namespace Admin\Controller;
 
 use Admin\Biz\SettingBiz;
-use Admin\Http\Controller\BaseController;
+use Admin\Controller\BaseController;
 
 class SystemSettingController extends BaseController
 {

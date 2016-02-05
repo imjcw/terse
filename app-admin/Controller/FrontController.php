@@ -1,8 +1,8 @@
 <?php
-namespace App\Http\Controller;
+namespace Admin\Controller;
 
-use App\Biz\TemplateBiz;
-use App\Http\Controller\BaseController;
+use Admin\Biz\TemplateBiz;
+use Admin\Controller\BaseController;
 
 class FrontController
 {

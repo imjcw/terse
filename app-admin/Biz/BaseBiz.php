@@ -1,5 +1,5 @@
 <?php
-namespace App\Biz;
+namespace Admin\Biz;
 
 class BaseBiz
 {

@@ -1,0 +1,85 @@
+@charset "utf-8";
+/*全局*/
+html,body{
+    height: 100%;
+    width: 100%;
+}
+ul,li{
+    margin: 0;
+    padding: 0;
+}
+/*滚动条宽度*/  
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+/* Handle样式 */  
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: #31373B;
+}
+.mf_left,.mf_right{
+    float: left;
+    height:100%;
+}
+.mf_left{
+    width:200px;
+    background-color: #282D30;
+    overflow: auto;
+}
+    .mf_left .left_top{
+        padding: 30px;
+    }
+    .mf_left .left_bottom{
+        height: -moz-calc(100% - 200px);
+        height: -webkit-calc(100% - 200px);
+        height: calc(100% - 200px);
+    }
+    .mf_left .left_bottom ul li>a{
+        color: #eeeeee;
+        font-size: 16px;
+        padding: 15px;
+        display: block;
+        transition: border 0.1s;
+        -moz-transition: border 0.1s;
+        -webkit-transition: border 0.1s;
+        -o-transition: border 0.1s;
+    }
+    .mf_left .left_bottom ul li>a:hover{
+        background-color: #373A3E;
+        border-right: 5px solid #F1C40F;
+    }
+    .mf_left .left_bottom ul li>a.click{
+        background-color: #1D2125;
+        border-right: 5px solid #F1C40F;
+    }
+.mf_right{
+    width: -moz-calc(100% - 200px);
+    width: -webkit-calc(100% - 200px);
+    width: calc(100% - 200px);
+    background-color: #E8E8E8;
+}
+    .mf_right .right_top{
+        height: 50px;
+        background-color: #F4F3EF !important;
+        margin:0 !important;
+        padding:0 8px;
+    }
+    .mf_right .right_bottom{
+        height: -moz-calc(100% - 50px);
+        height: -webkit-calc(100% - 50px);
+        height: calc(100% - 50px);
+        padding: 15px;
+        overflow: auto;
+    }
+    .mf_right .right_bottom .buttons a.ui.button{
+        background-color: #31373B;
+        color: #eeeeee;
+        line-height: 28px;
+        font-size: 16px;
+        font-weight: normal;
+    }
+    .mf_right .right_bottom .buttons a.ui.button.active{
+        background-color: #F1C40F;
+        color: #31373B;
+    }

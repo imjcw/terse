@@ -1,7 +1,7 @@
 <?php
-namespace App\Exception;
+namespace Admin\Exception;
 
-use App\Service\SettingService;
+use Admin\Service\SettingService;
 class ConfigException
 {
     /**

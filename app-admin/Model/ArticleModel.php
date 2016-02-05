@@ -1,5 +1,5 @@
 <?php
-    namespace App\Model;
+    namespace Admin\Model;
 
     use Lib\Factory\Model;
     /**

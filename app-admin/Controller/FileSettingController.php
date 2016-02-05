@@ -1,8 +1,8 @@
 <?php
-namespace Admin\Http\Controller;
+namespace Admin\Controller;
 
 use Admin\Biz\FileBiz;
-use Admin\Http\Controller\BaseController;
+use Admin\Controller\BaseController;
 use Admin\Service\TemplateService;
 
 class FileSettingController
@@ -29,7 +29,7 @@ class FileSettingController
     {
         $path_name = isset($_GET['path']) ? $_GET['path'] : '';
         $file_biz = new FileBiz();
-        $path = ROOT.'/resources/app-front/'.TEMPLATE_NAME.$path_name;
+        $path = ROOT.'/public/app-front/'.TEMPLATE_NAME.$path_name;
         $isMatched = preg_match('/\/(\w+)(-\w+)*(\/(\w+)(-\w+)*)*\//', $path_name, $matches);
         if (!$isMatched) {
             $matche = '';
@@ -71,7 +71,7 @@ class FileSettingController
         if (!in_array($ext, $exts)) {
             return redirect('/file/index');
         }
-        $url = 'http://'.$_SERVER['HTTP_HOST'].'/resources/show/'.TEMPLATE_NAME.$path.'.'.$ext;
+        $url = 'http://'.$_SERVER['HTTP_HOST'].'/public/show/'.TEMPLATE_NAME.$path.'.'.$ext;
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -84,7 +84,7 @@ class FileSettingController
     public function view()
     {dd('heh');
         $content = $_POST['content'];
-        dd(file_put_contents(ROOT.'/resources/show/template_01/text.txt', $content));
+        dd(file_put_contents(ROOT.'/public/show/template_01/text.txt', $content));
         return;
     }
 
@@ -128,14 +128,14 @@ class FileSettingController
     public function readTemplates()
     {
         $file_biz = new FileBiz();
-        $path = ROOT.'/resources/show'.$path_name;
+        $path = ROOT.'/public/show'.$path_name;
         $pageData = $file_biz->readDir($path);
         $data = array();
         foreach ($pageData['dir'] as $key => $value) {
             $data[$key]['name'] = $value['item'];
             $data[$key]['dir_src'] = $path.'/'.$value['item'];
             if (file_exists($path.'/'.$value['item'].'/info.jpg')) {
-                $data[$key]['img_src'] = '/resources/show/'.$value['item'].'/info.jpg';
+                $data[$key]['img_src'] = '/public/show/'.$value['item'].'/info.jpg';
             } else {
                 $data[$key]['img_src'] = $path.'/info.jpg';
             }
@@ -170,8 +170,8 @@ class FileSettingController
             //自定义文件名
             $file_name = $file['name'];
             //移动文件到指定文件夹
-            move_uploaded_file($file['tmp_name'], '/home/marvin/workspace/terse/resources/app-front/template_01/'.$file_name);
-            chmod('/home/marvin/workspace/terse/resources/app-front/template_01/'.$file_name, 0755);
+            move_uploaded_file($file['tmp_name'], '/home/marvin/workspace/terse/public/app-front/template_01/'.$file_name);
+            chmod('/home/marvin/workspace/terse/public/app-front/template_01/'.$file_name, 0755);
         }
     }
 

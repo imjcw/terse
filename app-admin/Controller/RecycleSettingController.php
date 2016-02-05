@@ -1,8 +1,8 @@
 <?php
-namespace Admin\Http\Controller;
+namespace Admin\Controller;
 
 use Admin\Biz\RecycleBiz;
-use Admin\Http\Controller\BaseController;
+use Admin\Controller\BaseController;
 
 class RecycleSettingController extends BaseController
 {

@@ -1,8 +1,8 @@
 <?php
-namespace App\Biz;
+namespace Admin\Biz;
 
-use App\Service\TemplateService;
-use App\Service\SettingService;
+use Admin\Service\TemplateService;
+use Admin\Service\SettingService;
 
 class TemplateBiz
 {

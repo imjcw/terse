@@ -1,7 +1,7 @@
 <?php
-namespace App\Biz;
+namespace Admin\Biz;
 
-use App\Service\FileService;
+use Admin\Service\FileService;
 
 /**
 * Article Biz

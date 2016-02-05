@@ -1,7 +1,7 @@
 <?php
-namespace App\Service;
+namespace Admin\Service;
 
-use App\Model\SettingModel;
+use Admin\Model\SettingModel;
 
 class SettingService
 {

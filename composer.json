@@ -1,6 +1,6 @@
 {
     "require": {
-        "terse/framework": "dev-master"
+        "terse/framework": "dev-version_admin"
     },
     "autoload": {
         "psr-4": {

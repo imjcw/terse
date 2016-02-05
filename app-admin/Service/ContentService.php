@@ -1,7 +1,7 @@
 <?php
-    namespace App\Service;
+    namespace Admin\Service;
 
-    use App\Model\ContentModel;
+    use Admin\Model\ContentModel;
 
     /**
     * Article Service

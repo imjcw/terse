@@ -1,7 +1,7 @@
 <?php
-    namespace App\Biz;
+    namespace Admin\Biz;
 
-    use App\Service\ColumnService;
+    use Admin\Service\ColumnService;
 
     /**
     * Column Biz

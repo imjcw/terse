@@ -1,8 +1,8 @@
 <?php
-namespace Admin\Http\Controller;
+namespace Admin\Controller;
 
 use Admin\Biz\ColumnBiz;
-use Admin\Http\Controller\BaseController;
+use Admin\Controller\BaseController;
 use Admin\Exception\TranslateException;
 
 class ColumnSettingController extends BaseController

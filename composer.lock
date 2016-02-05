@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d972eced5190bfa9806f0e09fa538d5",
-    "content-hash": "c21e9e66d327dec43741fd2d517ce012",
+    "hash": "bfd58656cd2b2b4e700d9e33167d00cb",
+    "content-hash": "588a759c7eaebd90b6be6ce7c30fd240",
     "packages": [
         {
             "name": "terse/framework",
-            "version": "dev-master",
+            "version": "dev-version_admin",
             "source": {
                 "type": "git",
                 "url": "https://github.com/imjcw/framework.git",
-                "reference": "3662f0f6c3dd4445a3af509b2056ed1ed046ee43"
+                "reference": "c517acf8ff0a4629a1cd8a8434b1fd8280373c3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imjcw/framework/zipball/3662f0f6c3dd4445a3af509b2056ed1ed046ee43",
-                "reference": "3662f0f6c3dd4445a3af509b2056ed1ed046ee43",
+                "url": "https://api.github.com/repos/imjcw/framework/zipball/c517acf8ff0a4629a1cd8a8434b1fd8280373c3c",
+                "reference": "c517acf8ff0a4629a1cd8a8434b1fd8280373c3c",
                 "shasum": ""
             },
             "type": "library",
@@ -39,7 +39,7 @@
                 }
             ],
             "description": "a simple framework.",
-            "time": "2016-02-04 07:31:40"
+            "time": "2016-02-05 02:12:26"
         }
     ],
     "packages-dev": [],

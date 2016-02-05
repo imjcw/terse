@@ -1,9 +1,9 @@
 <?php
-    namespace App\Biz;
+    namespace Admin\Biz;
 
-    use App\Service\ColumnService;
-    use App\Service\ArticleService;
-    use App\Service\ContentService;
+    use Admin\Service\ColumnService;
+    use Admin\Service\ArticleService;
+    use Admin\Service\ContentService;
 
     /**
     * Article Biz

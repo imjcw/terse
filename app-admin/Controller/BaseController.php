@@ -1,7 +1,7 @@
 <?php
-namespace Admin\Http\Controller;
+namespace Admin\Controller;
 
-use Admin\Http\Controller\AuthController;
+use Admin\Controller\AuthController;
 
 class BaseController
 {

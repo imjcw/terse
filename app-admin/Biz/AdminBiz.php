@@ -1,8 +1,8 @@
 <?php
 namespace Admin\Biz;
 
-use App\Biz\BaseBiz;
-use App\Service\AdminService;
+use Admin\Biz\BaseBiz;
+use Admin\Service\AdminService;
 
 class AdminBiz extends BaseBiz
 {

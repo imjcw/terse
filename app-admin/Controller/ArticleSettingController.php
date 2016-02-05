@@ -1,9 +1,9 @@
 <?php
-namespace Admin\Http\Controller;
+namespace Admin\Controller;
 
 use Admin\Biz\ArticleBiz;
 use Admin\Biz\ColumnBiz;
-use Admin\Http\Controller\BaseController;
+use Admin\Controller\BaseController;
 
 class ArticleSettingController extends BaseController
 {
@@ -52,7 +52,7 @@ class ArticleSettingController extends BaseController
         $result = $article_biz->addArticle($data);
         if (touch(ROOT.'/storage/test/'.$result.'.html')) {
             ob_start();
-            require(ROOT.'/resources/app-front/'.TEMPLATE_NAME.'/article.html');
+            require(ROOT.'/public/app-front/'.TEMPLATE_NAME.'/article.html');
             $content = ob_get_clean();
             file_put_contents(ROOT.'/storage/test/'.$result.'.html', $content);
         }

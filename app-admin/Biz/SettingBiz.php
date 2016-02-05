@@ -1,7 +1,7 @@
 <?php
-    namespace App\Biz;
+    namespace Admin\Biz;
 
-    use App\Service\SettingService;
+    use Admin\Service\SettingService;
     /**
     * Setting Biz
     */
