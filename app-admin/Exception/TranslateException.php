@@ -1,5 +1,5 @@
 <?php
-namespace App\Exception;
+namespace Admin\Exception;
 
 class TranslateException{
    private $d=array(

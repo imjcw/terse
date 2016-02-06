@@ -32,8 +32,14 @@ class ColumnSettingController extends BaseController
         $result = $column_biz->addColumn($data);
         $translate = new TranslateException();
         $name = $translate->get_pinyin($data['name']);
-        mkdir(ROOT.'/storage/'.$name, 0755, true);
-        chmod(ROOT.'/storage/'.$name, 0755);
+        require(ROOT.'/app-front/routes.php');
+        $routes['article'][] = $name;
+        $str_start = "<?php\n";
+        $str = '$routes = '.var_export($routes,true);
+        $str_end = ';';
+        file_put_contents(ROOT.'/app-front/routes.php', $str_start.$str.$str_end);
+        //mkdir(ROOT.'/storage/'.$name, 0755, true);
+        //chmod(ROOT.'/storage/'.$name, 0755);
         $page = $result ? 'index' : '/error';
         return redirect($page);
     }

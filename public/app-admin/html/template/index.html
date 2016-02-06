@@ -42,8 +42,32 @@
 </div>
 <form class="ui small modal form">
     <div class="header">添加模板</div>
-    <div class="content">
-
+    <div class="content" style="position:relative">
+        <div class="ui two column very relaxed grid">
+            <div class="column">
+                <div class="field">
+                    <label>模板名：</label>
+                    <input name="name" type="text" placeholder="请输入模板名称">
+                </div>
+                <div class="field">
+                    <label>模板描述：</label>
+                    <textarea name="description"></textarea>
+                </div>
+            </div>
+            <div class="ui vertical divider">and</div>
+            <div class="column">
+                <div class="blurring dimmable image">
+                    <div class="ui dimmer">
+                        <div class="content">
+                            <div class="center">
+                                <div class="ui inverted button">更换封面图</div>
+                            </div>
+                        </div>
+                    </div>
+                    <img class="ui medium rounded image" style="max-height:243px;width:auto;margin:0 auto;" src="">
+                </div>
+            </div>
+        </div>
     </div>
     <div class="actions terse center">
         <button class="ui blue button">
@@ -73,6 +97,9 @@
     </div>
 </div>
 <script type="text/javascript">
+$('.blurring.image').dimmer({
+  on: 'hover'
+});
     //监听窗口变化，设置最后一个card的高度
     $(window).resize(function () {
         $('.ui.link.card').last().css('height','0');
@@ -84,14 +111,27 @@
         $('.small.modal.form').modal({
             closable: false
         }).modal('show');
+        $('.small.modal.form .header').html('新增模板');
+        $('input[name=name]').val('');
+        $('textarea').html('');
+        $('.small.modal.form img').attr('src','/public/tpl_img/default.png');
     });
 
     //编辑模板
     $('.write.link').click(function(e){
+        //阻止冒泡事件
         e.stopPropagation();
+        //显示弹出层
         $('.small.modal.form').modal({
             closable: false
         }).modal('show');
+        //重置相关信息
+        $('.small.modal.form .header').html('编辑模板');
+        var tpl_name = $(this).parents('.image').siblings('.content').children('span').html();
+        var tpl_img = $(this).parent('span').siblings('img').attr('src');
+        $('input[name=name]').val(tpl_name);
+        $('textarea').html('test');
+        $('.small.modal.form img').attr('src',tpl_img);
     });
 
     //删除模板
