@@ -16,11 +16,25 @@ class ArticleSettingController extends BaseController
     public function index(){
         $article_biz = new ArticleBiz();
         $pageData = $article_biz->getAll();
-        $count = count($pageData);
+        $column_ids = array_column($pageData,'column_id');
+        $column_biz = new ColumnBiz();
+        $columns = $column_biz->getColumnByIds($column_ids);
+        foreach ($columns as $columns) {
+            $column_name[$columns['id']] = $columns['name'];
+        }
+        foreach ($pageData as $article) {
+            $id = $article['id'];
+            $data[$id]['title'] = $article['title'];
+            $data[$id]['description'] = $article['description'];
+            $data[$id]['column_id'] = $column_name[$article['column_id']];
+            $data[$id]['is_show'] = $article['is_show'] ? '是' : '否';
+            $data[$id]['create_time'] = $article['create_time'];
+        }
+        $count = count($data);
 
         return view('article/index')->with(array(
             'count' => $count,
-            'pageData' => $pageData
+            'pageData' => $data
         ));
     }
 

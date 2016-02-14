@@ -10,7 +10,6 @@
 <table class="ui blue unstackable selectable celled table">
     <thead>
         <tr>
-            <th>序号</th>
             <th>ID</th>
             <th>标题</th>
             <th>所属栏目</th>
@@ -22,21 +21,20 @@
     <tbody>
         <?php if (empty($pageData)): ?>
             <tr class="terse center">
-                <td colspan="8">暂时没有任何文章</td>
+                <td colspan="6">暂时没有任何文章</td>
             </tr>
         <?php endif ?>
-        <?php foreach ($pageData as $val) { ?>
+        <?php foreach ($pageData as $key => $val) { ?>
         <tr>
-            <td><?=isset($i) ? ++$i : $i=1;?></td>
-            <td><?=$val['id']?></td>
+            <td class="collapsing"><?=$key?></td>
             <td><?=$val['title']?></td>
             <td><?=$val['column_id']?></td>
             <td><?=$val['is_show']?></td>
             <td><?=$val['create_time']?></td>
             <td>
-                <a class="edit" href="/article-setting/edit?id=<?=$val['id']?>">修改</a>
+                <a class="edit" href="/article-setting/edit?id=<?=$key?>">修改</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/article-setting/doDelete?id=<?=$val['id']?>">删除</a>
+                <a class="delete" href="/article-setting/doDelete?id=<?=$key?>">删除</a>
             </td>
         </tr>
         <?php } ?>

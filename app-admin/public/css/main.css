@@ -16,7 +16,7 @@ ul,li{
 /* Handle样式 */  
 ::-webkit-scrollbar-thumb {
     border-radius: 8px;
-    background: #31373B;
+    background: #3c8dbc;
 }
 /* latin-ext */
 @font-face {

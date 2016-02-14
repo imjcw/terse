@@ -70,4 +70,10 @@ class ColumnBiz
         $column_service = new ColumnService();
         return $column_service->updateOneColumnStatus($id);
     }
+
+    public function getColumnByIds($id)
+    {
+        $service = new ColumnService();
+        return $service->getColumnByIds($ids);
+    }
 }
