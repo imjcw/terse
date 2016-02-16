@@ -1,4 +1,7 @@
 <?php extend('extend/extend'); ?>
+<?php start('style'); ?>
+<script src="/public/ckeditor/ckeditor.js"></script>
+<?php stop(); ?>
 <?php start('content'); ?>
 <!--内容-->
 <h3 class="ui top attached header">
@@ -11,10 +14,13 @@
         <input type="text" name="title" placeholder="文章名称" value="<?= $pageData['title'] ?>"></div>
         <div class="field">
              <label>所属栏目：</label>
-             <select name="test" class="mf_dropdown ui dropdown">
-                <option value="0">请选择</option>
+             <select name="column" class="ui dropdown">
                 <?php foreach ($column as $value): ?>
+                <?php if ($pageData['column_id'] == $value['id']): ?>
+                <option value="<?= $value['id'] ?>" selected='selected'><?= $value['name'] ?></option>
+                <?php else: ?>
                 <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                <?php endif ?>
                 <?php endforeach; ?>
              </select>
         </div>
@@ -37,7 +43,7 @@ $(document).ready(function(){
     $('.go_back').click(function(){
         history.back();
     });
-    $('.mf_dropdown.ui.dropdown.selection .menu').children().removeClass('active selected');
+    CKEDITOR.replace( 'content' );
 });
 </script>
 <?php stop(); ?>

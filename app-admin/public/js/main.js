@@ -30,4 +30,6 @@ $(document).ready(function(){
             $($(this).parent().siblings()).children('a').children('.terse.right').css("transform", "rotate(90deg) ").css('transition', 'transform 0.2s ease 0s');
         }
     });
+    //下拉列表
+    $('.ui.dropdown').dropdown();
 });

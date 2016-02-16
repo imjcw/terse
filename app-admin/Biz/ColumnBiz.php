@@ -3,9 +3,6 @@ namespace Admin\Biz;
 
 use Admin\Service\ColumnService;
 
-/**
-* Column Biz
-*/
 class ColumnBiz
 {
     public function getAll()
@@ -71,9 +68,16 @@ class ColumnBiz
         return $column_service->updateOneColumnStatus($id);
     }
 
+    /**
+     * 根据ID获取column
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-15
+     */
     public function getColumnByIds($id)
     {
         $service = new ColumnService();
-        return $service->getColumnByIds($ids);
+        return $service->getColumnByIds($id);
     }
 }
