@@ -16,23 +16,47 @@ class ArticleSettingController extends BaseController
     public function index(){
         //获取所有文章
         $article_biz = new ArticleBiz();
-        $pageData = $article_biz->getAll();
-        $column_ids = array_column($pageData,'column_id');
+        $articles = $article_biz->getAll();
+        $column_ids = array_column($articles,'column_id');
         //获取相应的栏目
         $column_biz = new ColumnBiz();
         $columns = $column_biz->getColumnByIds($column_ids);
-        foreach ($columns as $columns) {
-            $column_name[$columns['id']] = $columns['name'];
+        //组合数据
+        $data = $this->buildPageData($articles,$columns);
+        $count = count($data);
+        $msg = getMsg();
+
+        return view('article/index')->with(array(
+            'count' => $count,
+            'pageData' => $data,
+            'msg' => $msg
+        ));
+    }
+
+    /**
+     * 文章搜索
+     * @return [type] [description]
+     * @author marvin <imjcw@imjcw.com>
+     * @date   2016-02-17
+     */
+    public function search()
+    {
+        $params = $_GET;
+        if (isset($params['column'])) {
+            $search['column'] = strval($params['column']);
         }
-        //拼接相应的数据
-        foreach ($pageData as $article) {
-            $id = $article['id'];
-            $data[$id]['title'] = $article['title'];
-            $data[$id]['description'] = $article['description'];
-            $data[$id]['column_id'] = $column_name[$article['column_id']];
-            $data[$id]['is_show'] = $article['is_show'] ? '是' : '否';
-            $data[$id]['create_time'] = $article['create_time'];
+        if (isset($params['author'])) {
+            $search['author'] = strval($params['author']);
         }
+        //获取所有文章
+        $article_biz = new ArticleBiz();
+        $articles = $article_biz->search($search);
+        $column_ids = array_column($articles,'column_id');
+        //获取相应的栏目
+        $column_biz = new ColumnBiz();
+        $columns = $column_biz->getColumnByIds($column_ids);
+        //组合数据
+        $data = $this->buildPageData($articles,$columns);
         $count = count($data);
         $msg = getMsg();
 
@@ -138,15 +162,31 @@ class ArticleSettingController extends BaseController
      * @date   2016-01-25
      */
     public function doDelete(){
-        $id = intval($_GET['id']);
+        $id = intval($_POST['id']);
         if (empty($id)) {
             return json('error');
         }
 
-        $article_biz = new ArticleBiz();
-        $result = $article_biz->deleteArticle($id);
-        $page = $result ? 'index' : '/error';
-        $_SESSION['msg'] = $result ? '删除文章成功！' : '删除文章失败！';
-        return redirect($page);
+        $biz = new ArticleBiz();
+        $result = $biz->deleteArticle($id);
+        return $result ? json('删除文章成功！') : json('删除文章失败！');
+    }
+
+    public function buildPageData($articles,$columns)
+    {
+        foreach ($columns as $columns) {
+            $column_name[$columns['id']] = $columns['name'];
+        }
+        //拼接相应的数据
+        foreach ($articles as $article) {
+            $id = $article['id'];
+            $data[$id]['title'] = $article['title'];
+            $data[$id]['author'] = $article['author'];
+            $data[$id]['description'] = $article['description'];
+            $data[$id]['column_id'] = $column_name[$article['column_id']];
+            $data[$id]['is_show'] = $article['is_show'] ? '是' : '否';
+            $data[$id]['create_time'] = $article['create_time'];
+        }
+        return $data;
     }
 }

@@ -7,12 +7,16 @@
 <div class="ui attached segment">
 <form class="ui form" action="/column-setting/doEdit?id=<?=$id?>" method="post">
     <div class="field">
-        <label>栏目名称</label>
-        <input type="text" name="name" placeholder="栏目名称" value="<?=$name?>">
+        <label>栏目名称：</label>
+        <input type="text" name="name" placeholder="栏目名称" <?=isset($name) ? "value=$name" : ''?>>
     </div>
     <div class="field">
-        <label>栏目描述</label>
-        <textarea name="description" placeholder="栏目描述"><?=$description?></textarea>
+        <label>栏目别名：</label>
+        <input type="text" name="nickname" placeholder="使用在URL中的别名，美化URL" <?=isset($name) ? "value=$nickname" : ''?>>
+    </div>
+    <div class="field">
+        <label>栏目描述：</label>
+        <input name="description" placeholder="栏目描述(不多于50字)" <?=isset($name) ? "value=$description" : ''?>>
     </div>
     <div class="field" style="text-align: center;">
         <button class="ui blue submit button">保存</button>
@@ -22,9 +26,7 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.go_back').click(function(){
-        history.back();
-    });
+
 });
 </script>
 <?php stop(); ?>

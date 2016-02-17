@@ -146,3 +146,28 @@ ul,li{
     color: #eeeeee;
 }
 
+.terse.tip{
+    color: #eeeeee;
+    font-weight: 800;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -.5em;
+    padding: 10px 20px;
+    border-top: 0;
+    border-radius: 5px;
+    background-color: #555555;
+    display: none;opacity:0;
+}
+
+.delete{
+    cursor: pointer;
+}
+
+table td,table th{
+    white-space: nowrap;
+}
+table td.break{
+    word-break: break-all;
+    white-space: normal;
+}

@@ -10,6 +10,7 @@ class ArticleService
         $article_model = new ArticleModel();
         return $article_model
                     ->where(array('is_use' => 1))
+                    ->orderBy('id')
                     ->all();
     }
 
@@ -99,5 +100,26 @@ class ArticleService
                     ->delete();
 
         return $content_id;
+    }
+
+    public function search($params)
+    {
+        $model = new ArticleModel();
+        if (isset($params['column']) && $params['column']) {
+            $model = $model->where('column_id',$params['column']);
+        }
+        if (isset($params['author']) && $params['author']) {
+            $model = $model->where('author',$params['author']);
+        }
+        return $model
+                ->where(array('is_use' => 1))
+                ->orderBy('id')
+                ->all();
+    }
+
+    public function getArticlesByColumnIds($column_ids)
+    {
+        $model = new ArticleModel();
+        return $model->whereIn('column_id',$column_ids)->where(array('is_use' => 1))->all();
     }
 }

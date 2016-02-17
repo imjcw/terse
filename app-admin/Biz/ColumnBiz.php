@@ -41,13 +41,6 @@ class ColumnBiz
 
     public function editColumn($data = array(), $id = 0)
     {
-        if (empty($id)) {
-            return false;
-        }
-        if (empty($data)) {
-            return false;
-        }
-
         $column_service = new ColumnService();
         $result = $column_service->checkExit($data['name']);
         if ($result) {

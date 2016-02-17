@@ -12,6 +12,7 @@
         <tr>
             <th>ID</th>
             <th>标题</th>
+            <th>作者</th>
             <th>所属栏目</th>
             <th>是否显示</th>
             <th>创建时间</th>
@@ -24,46 +25,42 @@
                 <td colspan="6">暂时没有任何文章</td>
             </tr>
         <?php endif ?>
-        <?php foreach ($pageData as $key => $val) { ?>
+        <?php $i=1; foreach ($pageData as $key => $val) { ?>
         <tr>
-            <td class="collapsing"><?=$key?></td>
+            <td class="collapsing"><?=$i++?></td>
             <td><?=$val['title']?></td>
+            <td><a href="/article-setting/search?author=<?=$val['author']?>"><?=$val['author']?></a></td>
             <td><?=$val['column_id']?></td>
             <td><?=$val['is_show']?></td>
             <td><?=$val['create_time']?></td>
             <td>
                 <a class="edit" href="/article-setting/edit?id=<?=$key?>">修改</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/article-setting/doDelete?id=<?=$key?>">删除</a>
+                <a class="delete" data-id="<?=$key?>">删除</a>
             </td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
 </div>
-<div class="tips" style="color: #eeeeee;font-weight: 800;position: absolute; top: 0; left: 50%; margin-left: -.5em; padding: 10px 20px; border-top: 0; border-radius: 5px; background-color: #555555; display: none;opacity:0;">
-    <span style="margin: 0 5px;">这是一个小提示！</span><i class="remove icon" style="margin-right: -10px;"></i>
+<div class="terse tip">
+    <span style="margin: 0 5px;">这是一个小提示！</span>
+    <i class="remove icon" style="margin-right: -10px;"></i>
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
-    var tips;
-    function closeTips () {
-        clearTimeout(tips);
-        $('.tips').animate({top:'0px',opacity:0},300);
-        $('.tips').fadeOut(500);
-    }
-    //提示框
-    function showTips (msg) {
-        clearTimeout(tips);
-        $('.tips span').html(msg);
-        $('.tips').fadeIn(300, function(){
-            tips = setTimeout(closeTips,5000);
-        });
-        $('.tips').animate({top:'10px',opacity:1},300);
-    }
     <?php if (!empty($msg)): ?>
     showTips("<?=$msg?>");
     <?php endif ?>
+
+    $('.delete').click(function(){
+        var id = $(this).attr('data-id');
+        $.post('/article-setting/doDelete',{id},function(response){
+            if (response['status'] == 200) {
+                showTips(response['message']);
+            }
+        },'json');
+    });
 });
 </script>
 <?php stop(); ?>

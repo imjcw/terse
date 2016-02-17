@@ -12,8 +12,8 @@
         <tr>
             <th>ID</th>
             <th>栏目</th>
+            <th>别名</th>
             <th>文章</th>
-            <th>创建时间</th>
             <th>简介</th>
             <th>操作</th>
         </tr>
@@ -24,21 +24,32 @@
                 <td colspan="8">暂时没有任何栏目</td>
             </tr>
         <?php endif ?>
-        <?php foreach ($pageData as $val) { ?>
+        <?php foreach ($pageData as $key => $val) { ?>
         <tr>
-            <td class="collapsing"><?=$val['id']?></td>
+            <td class="collapsing"><?=$key?></td>
             <td><?=$val['name']?></td>
-            <td>0 篇</td>
-            <td><?=$val['create_time']?></td>
-            <td><?=$val['description']?></td>
+            <td><?=$val['nickname']?></td>
+            <td><a href="/article-setting/search.html?column=<?=$key?>"><?=$val['articles']?> 篇</a></td>
+            <td class="break"><?=$val['description']?></td>
             <td>
-                <a class="edit" href="/column-setting/edit?id=<?=$val['id']?>">修改</a>
+                <a class="edit" href="/column-setting/edit?id=<?=$key?>">修改</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/column-setting/doDelete?id=<?=$val['id']?>">删除</a>
+                <a class="delete" href="/column-setting/doDelete?id=<?=$key?>">删除</a>
             </td>
         </tr>
         <?php }?>
     </tbody>
 </table>
 </div>
+<div class="terse tip">
+    <span style="margin: 0 5px;">这是一个小提示！</span>
+    <i class="remove icon" style="margin-right: -10px;"></i>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    <?php if (!empty($msg)): ?>
+    showTips("<?=$msg?>");
+    <?php endif ?>
+});
+</script>
 <?php stop(); ?>

@@ -75,4 +75,15 @@ class ArticleBiz
         $article_service = new ArticleService();
         return $article_service->updateOneArticleStatus($id);
     }
+
+    public function getArticlesByColumnIds($column_ids)
+    {
+        $service = new ArticleService();
+        return $service->getArticlesByColumnIds($column_ids);
+    }
+    public function search($params)
+    {
+        $service = new ArticleService();
+        return $service->search($params);
+    }
 }
