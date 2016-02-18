@@ -1,4 +1,20 @@
 <?php extend('extend/extend'); ?>
+<?php start('style'); ?>
+<style type="text/css">
+    .ui.attached.header{
+        margin-top: 0;
+    }
+    .ui.toggle.checkbox input:checked~.box:before, .ui.toggle.checkbox input:checked~label:before{
+        background-color: #2185D0 !important;
+    }
+    .ui.popup{
+        padding: .3em .5em;
+    }
+    .icon.link{
+        color: #000000;
+    }
+</style>
+<?php stop(); ?>
 <?php start('content'); ?>
 <!--内容-->
 <h3 class="ui top attached header">
@@ -31,17 +47,29 @@
             <td><?=$val['title']?></td>
             <td><a href="/article-setting/search?author=<?=$val['author']?>"><?=$val['author']?></a></td>
             <td><?=$val['column_id']?></td>
-            <td><?=$val['is_show']?></td>
-            <td><?=$val['create_time']?></td>
             <td>
-                <a class="edit" href="/article-setting/edit?id=<?=$key?>">修改</a>
-                &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" data-id="<?=$key?>">删除</a>
+                <span class="ui toggle checkbox">
+                    <?php if ($val['is_show']): ?>
+                    <input type="checkbox" name="public" checked="checked" data-id="<?=$key?>">
+                    <label>显示</label>
+                    <?php else: ?>
+                    <input type="checkbox" name="public" data-id="<?=$key?>">
+                    <label>隐藏</label>
+                    <?php endif ?>
+                </span>
+            </td>
+            <td><?=$val['create_time']?></td>
+            <td style="font-size: 12px;">
+                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/article-setting/edit?id=<?=$key?>"></i>
+                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action=""></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-id="<?=$key?>"></i>
             </td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
+    共 100 页
+<?php pagination();?>
 </div>
 <div class="terse tip">
     <span style="margin: 0 5px;">这是一个小提示！</span>
@@ -52,8 +80,19 @@ $(document).ready(function(){
     <?php if (!empty($msg)): ?>
     showTips("<?=$msg?>");
     <?php endif ?>
+    //开启提示框
+    $('.icon.link').popup({
+        inline: true
+    });
 
-    $('.delete').click(function(){
+    //编辑
+    $('.write.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_self');
+    });
+
+    //删除
+    $('.trash.link').click(function(){
         var id = $(this).attr('data-id');
         $.post('/article-setting/doDelete',{id},function(response){
             if (response['status'] == 200) {
@@ -61,6 +100,33 @@ $(document).ready(function(){
             }
         },'json');
     });
+
+    for (var i = $('.toggle.checkbox').length - 1; i >= 0; i--) {
+        $('.toggle.checkbox:eq('+i+')').checkbox().first().checkbox({
+            onChecked: function() {
+                var id = $(this).attr('data-id');
+                var msg = '显示';
+                $.post('/article-setting/changeVisible',{id,status:1}).success(function(){
+                    showTips('文章显示成功！');
+                }).error(function(){
+                    msg = '隐藏';
+                    showTips('文章显示失败！');
+                });
+                $(this).siblings('label').html(msg);
+            },
+            onUnchecked: function() {
+                var id = $(this).attr('data-id');
+                var msg = '隐藏';
+                $.post('/article-setting/changeVisible',{id,status:0}).success(function(){
+                    showTips('文章隐藏成功！');
+                }).error(function(){
+                    msg = '显示';
+                    showTips('文章隐藏失败！');
+                });
+                $(this).siblings('label').html(msg);
+            },
+        });
+    }
 });
 </script>
 <?php stop(); ?>

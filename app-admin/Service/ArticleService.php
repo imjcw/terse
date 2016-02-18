@@ -11,6 +11,7 @@ class ArticleService
         return $article_model
                     ->where(array('is_use' => 1))
                     ->orderBy('id')
+                    ->paginate(20)
                     ->all();
     }
 
@@ -121,5 +122,14 @@ class ArticleService
     {
         $model = new ArticleModel();
         return $model->whereIn('column_id',$column_ids)->where(array('is_use' => 1))->all();
+    }
+
+    public function changeVisible($id,$status=0)
+    {
+        $model = new ArticleModel();
+        if (isset($id) && $id) {
+            $model = $model->where('id',$id);
+        }
+        return $model->update(array('is_show' => $status));
     }
 }

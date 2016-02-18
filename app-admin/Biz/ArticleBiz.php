@@ -86,4 +86,10 @@ class ArticleBiz
         $service = new ArticleService();
         return $service->search($params);
     }
+
+    public function changeVisible($id,$status)
+    {
+        $service = new ArticleService();
+        return $service->changeVisible($id,$status);
+    }
 }

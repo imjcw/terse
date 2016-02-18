@@ -2,6 +2,7 @@
 namespace Admin\Controller;
 
 use Admin\Biz\ArticleBiz;
+use Lib\View\Pagination;
 use Admin\Biz\ColumnBiz;
 use Admin\Controller\BaseController;
 
@@ -13,7 +14,7 @@ class ArticleSettingController extends BaseController
      * @author marvin <imjcw@imjcw.com>
      * @date   2016-01-25
      */
-    public function index(){
+    public function index(){//$t = new Pagination;dd($t->pagination());
         //获取所有文章
         $article_biz = new ArticleBiz();
         $articles = $article_biz->getAll();
@@ -68,6 +69,20 @@ class ArticleSettingController extends BaseController
     }
 
     /**
+     * 改变文章显示状态
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-18
+     */
+    public function changeVisible()
+    {
+        $id = intval($_POST['id']);
+        $status = intval($_POST['status']);
+        $biz = new ArticleBiz();
+        $result = $biz->changeVisible($id,$status);
+        return $result ? json('success！') : json('fault！', 403);
+    }
+    /**
      * 展示文章添加页面
      * @author marvin <imjcw@imjcw.com>
      * @date   2016-01-25
@@ -89,7 +104,7 @@ class ArticleSettingController extends BaseController
         if (empty($data)) {
             return json('error');
         }
-
+        $data['author'] = 'test';
         $article_biz = new ArticleBiz();
         $result = $article_biz->addArticle($data);
         $page = $result ? 'index' : '/error';
@@ -172,6 +187,14 @@ class ArticleSettingController extends BaseController
         return $result ? json('删除文章成功！') : json('删除文章失败！');
     }
 
+    /**
+     * 组合数据
+     * @param  [type] $articles [description]
+     * @param  [type] $columns  [description]
+     * @return [type]           [description]
+     * @author marvin <imjcw@imjcw.com>
+     * @date   2016-02-18
+     */
     public function buildPageData($articles,$columns)
     {
         foreach ($columns as $columns) {
@@ -184,7 +207,7 @@ class ArticleSettingController extends BaseController
             $data[$id]['author'] = $article['author'];
             $data[$id]['description'] = $article['description'];
             $data[$id]['column_id'] = $column_name[$article['column_id']];
-            $data[$id]['is_show'] = $article['is_show'] ? '是' : '否';
+            $data[$id]['is_show'] = $article['is_show'];
             $data[$id]['create_time'] = $article['create_time'];
         }
         return $data;
