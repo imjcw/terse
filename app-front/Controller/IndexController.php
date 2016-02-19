@@ -1,6 +1,9 @@
 <?php
 namespace Front\Controller;
 
+use Admin\Biz\ArticleBiz;
+use Admin\Biz\ColumnBiz;
+
 class IndexController
 {
     /**

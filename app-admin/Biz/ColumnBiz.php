@@ -73,4 +73,10 @@ class ColumnBiz
         $service = new ColumnService();
         return $service->getColumnByIds($id);
     }
+
+    public function getColumnByName($name)
+    {
+        $service = new ColumnService();
+        return $service->getColumnByName($name);
+    }
 }

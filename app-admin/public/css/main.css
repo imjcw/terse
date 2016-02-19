@@ -171,3 +171,7 @@ table td.break{
     word-break: break-all;
     white-space: normal;
 }
+
+.text.red{
+    color: #FF0000;
+}

@@ -1,6 +1,9 @@
 <?php
 namespace Front\Controller;
 
+use Front\Biz\ArticleBiz;
+use Admin\Biz\ColumnBiz;
+
 class ArticleController
 {
     /**
@@ -10,8 +13,15 @@ class ArticleController
      * @date   2016-01-27
      */
     public function index(){
-        $data['title'] = '来来来，测试一下';
-        $data['content'] = '内容：来来来，测试一下';
-        return view('/article')->with(array('data' => $data));
+        $route = $_SESSION['route'];
+        $article_id = end($route);
+        $column_name = $route[count($route) - 2 ];
+        //获取相应的栏目
+        $column_biz = new ColumnBiz();
+        $column = $column_biz->getColumnByName($column_name);
+        //获取所有文章
+        $article_biz = new ArticleBiz();
+        $article = $article_biz->get($article_id,$column['id']);
+        return view('/article')->with(array('data' => $article));
     }
 }

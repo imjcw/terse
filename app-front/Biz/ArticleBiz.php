@@ -1,89 +1,25 @@
 <?php
-    namespace App\Biz;
+namespace Front\Biz;
 
-    use App\Service\ColumnService;
-    use App\Service\ArticleService;
-    use App\Service\ContentService;
+use Admin\Service\ArticleService;
+use Admin\Service\ContentService;
 
-    /**
-    * Article Biz
-    */
-    class ArticleBiz
+class ArticleBiz
+{
+    public function get($article_id, $column_id)
     {
-        public function getAll()
-        {
-            $article_service = new ArticleService();
-            return $article_service->getAllArticles();
+        $column_service = new ArticleService();
+        $article = $column_service->getOneArticle($article_id);
+
+        if ($article['column_id'] !== $column_id) {
+            return false;
         }
 
-        public function getOne($id = 0)
-        {
-            if (empty($id)) {
-                return false;
-            }
+        $content_service = new ContentService();
+        $content = $content_service->getContentById($article['content_id']);
 
-            $column_service = new ArticleService();
-            $article = $column_service->getOneArticle($id);
+        $article['content'] = $content['content'];
 
-            if (!$article) {
-                return false;
-            }
-
-            $content_service = new ContentService();
-            $content = $content_service->getContentById($article['content_id']);
-
-            $article['content'] = $content['content'];
-
-            return $article;
-        }
-
-        public function addArticle($data = array())
-        {
-            if (empty($data)) {
-                return false;
-            }
-
-            $content_service = new ContentService();
-            $content_id = $content_service->insertContent(array('content' => $data['content']));
-
-            if (!$content_id) {
-                return false;
-            }
-            unset($data['content']);
-            $data['content_id'] = $content_id;
-
-            $article_service = new ArticleService();
-            return $article_service->addOneArticle($data);
-        }
-
-        public function editArticle($id = 0, $data = array())
-        {
-            if (empty($id)) {
-                return false;
-            }
-
-            if (empty($data)) {
-                return false;
-            }
-
-            $content = $data['content'];
-            unset($data['content']);
-            $column_service = new ArticleService();
-            $content_id = $column_service->editOneArticle($id, $data);
-
-            $content_service = new ContentService();
-            $result = $content_service->updateContentById($content_id, array('content' => $content));
-
-            return $result;
-        }
-
-        public function deleteArticle($id = 0)
-        {
-            if (empty($id)) {
-                return false;
-            }
-
-            $article_service = new ArticleService();
-            return $article_service->updateOneArticleStatus($id);
-        }
+        return $article;
     }
+}

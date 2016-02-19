@@ -10,36 +10,37 @@
         <tr>
             <th>ID</th>
             <th>标题</th>
-            <th>是否隐藏</th>
+            <th>作者</th>
+            <th>所属栏目</th>
             <th>创建时间</th>
-            <th>简介</th>
             <th>操作</th>
         </tr>
     </thead>
     <tbody>
-        <?php if (empty($pageData)): ?>
+        <?php if (empty($data)): ?>
             <tr class="terse center">
-                <td colspan="8">干净的回收站</td>
+                <td colspan="6">干净的回收站</td>
             </tr>
         <?php endif ?>
-        <?php foreach ($pageData as $val) { ?>
+        <?php $i=1; foreach ($data as $row) { ?>
         <tr>
-            <td class="collapsing"><?=$val['id']?></td>
-            <td><?=$val['title']?></td>
-            <td>否</td>
-            <td>20151201</td>
-            <td>这里是一些简洁的简介内容。</td>
+            <td class="collapsing"><?=$i++?></td>
+            <td><?=$row['title']?></td>
+            <td><?=$row['author']?></td>
+            <td><?=$row['column_id']?></td>
+            <td><?=$row['create_time']?></td>
             <td>
-                <a class="edit" href="/recycle/reuse?id=<?=$val['id']?>">恢复</a>
+                <a class="edit" href="/recycle-setting/reuse?id=<?=$row['id']?>">恢复</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/recycle/doDelete?id=<?=$val['id']?>">删除</a>
+                <a class="delete text red" href="/recycle-setting/doDelete?id=<?=$row['id']?>">彻底删除</a>
             </td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
+    共 <?=$_SESSION['pagesize']?> 页 
+<?php pagination();?>
 </div>
 <script type="text/javascript">
-    $('.sub_nav a:eq(3)').addClass('active');
 </script>
 <?php stop();?>

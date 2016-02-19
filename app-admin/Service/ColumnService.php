@@ -56,7 +56,7 @@ class ColumnService
         $column_model = new ColumnModel();
         $result = $column_model
                     ->where('name', $name)
-                    ->one();
+                    ->all();
 
         return $result;
     }
@@ -75,5 +75,14 @@ class ColumnService
             $model = $model->whereIn('id', $id);
         }
         return $model->all();
+    }
+
+    public function getColumnByName($name)
+    {
+        $model = new ColumnModel();
+        if (isset($name) && $name) {
+            $model = $model->where('name', $name);
+        }
+        return $model->one();
     }
 }

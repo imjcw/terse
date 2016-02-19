@@ -7,5 +7,6 @@ $routes = array (
     2 => 'zaishiyici',
     3 => 'hehe',
     4 => 'vsed',
+    5 => 'sdgfs',
   ),
 );

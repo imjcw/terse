@@ -20,6 +20,7 @@ class ArticleService
         $article_model = new ArticleModel();
         return $article_model
                     ->where('is_use', 0)
+                    ->paginate(20)
                     ->all();
     }
 
