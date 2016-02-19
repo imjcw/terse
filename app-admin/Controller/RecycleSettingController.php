@@ -7,8 +7,8 @@ use Admin\Controller\BaseController;
 class RecycleSettingController extends BaseController
 {
     public function index(){
-        $recyle_biz = new RecycleBiz();
-        $pageData = $recyle_biz->getAll();
+        $biz = new RecycleBiz();
+        $pageData = $biz->getAll();
         $count = count($pageData);
 
         return view('recycle/index')->with(array(

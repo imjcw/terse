@@ -8,15 +8,33 @@
     <form class="ui form" action="/article-setting/doAdd" method="post">
         <div class="field">
             <label>文章名称</label>
-            <input type="text" name="title" placeholder="文章名称"></div>
-        <div class="field">
-             <label>所属栏目：</label>
-             <select name="column_id" class="mf_dropdown ui dropdown">
-                <option value="0">请选择</option>
-                <?php foreach ($column as $value): ?>
-                <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
-                <?php endforeach; ?>
-             </select>
+            <input type="text" name="title" placeholder="文章名称">
+        </div>
+        <div class="two fields">
+            <div class="field">
+                 <label>所属栏目：</label>
+                 <select name="column_id" class="mf_dropdown ui dropdown">
+                    <option value="0">请选择</option>
+                    <?php foreach ($column as $value): ?>
+                    <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                    <?php endforeach; ?>
+                 </select>
+            </div>
+            <div class="field">
+                <label>标签</label>
+                <div class="ui fluid multiple search selection dropdown">
+                    <input name="tags" type="hidden" value="angular0,angular1">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">标签，输入新建标签</div>
+                    <div class="menu">
+                        <div class="item" data-value="angular">Angular</div>
+                        <div class="item" data-value="angular0">Angular0</div>
+                        <div class="item" data-value="angular1">Angular1</div>
+                        <div class="item" data-value="angular2">Angular2</div>
+                        <div class="item" data-value="angular3">Angular3</div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="field">
             <label>文章描述</label>
@@ -34,6 +52,9 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
+    $('.ui.dropdown.fluid').dropdown({
+        allowAdditions: true
+    });
 });
 </script>
 <?php stop(); ?>

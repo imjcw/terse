@@ -115,6 +115,7 @@ class ArticleService
         return $model
                 ->where(array('is_use' => 1))
                 ->orderBy('id')
+                ->paginate(20)
                 ->all();
     }
 

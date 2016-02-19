@@ -23,6 +23,10 @@
 <div class="ui attached segment">
 <a class="ui blue basic button" href="/article-setting/add"><i class="tiny plus icon"></i> 添加</a>
 <a class="ui red basic button" href="/article-setting/add"><i class="tiny remove icon"></i> 批量删除</a>
+<div class="ui icon input">
+  <input id="search" type="text" placeholder="搜索...">
+  <i class="search icon"></i>
+</div>
 <table class="ui blue unstackable selectable celled table">
     <thead>
         <tr>
@@ -36,20 +40,20 @@
         </tr>
     </thead>
     <tbody>
-        <?php if (empty($pageData)): ?>
+        <?php if (empty($data)): ?>
             <tr class="terse center">
-                <td colspan="6">暂时没有任何文章</td>
+                <td colspan="7">暂时没有任何文章</td>
             </tr>
         <?php endif ?>
-        <?php $i=1; foreach ($pageData as $key => $val) { ?>
+        <?php $i=1; foreach ($data as $key => $row) { ?>
         <tr>
             <td class="collapsing"><?=$i++?></td>
-            <td><?=$val['title']?></td>
-            <td><a href="/article-setting/search?author=<?=$val['author']?>"><?=$val['author']?></a></td>
-            <td><?=$val['column_id']?></td>
+            <td><?=$row['title']?></td>
+            <td><a href="/article-setting/search?author=<?=$row['author']?>"><?=$row['author']?></a></td>
+            <td><?=$row['column_id']?></td>
             <td>
                 <span class="ui toggle checkbox">
-                    <?php if ($val['is_show']): ?>
+                    <?php if ($row['is_show']): ?>
                     <input type="checkbox" name="public" checked="checked" data-id="<?=$key?>">
                     <label>显示</label>
                     <?php else: ?>
@@ -58,7 +62,7 @@
                     <?php endif ?>
                 </span>
             </td>
-            <td><?=$val['create_time']?></td>
+            <td><?=$row['create_time']?></td>
             <td style="font-size: 12px;">
                 <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/article-setting/edit?id=<?=$key?>"></i>
                 <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action=""></i>
@@ -68,18 +72,32 @@
         <?php } ?>
     </tbody>
 </table>
-    共 100 页
+    共 <?=$_SESSION['pagesize']?> 页 
 <?php pagination();?>
 </div>
 <div class="terse tip">
     <span style="margin: 0 5px;">这是一个小提示！</span>
     <i class="remove icon" style="margin-right: -10px;"></i>
 </div>
+<?php stop(); ?>
+<?php start('script');?>
 <script type="text/javascript">
 $(document).ready(function(){
     <?php if (!empty($msg)): ?>
     showTips("<?=$msg?>");
     <?php endif ?>
+    //获取回车搜索响应事件
+    $(function(){
+        $('#search').on('keypress',function(event){
+            if(event.keyCode == '13'){
+                if (!$(this).val()) {
+                    showTips('请输入搜索内容！');
+                    return;
+                }
+            }
+        });
+    });
+
     //开启提示框
     $('.icon.link').popup({
         inline: true

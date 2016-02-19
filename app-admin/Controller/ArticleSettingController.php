@@ -2,7 +2,6 @@
 namespace Admin\Controller;
 
 use Admin\Biz\ArticleBiz;
-use Lib\View\Pagination;
 use Admin\Biz\ColumnBiz;
 use Admin\Controller\BaseController;
 
@@ -14,7 +13,7 @@ class ArticleSettingController extends BaseController
      * @author marvin <imjcw@imjcw.com>
      * @date   2016-01-25
      */
-    public function index(){//$t = new Pagination;dd($t->pagination());
+    public function index(){
         //获取所有文章
         $article_biz = new ArticleBiz();
         $articles = $article_biz->getAll();
@@ -29,7 +28,7 @@ class ArticleSettingController extends BaseController
 
         return view('article/index')->with(array(
             'count' => $count,
-            'pageData' => $data,
+            'data' => $data,
             'msg' => $msg
         ));
     }
@@ -63,7 +62,7 @@ class ArticleSettingController extends BaseController
 
         return view('article/index')->with(array(
             'count' => $count,
-            'pageData' => $data,
+            'data' => $data,
             'msg' => $msg
         ));
     }
@@ -82,6 +81,7 @@ class ArticleSettingController extends BaseController
         $result = $biz->changeVisible($id,$status);
         return $result ? json('success！') : json('fault！', 403);
     }
+
     /**
      * 展示文章添加页面
      * @author marvin <imjcw@imjcw.com>
