@@ -45,6 +45,8 @@
     <span style="margin: 0 5px;">这是一个小提示！</span>
     <i class="remove icon" style="margin-right: -10px;"></i>
 </div>
+<?php stop(); ?>
+<?php start('script'); ?>
 <script type="text/javascript">
 $(document).ready(function(){
     <?php if (!empty($msg)): ?>

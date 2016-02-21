@@ -90,6 +90,10 @@ class ArticleSettingController extends BaseController
     public function add(){
         $column_biz = new ColumnBiz();
         $column_list = $column_biz->getAll();
+        if (empty($column_list)) {
+            $_SESSION['msg'] = '请先添加栏目！';
+            return redirect('/column-setting/index');
+        }
         return view('article/add')->with(array('column' => $column_list));
     }
 

@@ -8,11 +8,17 @@ use Admin\Exception\TranslateException;
 
 class ColumnSettingController extends BaseController
 {
+    /**
+     * 栏目管理首页
+     * @return [type] [description]
+     */
     public function index(){
+        /* 获取所有栏目 */
         $column_biz = new ColumnBiz();
         $columns = $column_biz->getAll();
-        $column_ids = array_column($columns,'id');
 
+        /* 获取文章 */
+        $column_ids = array_column($columns,'id');
         $article_biz = new ArticleBiz();
         $articles = $article_biz->getArticlesByColumnIds($column_ids);
         foreach ($articles as $article) {
@@ -35,10 +41,17 @@ class ColumnSettingController extends BaseController
         ));
     }
 
+    /**
+     * 添加栏目页显示
+     */
     public function add(){
         return view('column/add');
     }
 
+    /**
+     * 添加栏目操作
+     * @return [type] [description]
+     */
     public function doAdd(){
         $data = $_POST;
         if (empty($data)) {
@@ -47,8 +60,12 @@ class ColumnSettingController extends BaseController
 
         $column_biz = new ColumnBiz();
         $result = $column_biz->addColumn($data);
-        $translate = new TranslateException();
-        $name = $translate->get_pinyin($data['name']);
+        if ($data['nickname']) {
+            $name = $data['nickname'];
+        } else {
+            $translate = new TranslateException();
+            $name = $translate->get_pinyin($data['name']);
+        }
         require(ROOT.'/app-front/routes.php');
         $routes['article'][] = $name;
         $str_start = "<?php\n";
@@ -60,6 +77,10 @@ class ColumnSettingController extends BaseController
         return redirect($page);
     }
 
+    /**
+     * 编辑栏目页显示
+     * @return [type] [description]
+     */
     public function edit(){
         $id = intval($_GET['id']);
         if (empty($id)) {
@@ -70,6 +91,10 @@ class ColumnSettingController extends BaseController
         return view('column/edit')->with($pageData);
     }
 
+    /**
+     * 编辑栏目操作
+     * @return [type] [description]
+     */
     public function doEdit(){
         $id = intval($_GET['id']);
         if (empty($id)) {
@@ -86,6 +111,10 @@ class ColumnSettingController extends BaseController
         return redirect('index');
     }
 
+    /**
+     * 删除栏目操作
+     * @return [type] [description]
+     */
     public function doDelete(){
         $id = intval($_GET['id']);
         if (empty($id)) {

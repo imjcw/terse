@@ -8,9 +8,7 @@ class ColumnService
     public function getAllColumns()
     {
         $column_model = new ColumnModel();
-        return $column_model
-                    ->where('is_use', 1)
-                    ->all();
+        return $column_model->all();
     }
 
     public function getOneColumn($id = 0)
