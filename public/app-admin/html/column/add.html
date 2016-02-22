@@ -2,7 +2,7 @@
 <?php start('content'); ?>
 <!--内容-->
 <h3 class="ui top attached header">
-    <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 栏目管理
+    <i class="file text outline icon"></i> 栏目管理
 </h3>
 <div class="ui attached segment">
     <form class="ui form" action="/column-setting/doAdd" method="post">
@@ -24,11 +24,56 @@
         </div>
     </form>
 </div>
+<?php stop(); ?>
+<?php start('script'); ?>
 <script type="text/javascript">
 $(document).ready(function(){
     $('.go_back').click(function(){
         history.back();
     });
+
+    //表单验证
+    $('.ui.form').form({
+        inline : true,
+        on : 'blur',
+        fields: {
+            name : {
+                identifier : 'name',
+                rules : [
+                {
+                    type : 'maxLength[30]',
+                    prompt : '请输入30字以下的栏目名'
+                },
+                {
+                    type : 'empty',
+                    prompt : '请输入栏目名'
+                }
+                ]
+            },
+            nickname : {
+                identifier : 'nickname',
+                rules : [
+                {
+                    type : 'maxLength[30]',
+                    prompt : '请输入30字以下的栏目名'
+                },
+                {
+                    type : 'regExp[/^[a-zA-Z]{0,45}$/gi]',
+                    prompt : '请输入英文别名'
+                }
+                ]
+            },
+            description : {
+                identifier : 'description',
+                rules : [
+                {
+                    type : 'maxLength[50]',
+                    prompt : '请输入50字及以下的栏目描述'
+                }
+                ]
+            },
+        }
+  });
 });
 </script>
 <?php stop(); ?>

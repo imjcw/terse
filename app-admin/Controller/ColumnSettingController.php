@@ -72,9 +72,8 @@ class ColumnSettingController extends BaseController
         $str = '$routes = '.var_export($routes,true);
         $str_end = ';';
         file_put_contents(ROOT.'/app-front/routes.php', $str_start.$str.$str_end);
-        $page = $result ? 'index' : '/error';
         $_SESSION['msg'] = $result ? '添加栏目成功！' : '添加栏目失败！';
-        return redirect($page);
+        return redirect('/column-setting/index');
     }
 
     /**
@@ -108,7 +107,7 @@ class ColumnSettingController extends BaseController
         $column_biz = new ColumnBiz();
         $result = $column_biz->editColumn($data, $id);
         $_SESSION['msg'] = $result ? '编辑栏目成功！' : '编辑栏目失败！';
-        return redirect('index');
+        return redirect('/column-setting/index');
     }
 
     /**

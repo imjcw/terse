@@ -175,3 +175,8 @@ table td.break{
 .text.red{
     color: #FF0000;
 }
+
+.ui.top.header .icon{
+    font-size: 1.28em;
+    margin-top: -3px;
+}
