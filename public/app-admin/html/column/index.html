@@ -31,46 +31,59 @@
             </tr>
         </thead>
         <tbody>
-            <?php if (empty($pageData)): ?>
+            <?php if (empty($columns)): ?>
                 <tr class="terse center">
                     <td colspan="8">暂时没有任何栏目</td>
                 </tr>
             <?php endif ?>
-            <?php foreach ($pageData as $key => $val) { ?>
+            <?php foreach ($columns as $id => $column) { ?>
             <tr>
-                <td class="collapsing"><?=$key?></td>
-                <td><?=$val['name']?></td>
-                <td><?=$val['nickname']?></td>
-                <td><a href="/article-setting/search.html?column=<?=$key?>"><?=$val['articles']?> 篇</a></td>
+                <td class="collapsing"><?=$id?></td>
+                <td><?=$column['name']?></td>
+                <td><?=$column['nickname']?></td>
+                <td><a href="/article-setting/search.html?column=<?=$id?>"><?=$column['articles']?> 篇</a></td>
                 <td>
                     <span class="ui toggle checkbox">
-                        <?php if ($val['is_show']): ?>
-                        <input type="checkbox" name="public" checked="checked" data-id="<?=$key?>">
+                        <?php if ($column['is_show']): ?>
+                        <input type="checkbox" name="public" checked="checked" data-id="<?=$id?>">
                         <label></label>
                         <?php else: ?>
-                        <input type="checkbox" name="public" data-id="<?=$key?>">
+                        <input type="checkbox" name="public" data-id="<?=$id?>">
                         <label></label>
                         <?php endif ?>
                     </span>
                 </td>
-                <td class="break"><?=$val['description']?></td>
+                <td class="break"><?=$column['description']?></td>
                 <td style="font-size: 12px;">
-                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/column-setting/edit?id=<?=$key?>"></i>
-                    <i class="circular red trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/column-setting/doDelete?id=<?=$key?>"></i>
+                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/column-setting/edit?id=<?=$id?>"></i>
+                    <i class="circular red trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/column-setting/doDelete?id=<?=$id?>" data-article="<?=$column['articles']?>"></i>
                 </td>
             </tr>
             <?php }?>
         </tbody>
     </table>
 </div>
-<div class="terse tip">
-    <span style="margin: 0 5px;">这是一个小提示！</span>
-    <i class="remove icon" style="margin-right: -10px;"></i>
+<div class="ui small modal transition info" style="margin-top: -98px;">
+    <div class="header">title</div>
+    <div class="content">
+        <p>content</p>
+    </div>
+    <div class="actions">
+        <div class="ui right labeled icon negative button cancel">
+            不，只删除该栏目
+            <i class="close icon"></i>
+        </div>
+        <div class="ui positive right labeled icon button">
+            是，删除该栏目下所有文章
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
 </div>
 <?php stop(); ?>
 <?php start('script'); ?>
 <script type="text/javascript">
 $(document).ready(function(){
+    var del_href;
     <?php if (!empty($msg)): ?>
     showTips("<?=$msg?>");
     <?php endif ?>
@@ -78,6 +91,13 @@ $(document).ready(function(){
     $('.icon.link').popup({
         inline: true
     });
+
+    //弹出框
+    function show_model(title,content){
+        $('.small.modal').modal('show');
+        $('.small.modal .header').html(title);
+        $('.small.modal .content p').html(content);
+    }
 
     //编辑
     $('.write.link').click(function(){
@@ -87,10 +107,48 @@ $(document).ready(function(){
 
     //删除
     $('.trash.link').click(function(){
-        var href = $(this).attr('data-action');
-        window.open(href,'_self');
+        del_href = $(this).attr('data-action');
+        if ($(this).attr('data-article')) {
+            show_model('删除提示！','由于该栏目下存在文章，是否删除该栏目下所有文章？');
+        } else {
+            window.open(del_href,'_self');
+        }
     });
 
+    //只删除该栏目
+    $('.negative.icon.button').click(function(){
+        window.open(del_href,'_self');
+    });
+
+    //删除该栏目，及栏目下文章
+    $('.positive.icon.button').click(function(){
+        del_href = del_href + "&article=all";
+        window.open(del_href,'_self');
+    });
+
+    for (var i = $('.toggle.checkbox').length - 1; i >= 0; i--) {
+        $('.toggle.checkbox:eq('+i+')').checkbox().first().checkbox({
+            onChecked: function() {
+                var check = $(this);
+                var id = $(this).attr('data-id');
+                $.post('/column-setting/changeVisible',{id,status:1}).success(function(){
+                    showTips('栏目启用成功！');
+                }).error(function(){
+                    showTips('栏目启用失败！');
+                    $('input[data-id='+id+']').parent().checkbox('set unchecked');
+                });
+            },
+            onUnchecked: function() {
+                var id = $(this).attr('data-id');
+                $.post('/column-setting/changeVisible',{id,status:0}).success(function(){
+                    showTips('栏目禁用成功！');
+                }).error(function(){
+                    showTips('栏目禁用失败！');
+                    $('input[data-id='+id+']').parent().checkbox('set checked');
+                });
+            },
+        });
+    }
 });
 </script>
 <?php stop(); ?>

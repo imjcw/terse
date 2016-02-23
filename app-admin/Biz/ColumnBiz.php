@@ -5,60 +5,92 @@ use Admin\Service\ColumnService;
 
 class ColumnBiz
 {
-    public function getAll()
+    /**
+     * 获取所有栏目
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-23
+     */
+    public function getColumns()
     {
-        $column_service = new ColumnService();
-        return $column_service->getAllColumns();
+        $service = new ColumnService();
+        return $service->getColumns();
     }
 
-    public function getOne($id = 0)
+    /**
+     * 通过ID获取栏目
+     * @param  [type]  $id [description]
+     * @return [type]      [description]
+     * @author marvin
+     * @date   2016-02-23
+     */
+    public function getColumn($id)
     {
-        if (empty($id)) {
-            return false;
-        }
-
-        $column_service = new ColumnService();
-        return $column_service->getOneColumn($id);
+        $service = new ColumnService();
+        return $service->getColumn($id);
     }
 
-    public function addColumn($data = array())
+    /**
+     * 添加栏目
+     * @param  [type] $data [description]
+     * @author marvin
+     * @date   2016-02-23
+     */
+    public function addColumn($data)
     {
-        if (empty($data)) {
-            return false;
-        }
         $data['create_time'] = NULL;
 
-        $column_service = new ColumnService();
-        $result = $column_service->checkExit($data['name']);
+        $service = new ColumnService();
+        //检测栏目名是否重复
+        $result = $service->checkExit('name',$data['name']);
         if ($result) {
             return false;
         }
-
-        $column_service = new ColumnService();
-        $result = $column_service->insertNewColumn($data);
-        return $result;
+        //检测栏目昵称是否重复
+        if (isset($data['nickname']) && $data['nickname']) {
+            $result = $service->checkExit('nickname',$data['nickname']);
+            if ($result) {
+                return false;
+            }
+        }
+        //新建栏目
+        return $service->addColumn($data);
     }
 
-    public function editColumn($data = array(), $id = 0)
+    public function updateColumn($data)
     {
-        $column_service = new ColumnService();
-        $result = $column_service->checkExit($data['name']);
+        $service = new ColumnService();
+        //检测栏目名是否重复
+        $result = $service->checkExit('name',$data['name']);
         if ($result) {
-            return false;
+            if ($result[0]['id'] != $data['id']) {
+                return false;
+            }
         }
-
-        $column_service = new ColumnService();
-        return $column_service->editOneColumn($data, $id);
+        //检测栏目昵称是否重复
+        if (isset($data['nickname']) && $data['nickname']) {
+            $result = $service->checkExit('nickname',$data['nickname']);
+            if ($result) {
+                if ($result[0]['id'] != $data['id']) {
+                    return false;
+                }
+            }
+        }
+        //更新栏目
+        return $service->updateColumn($data);
     }
 
-    public function deleteColumn($id = 0)
+    /**
+     * 删除
+     * @param  integer    $id [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-23
+     */
+    public function deleteColumn($id)
     {
-        if (empty($id)) {
-            return false;
-        }
-
-        $column_service = new ColumnService();
-        return $column_service->updateOneColumnStatus($id);
+        $service = new ColumnService();
+        return $service->deleteColumn($id);
     }
 
     /**
@@ -78,5 +110,19 @@ class ColumnBiz
     {
         $service = new ColumnService();
         return $service->getColumnByName($name);
+    }
+
+    /**
+     * 栏目启用/禁用开关
+     * @param  integer $id     [description]
+     * @param  integer $status [description]
+     * @return [type]          [description]
+     * @author marvin
+     * @date   2016-02-23
+     */
+    public function changeVisible($id, $status=0)
+    {
+        $service = new ColumnService();
+        return $service->changeVisible($id, $status);
     }
 }

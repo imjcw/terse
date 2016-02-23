@@ -92,4 +92,23 @@ class ArticleBiz
         $service = new ArticleService();
         return $service->changeVisible($id,$status);
     }
+
+    /**
+     * 删除栏目后，更改栏目下所有文章的栏目ID
+     * @param  [type]     $id [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-23
+     */
+    public function updateColumnId($id)
+    {
+        $service = new ArticleService();
+        return $service->updateColumnId($id);
+    }
+
+    public function deleteArticlesByColumnId($id)
+    {
+        $service = new ArticleService();
+        return $service->deleteArticlesByColumnId($id);
+    }
 }

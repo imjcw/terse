@@ -54,8 +54,8 @@ $(document).ready(function(){
                     prompt : '请输入30字以下的栏目名'
                 },
                 {
-                    type : 'regExp[/^[a-zA-Z]{0,45}$/gi]',
-                    prompt : '请输入英文别名'
+                    type : 'regExp[/^[a-zA-Z0-9\-]{0,45}$/gi]',
+                    prompt : '请输入英文、数字和-组成的别名'
                 }
                 ]
             },

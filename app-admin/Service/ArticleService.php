@@ -134,4 +134,22 @@ class ArticleService
         }
         return $model->update(array('is_show' => $status));
     }
+
+    public function updateColumnId($id)
+    {
+        $model = new ArticleModel();
+        if (isset($id) && $id) {
+            $model = $model->where('column_id',$id);
+        }
+        return $model->update(array('column_id' => 0,'is_show'=>0));
+    }
+
+    public function deleteArticlesByColumnId($id)
+    {
+        $model = new ArticleModel();
+        if (isset($id) && $id) {
+            $model = $model->where('column_id',$id);
+        }
+        return $model->delete();
+    }
 }
