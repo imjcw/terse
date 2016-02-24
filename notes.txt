@@ -44,7 +44,7 @@ CREATE TABLE `admin_user`(
 
 CREATE TABLE `setting`(
 `id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-`name` varchar(30) NOT NULL COMMENT '配置名',
+`title` varchar(30) NOT NULL COMMENT '配置名',
 `value` varchar(300) NOT NULL COMMENT '配置值',
 `description` varchar(300) NOT NULL COMMENT '阐释',
 `create_time` timestamp DEFAULT '0000-00-00 00:00:00',
