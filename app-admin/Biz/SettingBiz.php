@@ -1,21 +1,32 @@
 <?php
-    namespace Admin\Biz;
+namespace Admin\Biz;
 
-    use Admin\Service\SettingService;
+use Admin\Service\SettingService;
+
+class SettingBiz
+{
     /**
-    * Setting Biz
-    */
-    class SettingBiz
+     * 获取系统信息
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getSystemInfo()
     {
-        public function getAll()
-        {
-            $setting_service = new SettingService();
-            return $setting_service->getAll();
-        }
-
-        public function updateSystemInfo($data = array())
-        {
-            $setting_service = new SettingService();
-            return $setting_service->updateSystemInfo($data);
-        }
+        $service = new SettingService();
+        return $service->getSystemInfo();
     }
+
+    /**
+     * 更新系统信息
+     * @param  array  $data [description]
+     * @return [type]       [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function updateSystemInfo($data)
+    {
+        $service = new SettingService();
+        return $service->updateSystemInfo($data);
+    }
+}

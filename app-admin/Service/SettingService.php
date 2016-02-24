@@ -11,7 +11,7 @@ class SettingService
      * @author marvin <imjcw@imjcw.com>
      * @date   2016-01-28
      */
-    public function getAll()
+    public function getSystemInfo()
     {
         $model = new SettingModel();
         return $model->all();
@@ -70,6 +70,12 @@ class SettingService
         return $model->update(array('value' => $params['template_name']));
     }
 
+    /**
+     * 获取当前模板信息
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
     public function getCurrentTemplate()
     {
         $model = new SettingModel();
