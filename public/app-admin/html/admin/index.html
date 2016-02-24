@@ -20,50 +20,31 @@
         </tr>
     </thead>
     <tbody>
-        <?php if (empty($pageData)): ?>
+        <?php if (empty($admins)): ?>
             <tr class="terse center">
-                <td colspan="8">暂时没有任何文章</td>
+                <td colspan="8">暂无管理员</td>
             </tr>
         <?php endif ?>
-        <?php foreach ($pageData as $val) { ?>
+        <?php foreach ($admins as $admin) { ?>
         <tr>
-            <td class="collapsing"><?=$val['id']?></td>
-            <td><?=$val['nickname']?></td>
-            <td><?=$val['name']?></td>
+            <td class="collapsing"><?=$admin['id']?></td>
+            <td><?=$admin['nickname']?></td>
+            <td><?=$admin['name']?></td>
             <td>否</td>
             <td>20151201</td>
             <td>这里是一些简洁的简介内容。</td>
             <td>
-                <a class="edit" href="/admin-setting/edit?id=<?=$val['id']?>">修改</a>
+                <a class="edit" href="/admin-setting/edit?id=<?=$admin['id']?>">修改</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/admin-setting/doDelete?id=<?=$val['id']?>">删除</a>
+                <a class="delete" href="/admin-setting/doDelete?id=<?=$admin['id']?>">删除</a>
             </td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
 </div>
-<div class="tips" style="color: #eeeeee;font-weight: 800;position: absolute; top: 0; left: 50%; margin-left: -.5em; padding: 10px 20px; border-top: 0; border-radius: 5px; background-color: #555555; display: none;opacity:0;">
-    <span style="margin: 0 5px;">这是一个小提示！</span><i class="remove icon" style="margin-right: -10px;"></i>
-</div>
 <script type="text/javascript">
 $(document).ready(function(){
-    var tips;
-    function closeTips () {
-        clearTimeout(tips);
-        $('.tips').animate({top:'0px',opacity:0},300);
-        $('.tips').fadeOut(500);
-    }
-    //提示框
-    function showTips (msg) {
-        clearTimeout(tips);
-        $('.tips span').html(msg);
-        $('.tips').fadeIn(300, function(){
-            tips = setTimeout(closeTips,5000);
-        });
-        $('.tips').animate({top:'10px',opacity:1},300);
-    }
-    showTips('新增文章成功！');
 });
 </script>
 <?php stop(); ?>

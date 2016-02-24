@@ -6,20 +6,29 @@ use Admin\Service\AdminService;
 
 class AdminBiz extends BaseBiz
 {
-    public function getAll()
+    /**
+     * 获取所有的管理员
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getAdmins()
     {
-        $admin_service = new AdminService();
-        return $admin_service->getAllAdmins();
+        $service = new AdminService();
+        return $service->getAdmins();
     }
 
-    public function getOne($id = 0)
+    /**
+     * 获取管理员
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getAdmin($id)
     {
-        if (empty($id)) {
-            return false;
-        }
-
-        $admin_service = new AdminService();
-        $admin = $admin_service->getOneAdmin($id);
+        $service = new AdminService();
+        $admin = $service->getAdmin($id);
         $admin['password'] = '';
 
         return $admin;
