@@ -113,7 +113,7 @@ class ArticleBiz
         $column_service = new ColumnService();
         $column_service->updateArticleNums($data['column'],'subtract');
         $service = new ArticleService();
-        return $service->disableArticle($data['id']);
+        return $service->changeArticleStatus($data['id'],0);
     }
 
     /**

@@ -6,38 +6,50 @@ use Admin\Service\ContentService;
 
 class RecycleBiz
 {
-    public function getAll()
+    /**
+     * 获取所有已禁用的文章
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getArticles()
     {
         $article_service = new ArticleService();
-        return $article_service->getAllDeletedArticles();
+        return $article_service->getAllDisabledArticles();
     }
 
-    public function deleteArticle($id = 0)
+    /**
+     * 物理删除文章
+     * @param  array $params [description]
+     * @return [type]      [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function deleteArticle($params)
     {
-        if (empty($id)) {
-            return false;
-        }
-
         $article_service = new ArticleService();
-        $article = $article_service->deleteOneArticle($id);
+        $result = $article_service->deleteArticle($params['id']);
 
-        if (!$article) {
+        if (!$result) {
             return false;
         }
 
         $content_service = new ContentService();
-        $result = $content_service->deleteOneContent($article['content_id']);
+        $result = $content_service->deleteContent($params['content']);
 
         return $result;
     }
 
-    public function reuseArticle($id = 0)
+    /**
+     * 重用文章
+     * @param  [type]     $id [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function reuseArticle($id)
     {
-        if (empty($id)) {
-            return false;
-        }
-
         $service = new ArticleService();
-        return $service->updateOneArticleStatus($id, 1);
+        return $service->changeArticleStatus($id, 1);
     }
 }

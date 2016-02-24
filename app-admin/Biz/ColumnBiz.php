@@ -57,6 +57,13 @@ class ColumnBiz
         return $service->addColumn($data);
     }
 
+    /**
+     * 更新栏目
+     * @param  [type]     $data [description]
+     * @return [type]           [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
     public function updateColumn($data)
     {
         $service = new ColumnService();
@@ -106,10 +113,18 @@ class ColumnBiz
         return $service->getColumnByIds($id);
     }
 
-    public function getColumnByName($name)
+    /**
+     * 更新文章数目
+     * @param  [type] $id     [description]
+     * @param  [type] $action [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function updateArticleNums($id, $action)
     {
-        $service = new ColumnService();
-        return $service->getColumnByName($name);
+        $column_service = new ColumnService();
+        $column_service->updateArticleNums($id, $action);
     }
 
     /**

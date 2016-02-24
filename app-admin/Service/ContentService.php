@@ -60,15 +60,19 @@ class ContentService
         return $model->update($data);
     }
 
-    public function deleteOneContent($id = 0)
+    /**
+     * 删除文章内容
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function deleteContent($id)
     {
-        if (empty($id)) {
-            return false;
+        $model = new ContentModel();
+        if (isset($id) && $id) {
+            $model = $model->where('id', $id);
         }
-
-        $content_model = new ContentModel();
-        return $content_model
-                    ->where('id', $id)
-                    ->delete();
+        return $model->delete();
     }
 }

@@ -17,22 +17,22 @@
         </tr>
     </thead>
     <tbody>
-        <?php if (empty($data)): ?>
+        <?php if (empty($articles)): ?>
             <tr class="terse center">
                 <td colspan="6">干净的回收站</td>
             </tr>
         <?php endif ?>
-        <?php $i=1; foreach ($data as $row) { ?>
+        <?php $i=1; foreach ($articles as $id => $article) { ?>
         <tr>
             <td class="collapsing"><?=$i++?></td>
-            <td><?=$row['title']?></td>
-            <td><?=$row['author']?></td>
-            <td><?=$row['column_id']?></td>
-            <td><?=$row['create_time']?></td>
+            <td><?=$article['title']?></td>
+            <td><?=$article['author']?></td>
+            <td><?=$article['column']?></td>
+            <td><?=$article['create_time']?></td>
             <td>
-                <a class="edit" href="/recycle-setting/reuse?id=<?=$row['id']?>">恢复</a>
+                <a class="edit" href="/recycle-setting/reuse?id=<?=$id?>&column=<?=$article['column_id']?>">恢复</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete text red" href="/recycle-setting/doDelete?id=<?=$row['id']?>">彻底删除</a>
+                <a class="delete text red" href="/recycle-setting/doDelete?id=<?=$id?>&content=<?=$article['content_id']?>">彻底删除</a>
             </td>
         </tr>
         <?php } ?>
@@ -41,6 +41,13 @@
     共 <?=$_SESSION['pagesize']?> 页 
 <?php pagination();?>
 </div>
-<script type="text/javascript">
-</script>
 <?php stop();?>
+<?php start('script'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    <?php if (!empty($msg)): ?>
+    showTips("<?=$msg?>");
+    <?php endif ?>
+});
+</script>
+<?php stop(); ?>

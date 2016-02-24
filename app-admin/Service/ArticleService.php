@@ -21,7 +21,13 @@ class ArticleService
                 ->all();
     }
 
-    public function getAllDeletedArticles()
+    /**
+     * 获取所有已禁用的文章
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getAllDisabledArticles()
     {
         $article_model = new ArticleModel();
         return $article_model
@@ -110,7 +116,7 @@ class ArticleService
      * @author marvin
      * @date   2016-02-24
      */
-    public function disableArticle($id, $status = 0)
+    public function changeArticleStatus($id, $status)
     {
         $model = new ArticleModel();
         if (isset($id) && $id) {
@@ -120,23 +126,20 @@ class ArticleService
         return $result;
     }
 
-    public function deleteOneArticle($id = 0)
+    /**
+     * 物理删除文章
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function deleteArticle($id)
     {
-        if (empty($id)) {
-            return false;
+        $model = new ArticleModel();
+        if (isset($id) && $id) {
+            $model = $model->where('id', $id);
         }
-
-        $article_model = new ArticleModel();
-        $content_id = $article_model
-                            ->select('content_id')
-                            ->where('id', $id)
-                            ->one();
-
-        $result = $article_model
-                    ->where('id', $id)
-                    ->delete();
-
-        return $content_id;
+        return $model->delete();
     }
 
     /**
