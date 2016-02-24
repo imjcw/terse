@@ -16,18 +16,16 @@ class ArticleSettingController extends BaseController
     public function index(){
         //获取所有文章
         $article_biz = new ArticleBiz();
-        $articles = $article_biz->getAll();
+        $articles = $article_biz->getArticles();
         $column_ids = array_column($articles,'column_id');
         //获取相应的栏目
         $column_biz = new ColumnBiz();
         $columns = $column_biz->getColumnByIds($column_ids);
         //组合数据
         $data = $this->buildPageData($articles,$columns);
-        $count = count($data);
         $msg = getMsg();
 
         return view('article/index')->with(array(
-            'count' => $count,
             'data' => $data,
             'msg' => $msg
         ));
@@ -57,11 +55,9 @@ class ArticleSettingController extends BaseController
         $columns = $column_biz->getColumnByIds($column_ids);
         //组合数据
         $data = $this->buildPageData($articles,$columns);
-        $count = count($data);
         $msg = getMsg();
 
         return view('article/index')->with(array(
-            'count' => $count,
             'data' => $data,
             'msg' => $msg
         ));
@@ -75,8 +71,13 @@ class ArticleSettingController extends BaseController
      */
     public function changeVisible()
     {
-        $id = intval($_POST['id']);
-        $status = intval($_POST['status']);
+        $params = $_POST;
+        if (isset($params['id']) && $params['id']) {
+            $id = intval($_POST['id']);
+        }
+        if (isset($params['status']) && $params['sattus']) {
+            $status = intval($_POST['status']);
+        }
         $biz = new ArticleBiz();
         $result = $biz->changeVisible($id,$status);
         return $result ? json('success！') : json('fault！', 403);
@@ -88,13 +89,21 @@ class ArticleSettingController extends BaseController
      * @date   2016-01-25
      */
     public function add(){
-        $column_biz = new ColumnBiz();
-        $column_list = $column_biz->getColumns();
+        //获取栏目
+        $biz = new ColumnBiz();
+        $column_list = $biz->getColumns();
+        //判断是否为空，没有栏目则返回添加栏目
         if (empty($column_list)) {
             $_SESSION['msg'] = '请先添加栏目！';
-            return redirect('/column-setting/index');
+            return redirect('column/index');
         }
-        return view('article/add')->with(array('column' => $column_list));
+        //组合数据
+        $columns = array();
+        foreach ($column_list as $column) {
+            $id = $column['id'];
+            $columns[$id]['name'] = $column['name'];
+        }
+        return view('article/add')->with(array('columns' => $columns));
     }
 
     /**
@@ -104,16 +113,24 @@ class ArticleSettingController extends BaseController
      * @date   2016-01-25
      */
     public function doAdd(){
-        $data = $_POST;
-        if (empty($data)) {
-            return json('error');
+        $params = $_POST;
+        if (isset($params['title']) && $params['title']) {
+            $data['title'] = filter_var($params['title'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['column']) && $params['column']) {
+            $data['column'] = filter_var($params['column'], FILTER_VALIDATE_INT);
+        }
+        if (isset($params['description']) && $params['description']) {
+            $data['description'] = filter_var($params['description'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['content']) && $params['content']) {
+            $data['content'] = addslashes(htmlspecialchars($params['content']));
         }
         $data['author'] = 'test';
         $article_biz = new ArticleBiz();
         $result = $article_biz->addArticle($data);
-        $page = $result ? 'index' : '/error';
         $_SESSION['msg'] = $result ? '添加文章成功！' : '添加文章失败！';
-        return redirect($page);
+        return redirect('article/index');
     }
 
     /**
@@ -123,16 +140,24 @@ class ArticleSettingController extends BaseController
      * @date   2016-01-25
      */
     public function edit(){
-        $id = intval($_GET['id']);
-        if (empty($id)) {
-            return json('error');
+        $params = $_GET;
+        if (isset($params['id']) && $params['id']) {
+            $id = intval($params['id']);
         }
-
         $article_biz = new ArticleBiz();
-        $pageData = $article_biz->getOne($id);
+        $article = $article_biz->getArticle($id);
         $column_biz = new ColumnBiz();
-        $column_list = $column_biz->getAll();
-        return view('article/edit')->with(array('pageData' => $pageData, 'column' => $column_list));
+        $column_list = $column_biz->getColumns();
+        //组合数据
+        $columns = array();
+        foreach ($column_list as $column) {
+            $id = $column['id'];
+            $columns[$id]['name'] = $column['name'];
+        }
+        return view('article/edit')->with(array(
+            'article' => $article,
+            'columns' => $columns
+            ));
     }
 
     /**
@@ -142,36 +167,34 @@ class ArticleSettingController extends BaseController
      * @date   2016-01-25
      */
     public function doEdit(){
-        $id = intval($_GET['id']);
-        if (empty($id)) {
-            return json('error');
+        $params = $_GET;
+        if (isset($params['id']) && $params['id']) {
+            $id = intval($params['id']);
         }
-        if (!filter_var($_POST['title'], FILTER_SANITIZE_STRING)) {
-            dd('title');
-        }else {
-            $data['title'] = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
+        $params = $_POST;
+        if (isset($params['title']) && $params['title']) {
+            $data['title'] = filter_var($params['title'], FILTER_SANITIZE_STRING);
         }
-        if (!filter_var($_POST['column'], FILTER_VALIDATE_INT)) {
-            dd('int');
-        }else {
-            $data['column_id'] = filter_var($_POST['column'], FILTER_VALIDATE_INT);
+        if (isset($params['column']) && $params['column']) {
+            $data['column'] = filter_var($params['column'], FILTER_VALIDATE_INT);
         }
-        if (!filter_var($_POST['description'], FILTER_SANITIZE_STRING)) {
-            dd('description');
-        }else {
-            $data['description'] = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
+        if (isset($params['old_column']) && $params['old_column']) {
+            $data['old_column'] = filter_var($params['old_column'], FILTER_VALIDATE_INT);
         }
-        if (!filter_var($_POST['content'], FILTER_SANITIZE_STRING)) {
-            dd('content');
-        }else {
-            $data['content'] = filter_var($_POST['content'], FILTER_SANITIZE_SPECIAL_CHARS);
+        if (isset($params['description']) && $params['description']) {
+            $data['description'] = filter_var($params['description'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['content']) && $params['content']) {
+            $data['content'] = addslashes(htmlspecialchars($params['content']));
+        }
+        if (isset($params['content_id']) && $params['content_id']) {
+            $data['content_id'] = filter_var($params['content_id'], FILTER_VALIDATE_INT);
         }
 
-        $article_biz = new ArticleBiz();
-        $result = $article_biz->editArticle($id, $data);
-        $page = $result ? 'index' : '/error';
+        $biz = new ArticleBiz();
+        $result = $biz->updateArticle($id, $data);
         $_SESSION['msg'] = $result ? '修改文章成功！' : '修改文章失败！';
-        return redirect($page);
+        return redirect('article/index');
     }
 
     /**
@@ -181,13 +204,13 @@ class ArticleSettingController extends BaseController
      * @date   2016-01-25
      */
     public function doDelete(){
-        $id = intval($_POST['id']);
-        if (empty($id)) {
-            return json('error');
+        $params = $_GET;
+        if (isset($params['id']) && $params['id']) {
+            $id = intval($params['id']);
         }
 
         $biz = new ArticleBiz();
-        $result = $biz->deleteArticle($id);
+        $result = $biz->disableArticle($id);
         return $result ? json('删除文章成功！') : json('删除文章失败！');
     }
 
@@ -204,6 +227,7 @@ class ArticleSettingController extends BaseController
         foreach ($columns as $columns) {
             $column_name[$columns['id']] = $columns['name'];
         }
+        $data = array();
         //拼接相应的数据
         foreach ($articles as $article) {
             $id = $article['id'];

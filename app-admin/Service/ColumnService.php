@@ -133,6 +133,30 @@ class ColumnService
     }
 
     /**
+     * 更新指定栏目下的文章数目
+     * @param  [type] $id     [description]
+     * @param  [type] $action [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function updateArticleNums($id, $action)
+    {
+        $model = new ColumnModel();
+        if (isset($id) && $id) {
+            $model = $model->where('id', $id);
+            $column = $model->select('article_nums')->one();
+        }
+        if ($action == 'add') {
+            $column['article_nums']++;
+        }
+        if ($action == 'subtract') {
+            $column['article_nums']--;
+        }
+        $model->update(array('article_nums' => $column['article_nums']));
+    }
+
+    /**
      * 栏目启用/禁用开关
      * @param  integer $id     [description]
      * @param  integer $status [description]

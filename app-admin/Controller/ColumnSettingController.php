@@ -72,13 +72,13 @@ class ColumnSettingController extends BaseController
             $data['id'] = $result;
             if (!$this->writeRoutes($data)) {
                 $_SESSION['msg'] = '路由更新失败！请编辑该栏目！';
-                return redirect('/column-setting/index');
+                return redirect('/column/index');
             }            
         }
 
         //设置提示信息
         $_SESSION['msg'] = $result ? '添加栏目成功！' : '添加栏目失败！';
-        return redirect('/column-setting/index');
+        return redirect('/column/index');
     }
 
     /**
@@ -125,12 +125,12 @@ class ColumnSettingController extends BaseController
         if ($result) {
             if (!$this->writeRoutes($data)) {
                 $_SESSION['msg'] = '路由更新失败！请重新编辑该栏目！';
-                return redirect('/column-setting/index');
+                return redirect('/column/index');
             }            
         }
 
         $_SESSION['msg'] = $result ? '编辑栏目成功！' : '编辑栏目失败！';
-        return redirect('/column-setting/index');
+        return redirect('/column/index');
     }
 
     /**
@@ -161,7 +161,7 @@ class ColumnSettingController extends BaseController
             }
         }
         $_SESSION['msg'] = $result ? '删除栏目成功！' : '删除栏目失败！';
-        return redirect('/column-setting/index');
+        return redirect('/column/index');
     }
 
     /**

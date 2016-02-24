@@ -7,7 +7,11 @@ class BaseController
 {
     function __construct(){
         session_start();
-        
+
+        if (!isset($_SESSION['user_id'])) {
+            return redirect('/auth/login');
+        }
+
         if (!$_SESSION['user_id']) {
             return redirect('/auth/login');
         }

@@ -5,14 +5,20 @@ use Admin\Model\ArticleModel;
 
 class ArticleService
 {
-    public function getAllArticles()
+    /**
+     * 获取所有文章
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getArticles()
     {
-        $article_model = new ArticleModel();
-        return $article_model
-                    ->where(array('is_use' => 1))
-                    ->orderBy('id')
-                    ->paginate(20)
-                    ->all();
+        $model = new ArticleModel();
+        return $model
+                ->where(array('is_use' => 1))
+                ->orderBy('id')
+                ->paginate(20)
+                ->all();
     }
 
     public function getAllDeletedArticles()
@@ -24,55 +30,87 @@ class ArticleService
                     ->all();
     }
 
-    public function getOneArticle($id = 0)
+    /**
+     * 获取文章
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getArticle($id)
     {
-        if (empty($id)) {
-            return false;
+        $model = new ArticleModel();
+        if (isset($id) && $id) {
+            $model = $model->where('id', $id);
         }
-
-        $article_model = new ArticleModel();
-        return $article_model
-                    ->where('id', $id)
-                    ->one();
+        return $model->one();
     }
 
-    public function addOneArticle($data = array())
+    /**
+     * 添加文章
+     * @param  [type] $params [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function addArticle($params)
     {
-        if (empty($data)) {
-            return false;
+        $data = array();
+        if (isset($params['title']) && $params['title']) {
+            $data['title'] = $params['title'];
+        }
+        if (isset($params['column']) && $params['column']) {
+            $data['column_id'] = $params['column'];
+        }
+        if (isset($params['description']) && $params['description']) {
+            $data['description'] = $params['description'];
+        }
+        if (isset($params['content']) && $params['content']) {
+            $data['content_id'] = $params['content'];
         }
         $data['create_time'] = NULL;
 
-        $article_model = new ArticleModel();
-        return $article_model->insert($data);
+        $model = new ArticleModel();
+        return $model->insert($data);
     }
 
-    public function editOneArticle($id = 0, $data = array())
+    /**
+     * 更新文章
+     * @param  [type] $id     [description]
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function updateArticle($id, $params)
     {
-        if (empty($id)) {
-            return false;
+        $model = new ArticleModel();
+        $data = array();
+        if (isset($id) && $id) {
+            $model = $model->where('id', $id);
+        }
+        if (isset($params['column']) && $params['column']) {
+            $data['column_id'] = $params['column'];
+        }
+        if (isset($params['description']) && $params['description']) {
+            $data['description'] = $params['description'];
+        }
+        if (isset($params['content']) && $params['content']) {
+            $data['content_id'] = $params['content'];
         }
 
-        if (empty($data)) {
-            return false;
-        }
-
-        $article_model = new ArticleModel();
-        $result = $article_model
-                    ->where('id', $id)
-                    ->update($data);
-        if (!$result) {
-            return false;
-        }
-
-        $content_id = $article_model
-                            ->select('content_id')
-                            ->where('id', $id)
-                            ->one();
-        return $content_id['content_id'];
+        $result = $model->update($data);
+        return $result;
     }
 
-    public function updateOneArticleStatus($id = 0, $status = 0)
+    /**
+     * 逻辑删除文章
+     * @param  integer $id     [description]
+     * @param  integer $status [description]
+     * @return [type]          [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function disableArticle($id, $status)
     {
         if (empty($id)) {
             return false;
@@ -104,6 +142,13 @@ class ArticleService
         return $content_id;
     }
 
+    /**
+     * 搜索
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
     public function search($params)
     {
         $model = new ArticleModel();
@@ -120,12 +165,14 @@ class ArticleService
                 ->all();
     }
 
-    public function getArticlesByColumnIds($column_ids)
-    {
-        $model = new ArticleModel();
-        return $model->whereIn('column_id',$column_ids)->where(array('is_use' => 1))->all();
-    }
-
+    /**
+     * 显示/隐藏文章
+     * @param  [type]  $id     [description]
+     * @param  integer $status [description]
+     * @return [type]             [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
     public function changeVisible($id,$status=0)
     {
         $model = new ArticleModel();
@@ -135,6 +182,13 @@ class ArticleService
         return $model->update(array('is_show' => $status));
     }
 
+    /**
+     * 更新该栏目下文章的栏目ID,文章删除时调用
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
     public function updateColumnId($id)
     {
         $model = new ArticleModel();
@@ -144,6 +198,13 @@ class ArticleService
         return $model->update(array('column_id' => 0,'is_show'=>0));
     }
 
+    /**
+     * 删除该栏目下的文章
+     * @param  [type] $id [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
     public function deleteArticlesByColumnId($id)
     {
         $model = new ArticleModel();

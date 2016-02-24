@@ -1,65 +1,74 @@
 <?php
-    namespace Admin\Service;
+namespace Admin\Service;
 
-    use Admin\Model\ContentModel;
+use Admin\Model\ContentModel;
+
+class ContentService
+{
+    /**
+     * 获取文章内容
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getContent($id)
+    {
+        $model = new ContentModel();
+        if (isset($id) && $id) {
+            $model = $model->where('id', $id);
+        }
+        return $model->one();
+    }
 
     /**
-    * Article Service
-    */
-    class ContentService
+     * 添加文章内容
+     * @param  [type] $params [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function addContent($params)
     {
-        public function getContentById($id = 0)
-        {
-            if (empty($id)) {
-                return false;
-            }
-
-            $content_model = new ContentModel();
-            return $content_model
-                        ->where('id', $id)
-                        ->one();
+        $content_model = new ContentModel();
+        if (isset($params['content']) && $params['content']) {
+            $data['content'] = $params['content'];
         }
-
-        public function insertContent($data = array())
-        {
-            if (empty($data)) {
-                return false;
-            }
-            $data['create_time'] = NULL;
-
-            $content_model = new ContentModel();
-            $result = $content_model->insert($data);
-            if (!$result) {
-                return false;
-            }
-            return mysql_insert_id();
+        if (!$content_model->insert($data)) {
+            return false;
         }
-
-        public function updateContentById($id = 0, $data = array())
-        {
-            if (empty($id)) {
-                return false;
-            }
-
-            if (empty($data)) {
-                return false;
-            }
-
-            $content_model = new ContentModel();
-            return $content_model
-                        ->where('id', $id)
-                        ->update($data);
-        }
-
-        public function deleteOneContent($id = 0)
-        {
-            if (empty($id)) {
-                return false;
-            }
-
-            $content_model = new ContentModel();
-            return $content_model
-                        ->where('id', $id)
-                        ->delete();
-        }
+        return mysql_insert_id();
     }
+
+    /**
+     * 更新文章内容
+     * @param  integer $id   [description]
+     * @param  array   $params [description]
+     * @return [type]           [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function updateContent($id, $params)
+    {
+        $model = new ContentModel();
+        $data = array();
+        if (isset($id) && $id) {
+            $model = $model->where('id', $id);
+        }
+        if (isset($params['content']) && $params['content']) {
+            $data['content'] = $params['content'];
+        }
+        return $model->update($data);
+    }
+
+    public function deleteOneContent($id = 0)
+    {
+        if (empty($id)) {
+            return false;
+        }
+
+        $content_model = new ContentModel();
+        return $content_model
+                    ->where('id', $id)
+                    ->delete();
+    }
+}

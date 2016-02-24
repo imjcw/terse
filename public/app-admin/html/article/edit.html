@@ -5,39 +5,44 @@
 <?php start('content'); ?>
 <!--内容-->
 <h3 class="ui top attached header">
-    <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文档管理
+    <i class="file text outline icon"></i> 文档管理
 </h3>
 <div class="ui attached segment">
-<form class="ui form" action="/article-setting/doEdit?id=<?= $pageData['id'] ?>" method="post">
+<form class="ui form" action="/article-setting/doEdit?id=<?= $article['id'] ?>" method="post">
     <div class="field">
         <label>文章名称</label>
-        <input type="text" name="title" placeholder="文章名称" value="<?= $pageData['title'] ?>"></div>
-        <div class="field">
-             <label>所属栏目：</label>
-             <select name="column" class="ui dropdown">
-                <?php foreach ($column as $value): ?>
-                <?php if ($pageData['column_id'] == $value['id']): ?>
-                <option value="<?= $value['id'] ?>" selected='selected'><?= $value['name'] ?></option>
-                <?php else: ?>
-                <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
-                <?php endif ?>
-                <?php endforeach; ?>
-             </select>
-        </div>
+        <input type="text" name="title" placeholder="文章名称" value="<?= $article['title'] ?>">
+    </div>
+    <div class="field">
+         <label>所属栏目：</label>
+         <select name="column" class="ui dropdown">
+            <?php foreach ($columns as $id => $column): ?>
+            <?php if ($article['column_id'] == $id): ?>
+            <option value="<?= $id ?>" selected='selected'><?= $column['name'] ?></option>
+            <?php else: ?>
+            <option value="<?= $id ?>"><?= $column['name'] ?></option>
+            <?php endif ?>
+            <?php endforeach; ?>
+         </select>
+    </div>
     <div class="field">
         <label>文章描述</label>
-        <textarea name="description" placeholder="文章描述"><?= $pageData['description']?></textarea>
+        <textarea name="description" rows="3" placeholder="文章描述"><?= $article['description']?></textarea>
     </div>
     <div class="field">
         <label>文章内容</label>
-        <textarea name="content" placeholder="文章内容"><?= $pageData['content']?></textarea>
+        <textarea name="content" placeholder="文章内容"><?= $article['content']?></textarea>
     </div>
     <div class="field" style="text-align: center;">
         <button class="ui blue submit button">保存</button>
         <a class="ui button go_back" href="#">放弃</a>
     </div>
+    <input type="hidden" name="old_column" value="<?= $article['column_id'] ?>">
+    <input type="hidden" name="content_id" value="<?= $article['content_id'] ?>">
 </form>
 </div>
+<?php stop(); ?>
+<?php start('script'); ?>
 <script type="text/javascript">
 $(document).ready(function(){
     CKEDITOR.replace( 'content' );

@@ -1,8 +1,11 @@
 <?php extend('extend/extend'); ?>
+<?php start('style'); ?>
+<script src="/public/ckeditor/ckeditor.js"></script>
+<?php stop(); ?>
 <?php start('content'); ?>
 <!--内容-->
 <h3 class="ui top attached header">
-    <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文档管理
+    <i class="file text outline icon"></i> 文档管理
 </h3>
 <div class="ui attached segment">
     <form class="ui form" action="/article-setting/doAdd" method="post">
@@ -13,10 +16,10 @@
         <div class="two fields">
             <div class="field">
                  <label>所属栏目：</label>
-                 <select name="column_id" class="mf_dropdown ui dropdown">
+                 <select name="column" class="ui dropdown">
                     <option value="0">请选择</option>
-                    <?php foreach ($column as $value): ?>
-                    <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
+                    <?php foreach ($columns as $id => $column): ?>
+                    <option value="<?= $id ?>"><?= $column['name'] ?></option>
                     <?php endforeach; ?>
                  </select>
             </div>
@@ -38,7 +41,7 @@
         </div>
         <div class="field">
             <label>文章描述</label>
-            <textarea name="description" placeholder="文章描述"></textarea>
+            <textarea name="description" rows="3" placeholder="文章描述(不多于300字符)"></textarea>
         </div>
         <div class="field">
             <label>文章内容</label>
@@ -50,11 +53,56 @@
         </div>
     </form>
 </div>
+<?php stop(); ?>
+<?php start('script'); ?>
 <script type="text/javascript">
 $(document).ready(function(){
+    CKEDITOR.replace( 'content' );
     $('.ui.dropdown.fluid').dropdown({
         allowAdditions: true
     });
+    //表单验证
+    $('.ui.form').form({
+        inline : true,
+        on : 'blur',
+        fields: {
+            title : {
+                identifier : 'title',
+                rules : [
+                {
+                    type : 'maxLength[30]',
+                    prompt : '请输入30字以下的文章名'
+                },
+                {
+                    type : 'empty',
+                    prompt : '请输入文章名'
+                }
+                ]
+            },
+            column : {
+                identifier : 'column',
+                rules : [
+                {
+                    type : 'regExp[/^[1-]$/gi]',
+                    prompt : '请选择栏目'
+                },
+                {
+                    type : 'number',
+                    prompt : '请按规范操作'
+                }
+                ]
+            },
+            description : {
+                identifier : 'description',
+                rules : [
+                {
+                    type : 'maxLength[300]',
+                    prompt : '请输入300字及以下的栏目描述'
+                }
+                ]
+            },
+        }
+  });
 });
 </script>
 <?php stop(); ?>

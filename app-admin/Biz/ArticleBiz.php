@@ -7,80 +7,120 @@ use Admin\Service\ContentService;
 
 class ArticleBiz
 {
-    public function getAll()
+    /**
+     * 获取所有文章
+     * @return [type] [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getArticles()
     {
-        $article_service = new ArticleService();
-        return $article_service->getAllArticles();
+        $service = new ArticleService();
+        return $service->getArticles();
     }
 
-    public function getOne($id = 0)
+    /**
+     * 获取文章
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getArticle($id)
     {
-        if (empty($id)) {
-            return false;
-        }
-
+        //获取指定ID的文章
         $column_service = new ArticleService();
-        $article = $column_service->getOneArticle($id);
+        $article = $column_service->getArticle($id);
 
-        if (!$article) {
-            return false;
-        }
-
+        //获取指定ID的文章内容
         $content_service = new ContentService();
-        $content = $content_service->getContentById($article['content_id']);
+        $content = $content_service->getContent($article['content_id']);
 
+        //组合数据
         $article['content'] = $content['content'];
 
         return $article;
     }
 
-    public function addArticle($data = array())
+    /**
+     * 添加文章
+     * @param  [type] $data [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function addArticle($data)
     {
-        if (empty($data)) {
-            return false;
-        }
-
+        //写入文章内容
         $content_service = new ContentService();
-        $content_id = $content_service->insertContent(array('content' => $data['content']));
-
+        $content_id = $content_service->addContent(array('content' => $data['content']));
+        //判断返回ID是否存在
         if (!$content_id) {
             return false;
         }
-        unset($data['content']);
-        $data['content_id'] = $content_id;
+
+        //更新栏目表中的文章数
+        $column_service = new ColumnService();
+        $column_service->updateArticleNums($data['column'],'add');
+
+        //组合数据
+        $data['content'] = $content_id;
 
         $article_service = new ArticleService();
-        return $article_service->addOneArticle($data);
+        return $article_service->addArticle($data);
     }
 
-    public function editArticle($id, $data)
+    /**
+     * 更新文章
+     * @param  [type]     $id   [description]
+     * @param  [type]     $data [description]
+     * @return [type]           [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function updateArticle($id, $data)
     {
         $content = $data['content'];
         unset($data['content']);
+        //更新文章表
         $column_service = new ArticleService();
-        $content_id = $column_service->editOneArticle($id, $data);
-
+        $result = $column_service->updateArticle($id, $data);
+        if (!$result) {
+            return false;
+        }
+        //更新文章内容表
         $content_service = new ContentService();
-        $result = $content_service->updateContentById($content_id, array('content' => $content));
+        $result = $content_service->updateContent($data['content_id'], array('content' => $content));
+
+        //更新栏目表中的文章数
+        if ($data['column'] != $data['old_column']) {
+            $column_service = new ColumnService();
+            $column_service->updateArticleNums($data['column'],'add');
+            $column_service->updateArticleNums($data['old_column'],'subtract');
+        }
 
         return $result;
     }
 
-    public function deleteArticle($id = 0)
-    {
-        if (empty($id)) {
-            return false;
-        }
-
-        $article_service = new ArticleService();
-        return $article_service->updateOneArticleStatus($id);
-    }
-
-    public function getArticlesByColumnIds($column_ids)
+    /**
+     * 逻辑删除文章
+     * @param  integer $id [description]
+     * @return [type]      [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function disableArticle($id)
     {
         $service = new ArticleService();
-        return $service->getArticlesByColumnIds($column_ids);
+        return $service->disableArticle($id);
     }
+
+    /**
+     * 搜索文章
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
     public function search($params)
     {
         $service = new ArticleService();
