@@ -206,12 +206,16 @@ class ArticleSettingController extends BaseController
     public function doDelete(){
         $params = $_GET;
         if (isset($params['id']) && $params['id']) {
-            $id = intval($params['id']);
+            $data['id'] = intval($params['id']);
+        }
+        if (isset($params['column']) && $params['column']) {
+            $data['column'] = intval($params['column']);
         }
 
         $biz = new ArticleBiz();
-        $result = $biz->disableArticle($id);
-        return $result ? json('删除文章成功！') : json('删除文章失败！');
+        $result = $biz->disableArticle($data);
+        $_SESSION['msg'] = $result ? '删除文章成功！' : '删除文章失败！';
+        return redirect('article/index');
     }
 
     /**
@@ -234,7 +238,8 @@ class ArticleSettingController extends BaseController
             $data[$id]['title'] = $article['title'];
             $data[$id]['author'] = $article['author'];
             $data[$id]['description'] = $article['description'];
-            $data[$id]['column_id'] = $column_name[$article['column_id']];
+            $data[$id]['column_id'] = $article['column_id'];
+            $data[$id]['column'] = $column_name[$article['column_id']];
             $data[$id]['is_show'] = $article['is_show'];
             $data[$id]['create_time'] = $article['create_time'];
         }

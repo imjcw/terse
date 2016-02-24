@@ -103,15 +103,17 @@ class ArticleBiz
 
     /**
      * 逻辑删除文章
-     * @param  integer $id [description]
+     * @param  array $id [description]
      * @return [type]      [description]
      * @author marvin
      * @date   2016-02-24
      */
-    public function disableArticle($id)
+    public function disableArticle($data)
     {
+        $column_service = new ColumnService();
+        $column_service->updateArticleNums($data['column'],'subtract');
         $service = new ArticleService();
-        return $service->disableArticle($id);
+        return $service->disableArticle($data['id']);
     }
 
     /**

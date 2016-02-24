@@ -18,7 +18,7 @@
 <?php start('content'); ?>
 <!--内容-->
 <h3 class="ui top attached header">
-    <i class="file text outline icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文档管理
+    <i class="file text outline icon"></i> 文档管理
 </h3>
 <div class="ui attached segment">
 <a class="ui blue basic button" href="/article-setting/add"><i class="tiny plus icon"></i> 添加</a>
@@ -50,7 +50,7 @@
             <td class="collapsing"><?=$i++?></td>
             <td><?=$row['title']?></td>
             <td><a href="/article-setting/search?author=<?=$row['author']?>"><?=$row['author']?></a></td>
-            <td><?=$row['column_id']?></td>
+            <td><?=$row['column']?></td>
             <td>
                 <span class="ui toggle checkbox">
                     <?php if ($row['is_show']): ?>
@@ -66,7 +66,7 @@
             <td style="font-size: 12px;">
                 <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/article-setting/edit?id=<?=$key?>"></i>
                 <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action=""></i>
-                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-id="<?=$key?>"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/article-setting/doDelete?id=<?=$key?>&column=<?=$row['column_id']?>"></i>
             </td>
         </tr>
         <?php } ?>
@@ -111,12 +111,8 @@ $(document).ready(function(){
 
     //删除
     $('.trash.link').click(function(){
-        var id = $(this).attr('data-id');
-        $.post('/article-setting/doDelete',{id},function(response){
-            if (response['status'] == 200) {
-                showTips(response['message']);
-            }
-        },'json');
+        var href = $(this).attr('data-action');
+        window.open(href,'_self');
     });
 
     for (var i = $('.toggle.checkbox').length - 1; i >= 0; i--) {

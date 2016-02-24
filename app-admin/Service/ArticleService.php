@@ -110,16 +110,13 @@ class ArticleService
      * @author marvin
      * @date   2016-02-24
      */
-    public function disableArticle($id, $status)
+    public function disableArticle($id, $status = 0)
     {
-        if (empty($id)) {
-            return false;
+        $model = new ArticleModel();
+        if (isset($id) && $id) {
+            $model = $model->where('id', $id);
         }
-
-        $article_model = new ArticleModel();
-        $result = $article_model
-                    ->where('id', $id)
-                    ->update(array('is_use' => $status));
+        $result = $model->update(array('is_use' => $status));
         return $result;
     }
 

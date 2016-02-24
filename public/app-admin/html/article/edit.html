@@ -46,6 +46,51 @@
 <script type="text/javascript">
 $(document).ready(function(){
     CKEDITOR.replace( 'content' );
+    $('.ui.dropdown.fluid').dropdown({
+        allowAdditions: true
+    });
+    //表单验证
+    $('.ui.form').form({
+        inline : true,
+        on : 'blur',
+        fields: {
+            title : {
+                identifier : 'title',
+                rules : [
+                {
+                    type : 'maxLength[30]',
+                    prompt : '请输入30字以下的文章名'
+                },
+                {
+                    type : 'empty',
+                    prompt : '请输入文章名'
+                }
+                ]
+            },
+            column : {
+                identifier : 'column',
+                rules : [
+                {
+                    type : 'regExp[/^-?[1-9]\d*/gi]',
+                    prompt : '请选择栏目'
+                },
+                {
+                    type : 'number',
+                    prompt : '请按规范操作'
+                }
+                ]
+            },
+            description : {
+                identifier : 'description',
+                rules : [
+                {
+                    type : 'maxLength[300]',
+                    prompt : '请输入300字及以下的栏目描述'
+                }
+                ]
+            },
+        }
+  });
 });
 </script>
 <?php stop(); ?>
