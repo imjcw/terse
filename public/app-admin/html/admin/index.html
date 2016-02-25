@@ -1,4 +1,14 @@
 <?php extend('extend/extend'); ?>
+<?php start('style'); ?>
+<style type="text/css">
+    .ui.popup{
+        padding: .3em .5em;
+    }
+    .icon.link{
+        color: #000000;
+    }
+</style>
+<?php stop(); ?>
 <?php start('content'); ?>
 <!--内容-->
 <h3 class="ui top attached header">
@@ -13,38 +23,94 @@
             <th>ID</th>
             <th>管理员</th>
             <th>账号</th>
-            <th>权限</th>
+            <th>是否启用</th>
             <th>创建时间</th>
-            <th>简介</th>
             <th>操作</th>
         </tr>
     </thead>
     <tbody>
         <?php if (empty($admins)): ?>
             <tr class="terse center">
-                <td colspan="8">暂无管理员</td>
+                <td colspan="6">暂无管理员</td>
             </tr>
         <?php endif ?>
-        <?php foreach ($admins as $admin) { ?>
+        <?php foreach ($admins as $id => $admin) { ?>
         <tr>
-            <td class="collapsing"><?=$admin['id']?></td>
+            <td class="collapsing"><?=$id?></td>
             <td><?=$admin['nickname']?></td>
             <td><?=$admin['name']?></td>
-            <td>否</td>
-            <td>20151201</td>
-            <td>这里是一些简洁的简介内容。</td>
             <td>
-                <a class="edit" href="/admin-setting/edit?id=<?=$admin['id']?>">修改</a>
-                &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete" href="/admin-setting/doDelete?id=<?=$admin['id']?>">删除</a>
+                <span class="ui toggle checkbox">
+                    <?php if ($admin['is_use']): ?>
+                    <input type="checkbox" name="public" checked="checked" data-id="<?=$id?>">
+                    <label>启用</label>
+                    <?php else: ?>
+                    <input type="checkbox" name="public" data-id="<?=$id?>">
+                    <label>禁用</label>
+                    <?php endif ?>
+                </span>
+            </td>
+            <td><?=$admin['create_time']?></td>
+            <td style="font-size: 12px;">
+                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/admin-setting/edit?id=<?=$id?>"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/admin-setting/doDelete?id=<?=$id?>"></i>
             </td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
 </div>
+<?php stop(); ?>
+<?php start('script');?>
 <script type="text/javascript">
 $(document).ready(function(){
+    <?php if (!empty($msg)): ?>
+    showTips("<?=$msg?>");
+    <?php endif ?>
+
+    //开启提示框
+    $('.icon.link').popup({
+        inline: true
+    });
+
+    //编辑
+    $('.write.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_self');
+    });
+
+    //删除
+    $('.trash.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_self');
+    });
+
+    for (var i = $('.toggle.checkbox').length - 1; i >= 0; i--) {
+        $('.toggle.checkbox:eq('+i+')').checkbox().first().checkbox({
+            onChecked: function() {
+                var id = $(this).attr('data-id');
+                var msg = '启用';
+                $.post('/admin-setting/changeVisible',{id,status:1}).success(function(){
+                    showTips('管理员启用成功！');
+                }).error(function(){
+                    msg = '禁用';
+                    showTips('管理员启用失败！');
+                });
+                $(this).siblings('label').html(msg);
+            },
+            onUnchecked: function() {
+                var id = $(this).attr('data-id');
+                var msg = '禁用';
+                $.post('/admin-setting/changeVisible',{id,status:0}).success(function(){
+                    showTips('管理员禁用成功！');
+                }).error(function(){
+                    msg = '启用';
+                    showTips('管理员禁用失败！');
+                });
+                $(this).siblings('label').html(msg);
+            },
+        });
+    }
 });
 </script>
 <?php stop(); ?>

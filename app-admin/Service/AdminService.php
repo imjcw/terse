@@ -14,70 +14,147 @@ class AdminService
     public function getAdmins()
     {
         $model = new AdminModel();
-        return $model->where('is_use', 1)->all();
+        return $model->all();
     }
 
-    public function getAdmin($id = 0)
+    /**
+     * 获取管理员
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function getAdmin($id)
     {
         $model = new AdminModel();
-        return $model
-                    ->where(array('id' => $id, 'is_use' => 1))
-                    ->one();
+        if (isset($id) && $id) {
+            $model = $model->where('id',$id);
+        }
+        return $model->where('is_use',1)->one();
     }
 
-    public function addOneAdmin($data = array())
+    /**
+     * 添加管理员
+     * @param  [type] $params [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function addAdmin($params)
     {
-        $admin_model = new AdminModel();
-        return $admin_model->insert($data);
+        $model = new AdminModel();
+        if (isset($params['nickname']) && $params['nickname']) {
+            $data['nickname'] = $params['nickname'];
+        }
+        if (isset($params['name']) && $params['name']) {
+            $data['name'] = $params['name'];
+        }
+        if (isset($params['password']) && $params['password']) {
+            $data['password'] = $params['password'];
+        }
+        if (isset($params['description']) && $params['description']) {
+            $data['description'] = $params['description'];
+        }
+        return $model->insert($data);
     }
 
-    public function editOneAdmin($id = 0, $data = array())
+    /**
+     * 更新管理员信息
+     * @param  [type] $id     [description]
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function updateAdmin($id, $params)
     {
-        if (empty($id)) {
-            return false;
+        $model = new AdminModel();
+        if (isset($id) && $id) {
+            $model = $model->where('id',$id);
+        }
+        if (isset($params['nickname']) && $params['nickname']) {
+            $data['nickname'] = $params['nickname'];
+        }
+        if (isset($params['name']) && $params['name']) {
+            $data['name'] = $params['name'];
+        }
+        if (isset($params['password']) && $params['password']) {
+            $data['password'] = $params['password'];
+        }
+        if (isset($params['description']) && $params['description']) {
+            $data['description'] = $params['description'];
         }
 
-        if (empty($data)) {
-            return false;
+        return $model->update($data);
+    }
+
+    /**
+     * 删除管理员
+     * @param  integer $id [description]
+     * @return [type]      [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function deleteAdmin($id)
+    {
+        $model = new AdminModel();
+        if (isset($id) && $id) {
+            $model = $model->where('id',$id);
         }
 
-        $admin_model = new AdminModel();
-        $result = $admin_model
-                    ->where('id', $id)
-                    ->update($data);
-
-        return $result;
+        return $model->delete();
     }
 
-    public function deleteOneAdmin($id = 0)
+    /**
+     * 检查是否存在
+     * @param  string $name [description]
+     * @return [type]       [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function checkExit($name)
     {
-        if (empty($id)) {
-            return false;
+        $model = new AdminModel();
+        if (isset($name) && $name) {
+            $model = $model->where('name',$name);
         }
 
-        $admin_model = new AdminModel();
-        $result = $admin_model
-                    ->where('id', $id)
-                    ->update(array('is_use' => 0));
-
-        return $result;
+        return $model->one();
     }
 
-    public function checkExit($name = '')
+    /**
+     * 验证用户名密码
+     * @param  string $username [description]
+     * @param  string $password [description]
+     * @return [type]           [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function checkUserInfo($username, $password)
     {
-        $admin_model = new AdminModel();
-        $result = $admin_model
-                    ->where('name', $name)
-                    ->one();
-
-        return $result;
+        $model = new AdminModel();
+        if (isset($username) && $username) {
+            $model = $model->where('name',$username);
+        }
+        if (isset($password) && $password) {
+            $model = $model->where('password',$password);
+        }
+        return $model->where('is_use',1)->one();
     }
 
-    public function checkUserInfo($username = '', $password = '')
+    /**
+     * 启用/禁用管理员
+     * @param  [type]  $id     [description]
+     * @param  integer $status [description]
+     * @return [type]             [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function changeVisible($id,$status=0)
     {
-        $admin_model = new AdminModel();
-        return $admin_model
-                    ->where(array('name' => $username, 'password' => $password))
-                    ->one();
+        $model = new AdminModel();
+        if (isset($id) && $id) {
+            $model = $model->where('id',$id);
+        }
+        return $model->update(array('is_use' => $status));
     }
 }

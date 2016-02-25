@@ -75,7 +75,7 @@ class ArticleSettingController extends BaseController
         if (isset($params['id']) && $params['id']) {
             $id = intval($_POST['id']);
         }
-        if (isset($params['status']) && $params['sattus']) {
+        if (isset($params['status']) && $params['status']) {
             $status = intval($_POST['status']);
         }
         $biz = new ArticleBiz();

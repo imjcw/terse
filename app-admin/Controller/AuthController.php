@@ -43,9 +43,10 @@ class AuthController
         $password = strval($login_info['password']);
 
         $auth_biz = new AuthBiz();
-        $result = $auth_biz->checkAuth($username, $password);
-        if ($result) {
-            $_SESSION['user_id'] = $result;
+        $admin = $auth_biz->checkAuth($username, $password);
+        if ($admin) {
+            $_SESSION['user_id'] = $admin['id'];
+            $_SESSION['user'] = $admin['nickname'];
             return redirect('/article/index');
         }
         return json('error', '用户名或密码错误！');

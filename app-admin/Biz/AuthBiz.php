@@ -21,7 +21,7 @@ class AuthBiz extends BaseBiz
         $auth_service = new AdminService();
         $admin = $auth_service->checkUserInfo($username, $encrypt_password);
         if ($admin) {
-            return $admin['id'];
+            return $admin;
         }
         return false;
     }

@@ -15,9 +15,16 @@ class AdminSettingController extends BaseController
     public function index(){
         $biz = new AdminBiz();
         $admins = $biz->getAdmins();
+        foreach ($admins as $admin) {
+            $id = $admin['id'];
+            $data[$id]['nickname'] = $admin['nickname'];
+            $data[$id]['name'] = $admin['name'];
+            $data[$id]['is_use'] = $admin['is_use'];
+            $data[$id]['create_time'] = date('Y-m-d', strtotime($admin['create_time']));
+        }
 
         return view('admin/index')->with(array(
-            'admins' => $admins
+            'admins' => $data
         ));
     }
 
@@ -64,17 +71,23 @@ class AdminSettingController extends BaseController
      * @date   2016-02-24
      */
     public function edit(){
-        $id = intval($_GET['id']);
-        if (empty($id)) {
-            return json('error', '参数错误！');
+        $params = $_GET;
+        if (isset($params['id']) && $params['id']) {
+            $id = filter_var($params['id'], FILTER_VALIDATE_INT);
         }
 
         $biz = new AdminBiz();
-        $pageData = $biz->getAdmin($id);
+        $admin = $biz->getAdmin($id);
 
-        return view('admin/edit')->with($pageData);
+        return view('admin/edit')->with($admin);
     }
 
+    /**
+     * 管理员编辑操作
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
     public function doEdit(){
         $params = $_GET;
         if (isset($params['id']) && $params['id']) {
@@ -96,7 +109,7 @@ class AdminSettingController extends BaseController
         }
 
         $biz = new AdminBiz();
-        $result = $biz->editAdmin($id, $data);
+        $result = $biz->updateAdmin($id, $data);
         return redirect('admin/index');
     }
 
@@ -115,5 +128,25 @@ class AdminSettingController extends BaseController
         $biz = new AdminBiz();
         $result = $biz->deleteAdmin($id);
         return redirect('admin/index');
+    }
+
+    /**
+     * 启用/禁用管理员
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-18
+     */
+    public function changeVisible()
+    {
+        $params = $_POST;
+        if (isset($params['id']) && $params['id']) {
+            $id = intval($_POST['id']);
+        }
+        if (isset($params['status']) && $params['status']) {
+            $status = intval($_POST['status']);
+        }
+        $biz = new AdminBiz();
+        $result = $biz->changeVisible($id,$status);
+        return $result ? json('success！') : json('fault！', 403);
     }
 }

@@ -99,11 +99,17 @@
     <div class="terse page right">
         <div class="terse page top">
             <span class="terse left">
-                <?=date('Y-m-d')?> 星期<?php $weekArray = array('日', '一', '二', '三', '四', '五', '六'); echo $weekArray[date('w')]; ?>
+                <i class="calendar icon"></i>
+                <?=date('Y-m-d')?> 星期<?php $weekArray = array('日', '一', '二', '三', '四', '五', '六'); echo $weekArray[date('w')]; ?> | 
+                <i class="user icon"></i>欢迎，<?=$_SESSION['user']?>
             </span>
             <span class="terse right">
+                <a class="item" href="/">
+                    <i class="dashboard icon"></i>
+                    系统首页
+                </a> | 
                 <a class="item" href="/auth/outLogin">
-                    <i class="user icon"></i>
+                    <i class="sign out icon"></i>
                     登出
                 </a>
             </span>

@@ -34,57 +34,74 @@ class AdminBiz extends BaseBiz
         return $admin;
     }
 
-    public function addAdmin($data = array())
+    /**
+     * 添加管理员
+     * @param  [type] $data [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function addAdmin($data)
     {
-        if (empty($data)) {
-            return false;
-        }
-
-        $admin_service = new AdminService();
-        $result = $admin_service->checkExit($data['name']);
-        if ($result) {
+        $service = new AdminService();
+        $result = $service->checkExit($data['name']);
+        if ($result['id'] != $data['id']) {
             return false;
         }
 
         $encrypt_password = $this->encrypt_password($data['name'], $data['password']);
         $data['password'] = $encrypt_password;
-        return $admin_service->addOneAdmin($data);
+        return $service->addAdmin($data);
     }
 
-    public function editAdmin($id = 0, $data = array())
+    /**
+     * 更新管理员
+     * @param  [type] $id   [description]
+     * @param  [type] $data [description]
+     * @return [type]       [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function updateAdmin($id, $data)
     {
-        if (empty($id)) {
-            return false;
-        }
-
-        if (empty($data)) {
-            return false;
-        }
-
-        $admin_service = new AdminService();
-        $result = $admin_service->checkExit($data['name']);
-        if ($result) {
+        $service = new AdminService();
+        $result = $service->checkExit($data['name']);
+        if ($result['id'] != $data['id']) {
             return false;
         }
 
         $encrypt_password = $this->encrypt_password($data['name'], $data['password']);
         $data['password'] = $encrypt_password;
 
-        $result = $admin_service->editOneAdmin($id, $data);
+        $result = $service->updateAdmin($id, $data);
 
         return $result;
     }
 
-    public function deleteAdmin($id = 0)
+    /**
+     * 删除管理员
+     * @param  integer $id [description]
+     * @return [type]      [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function deleteAdmin($id)
     {
-        if (empty($id)) {
-            return false;
-        }
+        $service = new AdminService();
+        return $service->deleteAdmin($id);
+    }
 
-        $admin_service = new AdminService();
-        $result = $admin_service->deleteOneAdmin($id);
-
-        return $result;
+    /**
+     * 启用/禁用管理员
+     * @param  [type] $id     [description]
+     * @param  [type] $status [description]
+     * @return [type]         [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function changeVisible($id,$status)
+    {
+        $service = new AdminService();
+        return $service->changeVisible($id,$status);
     }
 
     public function encrypt_password($username = '', $password = '')
