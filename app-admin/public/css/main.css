@@ -57,7 +57,7 @@ ul,li{
     float: right;
 }
 .terse.center{
-    text-align: center;
+    text-align: center !important;
 }
 
 .terse.page.left{

@@ -24,20 +24,20 @@
                 <ul class="subnav">
                     <li>
                         <a href="/column-setting/index">
+                            <i class="radio icon"></i>
                             栏目管理
-                            <i class="radio icon terse left"></i>
                         </a>
                     </li>
                     <li>
                         <a href="/article-setting/index">
+                            <i class="radio icon"></i>
                             文档管理
-                            <i class="radio icon terse left"></i>
                         </a>
                     </li>
                     <li>
                         <a href="/recycle-setting/index">
+                            <i class="radio icon"></i>
                             回收站
-                            <i class="radio icon terse left"></i>
                         </a>
                     </li>
                 </ul>
@@ -51,14 +51,14 @@
                 <ul class="subnav">
                     <li>
                         <a href="/template-setting/index">
+                            <i class="radio icon"></i>
                             模板选择
-                            <i class="radio icon terse left"></i>
                         </a>
                     </li>
                     <li>
                         <a href="/file-setting/index">
+                            <i class="radio icon"></i>
                             文件管理
-                            <i class="radio icon terse left"></i>
                         </a>
                     </li>
                 </ul>
@@ -72,8 +72,8 @@
                 <ul class="subnav">
                     <li>
                         <a href="/admin-setting/index">
+                            <i class="radio icon"></i>
                             管理员设置
-                            <i class="radio icon terse left"></i>
                         </a>
                     </li>
                 </ul>
@@ -87,8 +87,8 @@
                 <ul class="subnav">
                     <li>
                         <a href="/system-setting/index">
+                            <i class="radio icon"></i>
                             系统设置
-                            <i class="radio icon terse left"></i>
                         </a>
                     </li>
                 </ul>
@@ -101,7 +101,7 @@
             <span class="terse left">
                 <i class="calendar icon"></i>
                 <?=date('Y-m-d')?> 星期<?php $weekArray = array('日', '一', '二', '三', '四', '五', '六'); echo $weekArray[date('w')]; ?> | 
-                <i class="user icon"></i>欢迎，<?=$_SESSION['user']?>
+                <i class="user icon"></i>欢迎，<?=session('user')?>
             </span>
             <span class="terse right">
                 <a class="item" href="/">

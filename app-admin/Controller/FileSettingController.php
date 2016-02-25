@@ -5,7 +5,7 @@ use Admin\Biz\FileBiz;
 use Admin\Controller\BaseController;
 use Admin\Service\TemplateService;
 
-class FileSettingController
+class FileSettingController extends BaseController
 {
     protected $icon = array(
         'html' => 'html5',
@@ -147,7 +147,7 @@ class FileSettingController
         return $result;
     }
 
-    public function test()
+    public function upload()
     {
         $exts = array('html','css','js','jpg','png','gif');
         //if (!file_exists(ROOT.'/uploads')) {
@@ -157,6 +157,7 @@ class FileSettingController
         $uploads_dir = '/uploads';
         $file = $_FILES['file'];
         $error = $this->checkError($file['error']);
+        $status = false;
         if ($error == 'ok') {
             //检查是否为正确的上传方式
             if (!is_uploaded_file($file['tmp_name'])) {
@@ -170,9 +171,10 @@ class FileSettingController
             //自定义文件名
             $file_name = $file['name'];
             //移动文件到指定文件夹
-            move_uploaded_file($file['tmp_name'], '/home/marvin/workspace/terse/public/app-front/template_01/'.$file_name);
-            chmod('/home/marvin/workspace/terse/public/app-front/template_01/'.$file_name, 0755);
+            $status = move_uploaded_file($file['tmp_name'], ROOT.'/app-admin/public/tpl_img/'.$file_name);
+            chmod(ROOT.'/app-admin/public/tpl_img/'.$file_name, 0777);
         }
+        return $status ? json('success！') : json('fault！', 403);
     }
 
     /**

@@ -6,13 +6,6 @@ use Admin\Service\SettingService;
 
 class TemplateBiz
 {
-    public function getAll()
-    {
-        dd(scandir(ROOT.'/resources/show'));
-        //$admin_service = new TemplateService();
-        //return $admin_service->getAllAdmins();
-    }
-
     /**
      * 从数据库读取所有的模板信息
      * @return [type] [description]
@@ -21,25 +14,37 @@ class TemplateBiz
      */
     public function getTemplates()
     {
-        $file_service = new TemplateService();
-        $result = $file_service->getTemplates();
-        return $result;
+        $service = new TemplateService();
+        return $service->getTemplates();
+    }
+
+    /**
+     * 编辑模板
+     * @param  [type] $data [description]
+     * @return [type]       [description]
+     * @author marvin
+     * @date   2016-02-25
+     */
+    public function updateTemplate($data)
+    {
+        $service = new TemplateService();
+        return $service->updateTemplate($data);
     }
 
     /**
      * 选择模板
-     * @param  [type]     $name [description]
-     * @return [type]           [description]
+     * @param  [type] $data [description]
+     * @return [type]       [description]
      * @author marvin <imjcw@imjcw.com>
      * @date   2016-01-28
      */
-    public function choose($name)
+    public function choose($data)
     {
-        $file_service = new TemplateService();
-        $result = $file_service->choose($name);
+        $template_service = new TemplateService();
+        $result = $template_service->choose($data['id']);
         if ($result) {
             $setting_service = new SettingService();
-            $result = $setting_service->updateTemplateInfo(array('template_name' => $name));
+            $result = $setting_service->updateTemplateInfo(array('template_name' => $data['name']));
         }
         return $result;
     }
