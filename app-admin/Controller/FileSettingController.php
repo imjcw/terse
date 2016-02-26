@@ -69,16 +69,11 @@ class FileSettingController extends BaseController
         $ext = isset($_GET['ext']) ? $_GET['ext'] : '';
         $exts = array('html','js');
         if (!in_array($ext, $exts)) {
-            return redirect('/file/index');
+            return redirect('/file-setting/index');
         }
-        $url = 'http://'.$_SERVER['HTTP_HOST'].'/public/show/'.TEMPLATE_NAME.$path.'.'.$ext;
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        $content = curl_exec($curl);
-        curl_close($curl);
-        return view('file/edit')->with(array('content' => $content, 'filename' => basename($path)));
+        $src = ROOT.'/public/app-front/'.TEMPLATE_NAME.$path.'.'.$ext;
+        $content = file_get_contents($src);
+        return view('file-setting/edit')->with(array('content' => $content, 'filename' => basename($path)));
     }
 
     public function view()
@@ -123,6 +118,8 @@ class FileSettingController extends BaseController
     public function rename()
     {
         $params = $_POST;
+        $path = isset($_GET['path']) ? $_GET['path'] : '';
+        $ext = isset($_GET['ext']) ? $_GET['ext'] : '';
         if (isset($params['new_name']) && $params['new_name']) {
             $data['new_name'] = filter_var($params['new_name'], FILTER_SANITIZE_STRING);
         }
@@ -138,7 +135,7 @@ class FileSettingController extends BaseController
         if (!file_exists(ROOT.'/public/app-front/'.TEMPLATE_NAME.'/'.$old_name)) {
             return "文件不存在！";
         }
-        if (rename(ROOT.'/public/app-front/'.TEMPLATE_NAME.'/'.$old_name,ROOT.'/public/app-front/'.TEMPLATE_NAME.'/'.$new_name)) {
+        if (rename(ROOT.'/public/app-front/'.TEMPLATE_NAME.$path.'/'.$old_name,ROOT.'/public/app-front/'.TEMPLATE_NAME.'/'.$new_name)) {
             return "成功！";
         } else {
             return "失败！";

@@ -44,7 +44,7 @@ CREATE TABLE `admin_user`(
 
 CREATE TABLE `setting`(
 `id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-`title` varchar(30) NOT NULL COMMENT '配置名',
+`name` varchar(30) NOT NULL COMMENT '配置名',
 `value` varchar(300) NOT NULL COMMENT '配置值',
 `description` varchar(300) NOT NULL COMMENT '阐释',
 `create_time` timestamp DEFAULT '0000-00-00 00:00:00',
@@ -64,7 +64,7 @@ CREATE TABLE `template`(
 
 INSERT INTO `admin_user` (`nickname`,`name`,`password`,`description`) VALUES ('超级管理员','admin','e4223b9d73f41502c2590e284cde3ff5','这是超级管理员。');
 
-INSERT INTO `setting`(`title`,`value`,`description`) VALUES('url','http://marvin.club/','网址'),('name','test','名称'),('description','just a test','描述'),('keywords','','关键词'),('copyright','','备案信息'),('template_name','','模板名称'),('template_path','','模板地址');
+INSERT INTO `setting`(`name`,`value`,`description`) VALUES('url','http://marvin.club/','网址'),('name','test','名称'),('description','just a test','描述'),('keywords','','关键词'),('copyright','','备案信息'),('template_name','template_01','模板名称'),('template_path','','模板地址');
 
 update `setting` 
 SET `value` = CASE `name`

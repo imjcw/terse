@@ -59,9 +59,9 @@
         <?php foreach ($pageData['file'] as $file): ?>
         <li class="item">
             <span class="terse right">
-                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file/edit?path=<?=$realPath.'/'.$file['name'].'&ext='.$file['ext']?>"></i>
-                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="/file/view?path=<?=$realPath.'/'.$file['name']?>"></i>
-                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file/delete?path=<?=$realPath.'/'.$file['name']?>"></i>
+                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path=<?=$realPath.'/'.$file['name'].'&ext='.$file['ext']?>"></i>
+                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="/file-setting/view?path=<?=$realPath.'/'.$file['name']?>"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path=<?=$realPath.'/'.$file['name']?>"></i>
             </span>
             <i class="blue <?=$file['class']?> icon"></i>
             <span class="text name"><?=$file['name']?></span>.<span class="text ext"><?=$file['ext']?></span>
@@ -70,8 +70,8 @@
         <?php foreach ($pageData['dir'] as $dirs): ?>
         <li class="item">
             <span class="terse right">
-                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file/edit?path=<?=$realPath.'/'.$dirs['name']?>"></i>
-                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file/delete?path=<?=$realPath.'/'.$dirs['name']?>"></i>
+                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path=<?=$realPath.'/'.$dirs['name']?>"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path=<?=$realPath.'/'.$dirs['name']?>"></i>
             </span>
             <i class="blue <?=$dirs['class']?> icon"></i>
             <a href="?path=<?=$realPath.'/'.$dirs['name']?>" class="name"><?=$dirs['name']?></a>
