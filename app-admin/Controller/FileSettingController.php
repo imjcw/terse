@@ -122,7 +122,27 @@ class FileSettingController extends BaseController
 
     public function rename()
     {
-        # code...
+        $params = $_POST;
+        if (isset($params['new_name']) && $params['new_name']) {
+            $data['new_name'] = filter_var($params['new_name'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['old_name']) && $params['old_name']) {
+            $data['old_name'] = filter_var($params['old_name'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['ext']) && $params['ext']) {
+            $data['ext'] = filter_var($params['ext'], FILTER_SANITIZE_STRING);
+        }
+        $old_name = $data['old_name'].'.'.$data['ext'];
+        $new_name = $data['new_name'].'.'.$data['ext'];
+        //判断文件是否存在
+        if (!file_exists(ROOT.'/public/app-front/'.TEMPLATE_NAME.'/'.$old_name)) {
+            return "文件不存在！";
+        }
+        if (rename(ROOT.'/public/app-front/'.TEMPLATE_NAME.'/'.$old_name,ROOT.'/public/app-front/'.TEMPLATE_NAME.'/'.$new_name)) {
+            return "成功！";
+        } else {
+            return "失败！";
+        }
     }
 
     public function readTemplates()

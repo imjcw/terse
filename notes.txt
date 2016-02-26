@@ -2,8 +2,8 @@ CREATE TABLE `column`(
 `id` tinyint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `name` varchar(30) COMMENT '栏目名称',
 `nickname` varchar(30) COMMENT '栏目名称',
-`is_show` tinyint DEAFULT 1 COMMENT '是否启用栏目',
-`description` varchar(300) DEFAULT '暂无描述~' COMMENT '栏目简介',
+`is_show` tinyint DEFAULT 1 COMMENT '是否启用栏目',
+`description` varchar(300) DEFAULT '暂无描述' COMMENT '栏目简介',
 `level` tinyint DEFAULT 1 COMMENT '栏目等级',
 `father_id` tinyint DEFAULT 0 COMMENT '父级栏目',
 `create_time` timestamp DEFAULT '0000-00-00 00:00:00',
@@ -64,7 +64,7 @@ CREATE TABLE `template`(
 
 INSERT INTO `admin_user` (`nickname`,`name`,`password`,`description`) VALUES ('超级管理员','admin','e4223b9d73f41502c2590e284cde3ff5','这是超级管理员。');
 
-INSERT INTO `setting`(`name`,`value`,`description`) VALUES('url','http://marvin.club/','网址'),('name','test','名称'),('description','just a test','描述'),('keywords','','关键词'),('copyright','','备案信息'),('template_name','','模板名称'),('template_path','','模板地址');
+INSERT INTO `setting`(`title`,`value`,`description`) VALUES('url','http://marvin.club/','网址'),('name','test','名称'),('description','just a test','描述'),('keywords','','关键词'),('copyright','','备案信息'),('template_name','','模板名称'),('template_path','','模板地址');
 
 update `setting` 
 SET `value` = CASE `name`

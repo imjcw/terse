@@ -1,6 +1,5 @@
 <?php extend('extend/extend'); ?>
-<?php start('content'); ?>
-<!--内容-->
+<?php start('style'); ?>
 <style type="text/css">
     .ui.attached.header{
         margin-top: 0;
@@ -44,6 +43,9 @@
         padding: 0 5px;
     }
 </style>
+<?php stop(); ?>
+<?php start('content'); ?>
+<!--内容-->
 <h3 class="ui top attached header">
     <i class="archive icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文件管理
 </h3>
@@ -103,7 +105,7 @@
         </div>
     </div>
 </div>
-<form class="ui small modal form" action="/file/test" method="post" enctype="multipart/form-data">
+<form class="ui small modal form" action="/file-setting/upload" method="post" enctype="multipart/form-data">
     <div class="header">上传文件</div>
     <div class="content terse center" style="font-size:18px;cursor:pointer">
         <i class="icon blue upload"></i> <span>请选择上传文件</span>
@@ -120,9 +122,11 @@
         </div>
     </div>
 </form>
+<?php stop(); ?>
+<?php start('script');?>
 <script type="text/javascript">
 $(document).ready(function(){
-    var tmp_name = '';
+    var old_name = '';
     var edting = false;
     //开启提示框
     $('.icon.link').popup({
@@ -151,8 +155,8 @@ $(document).ready(function(){
         $(this).parent('span').siblings('.name').attr('contenteditable', "true");
         $(this).parent('span').siblings('.name').focus();
         $(this).parent('span').siblings('.name').addClass('terse edit');
-        tmp_name = $(this).parent('span').siblings('.name').html();
-        $(this).parents('.item').append('<button class="ui mini blue basic button">确认</button>');
+        old_name = $(this).parent('span').siblings('.name').html();
+        $(this).parents('.item').append('<button class="ui mini blue basic button rename" data-name=\"'+old_name+'\">确认</button>');
         $(this).parents('.item').append('<button class="ui mini grey basic button">取消</button>');
         //window.location = href;
     });
@@ -163,9 +167,29 @@ $(document).ready(function(){
         $('.write.link').removeClass('grey');
         $(this).siblings('.name').removeAttr('contenteditable');
         $(this).siblings('.name').removeClass('terse edit');
-        $(this).siblings('.name').html(tmp_name);
+        $(this).siblings('.name').html(old_name);
         $(this).siblings('button').remove();
         $(this).remove();
+    });
+
+    $('.item').on('click','.rename',function(){
+        var new_name = $(this).siblings('.name').html();
+        var ext = $(this).siblings('.ext').html();
+        if (new_name == old_name) {
+            showTips('貌似没有变化');
+            return;
+        }
+        $.post('/file-setting/rename',{new_name,old_name,ext},function(){
+            edting = false;
+            $('.write.link').removeClass('grey');
+            $(this).siblings('.name').removeAttr('contenteditable');
+            $(this).siblings('.name').removeClass('terse edit');
+            $(this).siblings('.name').html(new_name);
+            $(this).siblings('button').remove();
+            $(this).remove();
+        }).error(function(){
+            showTips('文件名修改失败!');
+        });
     });
 
     //查看
