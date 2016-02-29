@@ -6,14 +6,13 @@ use Admin\Controller\BaseController;
 
 class FrontController
 {
-    public $template = 'template_01';
     /**
      * 模板管理显示
      * @return [type] [description]
      * @author marvin <imjcw@imjcw.com>
      * @date   2016-01-27
      */
-    public function index(){
+    public function view(){
         return view($this->template.'/article','front');
     }
 

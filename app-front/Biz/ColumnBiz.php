@@ -70,4 +70,10 @@
             $column_service = new ColumnService();
             return $column_service->updateOneColumnStatus($id);
         }
+
+        public function getColumnByName($id)
+        {
+            $column_service = new ColumnService();
+            return $column_service->getColumnByName($id);
+        }
     }

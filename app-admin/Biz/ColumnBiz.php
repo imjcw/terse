@@ -140,4 +140,10 @@ class ColumnBiz
         $service = new ColumnService();
         return $service->changeVisible($id, $status);
     }
+
+    public function getColumnByNickName($nickname)
+    {
+        $service = new ColumnService();
+        return $service->getColumnByNickName($nickname);
+    }
 }

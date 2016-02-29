@@ -1,4 +1,4 @@
-//获取当天日期
+//获取当天日期，啦啦
 function setTodayDate(className){
     var myDate = new Date();
     var today = myDate.getFullYear() + '-';

@@ -2,26 +2,22 @@
 <?php start('content'); ?>
 <!--内容-->
 <h3 class="ui top attached header">
-    <i class="archive icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文件管理
+    <i class="archive icon"></i> 文件管理
 </h3>
-<form class="ui attached segment form" action="update" method="post" style="height:calc(100% - 45px); overflow: hidden">
+<form class="ui attached segment form" action="/file-setting/doEdit" method="post" style="height:calc(100% - 45px); overflow: hidden">
     <div class="field">
         <label>文件名：</label>
-        <input name="filename" value="<?=$filename?>">
+        <input name="name" value="<?=$name?>">
     </div>
-        <div class="field" style="height: calc(100% - 125px)">
-            <textarea name="content" style="height: calc(100%); max-height: calc(100%);"><?=$content?></textarea>
-        </div>
+    <div class="field" style="height: calc(100% - 125px)">
+        <textarea name="content" style="height: calc(100%); max-height: calc(100%);"><?=$content?></textarea>
+    </div>
+    <input type="hidden" name="ext" value="<?=$ext?>">
+    <input type="hidden" name="dir" value="<?=$dir?>">
+    <input type="hidden" name="old_name" value="<?=$name?>">
     <div class="terse center field">
         <button class="ui blue submit button">确认修改</button>
         <a class="ui button go_back" href="#">放弃</a>
     </div>
 </form>
-<script type="text/javascript">
-$(document).ready(function(){
-    $('.go_back').click(function(){
-        history.back();
-    });
-});
-</script>
 <?php stop(); ?>

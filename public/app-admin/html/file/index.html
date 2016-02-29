@@ -51,36 +51,46 @@
 </h3>
 <div class="ui attached segment">
     <ul class="terse list">
-        <?php if (empty($pageData)): ?>
+        <?php if (empty($data)): ?>
         <li class="item terse center text">
             该文件夹下没有任何文件或文件夹
         </li>
         <?php endif ?>
-        <?php foreach ($pageData['file'] as $file): ?>
-        <li class="item">
-            <span class="terse right">
-                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path=<?=$realPath.'/'.$file['name'].'&ext='.$file['ext']?>"></i>
-                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="/file-setting/view?path=<?=$realPath.'/'.$file['name']?>"></i>
-                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path=<?=$realPath.'/'.$file['name']?>"></i>
-            </span>
-            <i class="blue <?=$file['class']?> icon"></i>
-            <span class="text name"><?=$file['name']?></span>.<span class="text ext"><?=$file['ext']?></span>
+        <?php if (isset($data['dir'])): ?>
+            <?php foreach ($data['dir'] as $dir): ?>
+            <li class="item">
+                <span class="terse right">
+                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path=<?=$realPath.'/'.$dir['name']?>"></i>
+                    <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path=<?=$realPath.'/'.$dir['name']?>"></i>
+                </span>
+                <i class="blue <?=$dir['class']?> icon"></i>
+                <a href="?path=<?=$realPath.'/'.$dir['name']?>" class="name"><?=$dir['name']?></a>
+            </li>
+            <?php endforeach ?>
+        <?php endif ?>
+        <?php if (isset($data['file'])): ?>
+            <?php foreach ($data['file'] as $file): ?>
+            <li class="item">
+                <span class="terse right">
+                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path=<?=$realPath.'/'.$file['name'].'&ext='.$file['ext']?>"></i>
+                    <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="/file-setting/view?path=<?=$realPath.'/'.$file['name']?>"></i>
+                    <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path=<?=$realPath.'/'.$file['name']?>"></i>
+                </span>
+                <i class="blue <?=$file['class']?> icon"></i>
+                <span class="text name"><?=$file['name']?></span>.<span class="text ext"><?=$file['ext']?></span>
+            </li>
+            <?php endforeach ?>
+        <?php endif ?>
+        <li class="item" style="display: none;">
+            <div class="ui mini action input">
+                <i></i>
+                <input type="text" placeholder="填写文件夹名">
+                <div class="ui blue button">确认</div>
+                <div class="ui button">取消</div>
+            </div>
         </li>
-        <?php endforeach ?>
-        <?php foreach ($pageData['dir'] as $dirs): ?>
-        <li class="item">
+        <li class="item display_none">
             <span class="terse right">
-                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path=<?=$realPath.'/'.$dirs['name']?>"></i>
-                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path=<?=$realPath.'/'.$dirs['name']?>"></i>
-            </span>
-            <i class="blue <?=$dirs['class']?> icon"></i>
-            <a href="?path=<?=$realPath.'/'.$dirs['name']?>" class="name"><?=$dirs['name']?></a>
-        </li>
-        <?php endforeach ?>
-        <li class="item">
-            <span class="terse right">
-                <i class="circular blue folder icon link create" data-content="新增文件夹" data-position="bottom center" data-variation="inverted"></i>
-                <i class="circular blue file icon link create" data-content="新增文件" data-position="bottom center" data-variation="inverted"></i>
                 <i class="circular blue upload icon link create" data-content="上传文件" data-position="bottom center" data-variation="inverted"></i>
             </span>
             <i class="reply icon"></i>
@@ -144,7 +154,8 @@ $(document).ready(function(){
         $('.write.link').addClass('grey');
         $(this).removeClass('grey');
         var href = $(this).attr('data-action');
-        if ($(this).parent('span').siblings('span.ext').html() == 'html') {
+        var ext = $(this).parent('span').siblings('span.ext').html();
+        if ((ext == 'html') || (ext == 'js')|| (ext == 'css')) {
             window.location = href;
             return;
         }
@@ -175,18 +186,20 @@ $(document).ready(function(){
     $('.item').on('click','.rename',function(){
         var new_name = $(this).siblings('.name').html();
         var ext = $(this).siblings('.ext').html();
+        var path = "<?=$realPath?>";
         if (new_name == old_name) {
             showTips('貌似没有变化');
             return;
         }
-        $.post('/file-setting/rename',{new_name,old_name,ext},function(){
+        $.post('/file-setting/rename',{new_name,old_name,ext,path},function(){
             edting = false;
             $('.write.link').removeClass('grey');
-            $(this).siblings('.name').removeAttr('contenteditable');
-            $(this).siblings('.name').removeClass('terse edit');
-            $(this).siblings('.name').html(new_name);
-            $(this).siblings('button').remove();
-            $(this).remove();
+            $('.rename').siblings('.name').removeAttr('contenteditable');
+            $('.rename').siblings('.name').removeClass('terse edit');
+            $('.rename').siblings('.name').html(new_name);
+            $('.rename').siblings('button').remove();
+            $('.rename').remove();
+            showTips('文件名修改成功!');
         }).error(function(){
             showTips('文件名修改失败!');
         });
@@ -225,14 +238,6 @@ $(document).ready(function(){
     $('.small.form input:file').change(function(e){
         var name = e.target.files[0].name;console.log(e.target.files[0]);
         $('.small.form .content span').html(name);
-    });
-
-    //创建文件夹
-    $('.create.folder').click(function(){
-        $(this).parent('span').addClass('ui form');
-        $(this).parent('span').prepend('<button class="ui mini grey basic button">取消</button>');
-        $(this).parent('span').prepend('<button class="ui mini blue basic button">确认</button>');
-        $(this).parent('span').prepend('<div style="display:inline-block; padding:0 10px; margin-right:5px; border:2px solid #000;border-radius:3px;" contenteditable="true">确认</div>');
     });
 });
 </script>

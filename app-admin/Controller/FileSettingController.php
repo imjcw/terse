@@ -36,27 +36,18 @@ class FileSettingController extends BaseController
         }else{
             $matche = substr($matches[0],0,-1);
         }
-        $pageData = $file_biz->readDir($path);
-        $count = count($pageData['file']) + count($pageData['dir']);
-        $data = array();
-        foreach ($pageData['file'] as $key => $filename) {
-            $ext = pathinfo($filename['item'],PATHINFO_EXTENSION);
-            $data['file'][$key]['class'] = $this->icon[$ext];
-            $data['file'][$key]['action'] = $filename['action'];
-            $data['file'][$key]['name'] = basename($filename['item'],'.'.$ext);
-            $data['file'][$key]['ext'] = $ext;
+        $result = $file_biz->readDir($path);
+        if (isset($result['file'])) {
+            $files = $this->buildPageDataFile($result['file']);
+            $data['file'] = $files['file'];
         }
-        foreach ($pageData['dir'] as $key => $dir) {
-            $ext = pathinfo($dir['item'],PATHINFO_EXTENSION);
-            $data['dir'][$key]['class'] = $this->icon['folder'];
-            $data['dir'][$key]['action'] = $dir['action'];
-            $data['dir'][$key]['name'] = $dir['item'];
+        if (isset($result['dir'])) {
+            $dirs = $this->buildPageDataDir($result['dir']);
+            $data['dir'] = $dirs['dir'];
         }
-
-        //$templates = $file_biz->getTemplates();
         
         return view('file/index')->with(array(
-            'pageData' => $data,
+            'data' => $data,
             'realPath' => $path_name,
             'return' => $matche
         ));
@@ -64,16 +55,56 @@ class FileSettingController extends BaseController
 
     //编辑页面
     public function edit()
-    {//dd(dirname(__FILE__));
-        $path = isset($_GET['path']) ? $_GET['path'] : '';
-        $ext = isset($_GET['ext']) ? $_GET['ext'] : '';
-        $exts = array('html','js');
+    {
+        $params = $_GET;
+        $exts = array('html','js','css');
+        if (isset($params['path']) && $params['path']) {
+            $path = filter_var($params['path'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['ext']) && $params['ext']) {
+            $ext = filter_var($params['ext'], FILTER_SANITIZE_STRING);
+        }
         if (!in_array($ext, $exts)) {
-            return redirect('/file-setting/index');
+            return redirect('/file/index');
         }
         $src = ROOT.'/public/app-front/'.TEMPLATE_NAME.$path.'.'.$ext;
         $content = file_get_contents($src);
-        return view('file-setting/edit')->with(array('content' => $content, 'filename' => basename($path)));
+        return view('file/edit')->with(array(
+            'content' => $content,
+            'name' => basename($path),
+            'dir' => dirname($path),
+            'ext' => $ext
+            ));
+    }
+
+    public function doEdit()
+    {
+        $params = $_POST;
+        $exts = array('html','js','css');
+        if (isset($params['name']) && $params['name']) {
+            $name = filter_var($params['name'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['old_name']) && $params['old_name']) {
+            $old_name = filter_var($params['old_name'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['dir']) && $params['dir']) {
+            $dir = filter_var($params['dir'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['ext']) && $params['ext']) {
+            $ext = filter_var($params['ext'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['content']) && $params['content']) {
+            $content = $params['content'];
+        }
+        if (!in_array($ext, $exts)) {
+            return redirect('/file/index');
+        }
+        $src = ROOT.'/public/app-front/'.TEMPLATE_NAME.$dir.'/'.$name.'.'.$ext;
+        if (!file_exists($src)) {
+            return false;
+        }
+        $result = file_put_contents($src,$content);
+        return redirect('file/index'); 
     }
 
     public function view()
@@ -118,24 +149,27 @@ class FileSettingController extends BaseController
     public function rename()
     {
         $params = $_POST;
-        $path = isset($_GET['path']) ? $_GET['path'] : '';
-        $ext = isset($_GET['ext']) ? $_GET['ext'] : '';
         if (isset($params['new_name']) && $params['new_name']) {
             $data['new_name'] = filter_var($params['new_name'], FILTER_SANITIZE_STRING);
         }
         if (isset($params['old_name']) && $params['old_name']) {
             $data['old_name'] = filter_var($params['old_name'], FILTER_SANITIZE_STRING);
         }
+        if (isset($params['path']) && $params['path']) {
+            $data['path'] = filter_var($params['path'], FILTER_SANITIZE_STRING);
+        }
         if (isset($params['ext']) && $params['ext']) {
             $data['ext'] = filter_var($params['ext'], FILTER_SANITIZE_STRING);
         }
         $old_name = $data['old_name'].'.'.$data['ext'];
         $new_name = $data['new_name'].'.'.$data['ext'];
+        $path = $data['path'];
+        $old_url = ROOT.'/public/app-front/'.TEMPLATE_NAME.$path.'/'.$old_name;
         //判断文件是否存在
-        if (!file_exists(ROOT.'/public/app-front/'.TEMPLATE_NAME.'/'.$old_name)) {
+        if (!file_exists($old_url)) {
             return "文件不存在！";
         }
-        if (rename(ROOT.'/public/app-front/'.TEMPLATE_NAME.$path.'/'.$old_name,ROOT.'/public/app-front/'.TEMPLATE_NAME.'/'.$new_name)) {
+        if (rename($old_url,ROOT.'/public/app-front/'.TEMPLATE_NAME.$path.'/'.$new_name)) {
             return "成功！";
         } else {
             return "失败！";
@@ -189,7 +223,7 @@ class FileSettingController extends BaseController
             $file_name = $file['name'];
             //移动文件到指定文件夹
             $status = move_uploaded_file($file['tmp_name'], ROOT.'/app-admin/public/tpl_img/'.$file_name);
-            chmod(ROOT.'/app-admin/public/tpl_img/'.$file_name, 0777);
+            chmod(ROOT.'/app-admin/public/tpl_img/'.$file_name, 0766);
         }
         return $status ? json('success！') : json('fault！', 403);
     }
@@ -246,5 +280,41 @@ class FileSettingController extends BaseController
         }
         mkdir(ROOT.'/resources/app-front/template_01/'.$folder, 0777, true);
         chmod(ROOT.'/resources/app-front/template_01/'.$folder, 0777);
+    }
+
+    /**
+     * 组合文件数据
+     * @param  [type] $files [description]
+     * @return [type]       [description]
+     * @author marvin
+     * @date   2016-02-29
+     */
+    public function buildPageDataFile($files)
+    {
+        foreach ($files as $key => $file) {
+            $ext = pathinfo($file['item'],PATHINFO_EXTENSION);
+            $data['file'][$key]['class'] = $this->icon[$ext];
+            $data['file'][$key]['action'] = $file['action'];
+            $data['file'][$key]['name'] = basename($file['item'],'.'.$ext);
+            $data['file'][$key]['ext'] = $ext;
+        }
+        return $data;
+    }
+
+    /**
+     * 组合文件夹数据
+     * @param  [type] $dirs [description]
+     * @return [type]       [description]
+     * @author marvin
+     * @date   2016-02-29
+     */
+    public function buildPageDataDir($dirs)
+    {
+        foreach ($dirs as $key => $dir) {
+            $data['dir'][$key]['class'] = $this->icon['folder'];
+            $data['dir'][$key]['action'] = $dir['action'];
+            $data['dir'][$key]['name'] = $dir['item'];
+        }
+        return $data;
     }
 }

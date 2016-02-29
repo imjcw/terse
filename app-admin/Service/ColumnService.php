@@ -123,11 +123,11 @@ class ColumnService
      * @author marvin
      * @date   2016-02-23
      */
-    public function getColumnByName($name)
+    public function getColumnByNickName($nickname)
     {
         $model = new ColumnModel();
-        if (isset($name) && $name) {
-            $model = $model->where('name', $name);
+        if (isset($nickname) && $nickname) {
+            $model = $model->where('nickname', $nickname);
         }
         return $model->one();
     }

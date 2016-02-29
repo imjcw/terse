@@ -102,6 +102,7 @@ class ArticleSettingController extends BaseController
         foreach ($column_list as $column) {
             $id = $column['id'];
             $columns[$id]['name'] = $column['name'];
+            $columns[$id]['nickname'] = $column['nickname'];
         }
         return view('article/add')->with(array('columns' => $columns));
     }
