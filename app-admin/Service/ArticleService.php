@@ -64,6 +64,9 @@ class ArticleService
         if (isset($params['title']) && $params['title']) {
             $data['title'] = $params['title'];
         }
+        if (isset($params['nickname']) && $params['nickname']) {
+            $data['nickname'] = $params['nickname'];
+        }
         if (isset($params['column']) && $params['column']) {
             $data['column_id'] = $params['column'];
         }
@@ -93,6 +96,12 @@ class ArticleService
         $data = array();
         if (isset($id) && $id) {
             $model = $model->where('id', $id);
+        }
+        if (isset($params['title']) && $params['title']) {
+            $data['title'] = $params['title'];
+        }
+        if (isset($params['nickname']) && $params['nickname']) {
+            $data['nickname'] = $params['nickname'];
         }
         if (isset($params['column']) && $params['column']) {
             $data['column_id'] = $params['column'];

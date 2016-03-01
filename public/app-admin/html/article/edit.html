@@ -13,14 +13,20 @@
         <label>文章名称</label>
         <input type="text" name="title" placeholder="文章名称" value="<?= $article['title'] ?>">
     </div>
+    <div class="field url">
+        固定链接： <span style="color: #2185D0;">http://front.marvin.cn/<span class="column"><?=$columns[$article['column_id']]['nickname']?></span>/<span class="nickname"><?=$article['nickname']?></span>.html</span>
+        <i class="circular inverted blue mini write icon link"></i>
+        <i class="circular inverted blue mini refresh icon link" style="display: none"></i>
+        <i class="circular inverted red mini remove icon link" style="display: none"></i>
+    </div>
     <div class="field">
          <label>所属栏目：</label>
          <select name="column" class="ui dropdown">
             <?php foreach ($columns as $id => $column): ?>
             <?php if ($article['column_id'] == $id): ?>
-            <option value="<?= $id ?>" selected='selected'><?= $column['name'] ?></option>
+            <option value="<?= $id ?>" selected='selected' data-name="<?=$column['nickname']?>"><?= $column['name'] ?></option>
             <?php else: ?>
-            <option value="<?= $id ?>"><?= $column['name'] ?></option>
+            <option value="<?= $id ?>" data-name="<?=$column['nickname']?>"><?= $column['name'] ?></option>
             <?php endif ?>
             <?php endforeach; ?>
          </select>
@@ -33,6 +39,7 @@
         <label>文章内容</label>
         <textarea name="content" placeholder="文章内容"><?= $article['content']?></textarea>
     </div>
+    <input type="hidden" name="nickname" value="<?=$article['nickname']?>">
     <div class="field" style="text-align: center;">
         <button class="ui blue submit button">保存</button>
         <a class="ui button go_back" href="#">放弃</a>
@@ -45,9 +52,67 @@
 <?php start('script'); ?>
 <script type="text/javascript">
 $(document).ready(function(){
+    var title = "<?= $article['title'] ?>";
+    var column = "<?=$article['column_id']?>";
+    var nickname = "<?=$article['nickname']?>";
     CKEDITOR.replace( 'content' );
     $('.ui.dropdown.fluid').dropdown({
         allowAdditions: true
+    });
+    $('input[name=title]').change(function(){
+        var variable = $('input[name=title]').val();
+        if (nickname == title) {
+            $.get('/article-setting/translate',{variable},function(response){
+                title = response;
+                nickname = response;console.log(nickname+'='+title);
+                buildUrl();
+            });
+        }
+    });
+    $('select[name=column]').change(function(){
+        column = $('select[name=column]').val();
+        buildUrl();
+    });
+    function buildUrl(){
+        var value = title;
+        if (nickname) {
+            value = nickname;
+        }
+        if (value && column) {
+            var column_name = $('option[value='+column+']').attr('data-name');
+            $('.column').html(column_name);
+            $('.nickname').html(value);
+            $('.url').show();
+            $('input[name=nickname]').val(value);
+        }
+    }
+    $('.write.link').click(function(){
+        var value = title;
+        if (nickname != title) {
+            value = nickname;
+        }
+        $('.nickname').html('<input style="width:auto;padding:3px 5px;" type="text" value="'+value+'">');
+        $('.url .write.link').hide();
+        $('.url .refresh.link').show();
+        $('.url .remove.link').show();
+    });
+    $('.url .refresh.link').click(function(){
+        nickname = $('.url input').val();
+        $('input[name=nickname]').val(nickname);
+        $('.nickname').html(nickname);
+        $('.url .write.link').show();
+        $('.url .refresh.link').hide();
+        $('.url .remove.link').hide();
+    });
+    $('.url .remove.link').click(function(){
+        var value = title;
+        if (nickname) {
+            value = nickname;
+        }
+        $('.nickname').html(value);
+        $('.url .write.link').show();
+        $('.url .refresh.link').hide();
+        $('.url .remove.link').hide();
     });
     //表单验证
     $('.ui.form').form({

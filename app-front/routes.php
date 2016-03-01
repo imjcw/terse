@@ -1,8 +1,12 @@
 <?php
 $routes = array (
-  'article' => 
+  'test1' => 
   array (
-    1 => 'test1',
-    2 => 'er',
+  ),
+  'er' => 
+  array (
+  ),
+  'wewe' => 
+  array (
   ),
 );

@@ -1,0 +1,69 @@
+<?php extend('extend/extend'); ?>
+<?php start('style'); ?>
+<style type="text/css">
+    .file.image{
+        width: 27px !important;
+    }
+</style>
+<?php stop(); ?>
+<?php start('content'); ?>
+<!--内容-->
+<h3 class="ui top attached header">
+    <div class="terse right" style="font-size: 12px;"><i class="circular inverted teal upload link icon"></i></div>
+    <i class="file image outline icon"></i> 图片管理
+</h3>
+<div class="ui attached segment">
+    <div class="ui four stackable doubling cards" style="margin-top:0;">
+    <?php 
+    $i = 0;
+    while ($i <= 10) {
+     ?>
+        <a class="red card">
+            <div class="image">
+                <img class="ui wireframe image" src="http://ww1.sinaimg.cn/mw690/b283ca9dgw1etcytji97lj20zk0k0q59.jpg">
+            </div>
+            <div class="content terse center">
+                <div class="header">
+                    可爱的小狗
+                </div>
+            </div>
+        </a>
+        <?php $i++; } ?>
+    </div>
+</div>
+<form class="ui small modal form" action="/file-setting/upload" method="post" enctype="multipart/form-data">
+    <div class="header">上传文件</div>
+    <div class="content terse center" style="font-size:18px;cursor:pointer">
+        <i class="icon blue upload"></i> <span>请选择上传文件</span>
+    </div>
+    <input type="file" name="file" style="display:none">
+    <div class="actions terse center">
+        <button class="ui blue button">
+            <i class="save icon"></i>
+            确认
+        </button>
+        <div class="ui negative button">
+            <i class="close icon"></i>
+            取消
+        </div>
+    </div>
+</form><?php stop(); ?>
+<?php start('script');?>
+<script type="text/javascript">
+$(document).ready(function(){
+    //上传
+    $('.circular.upload').click(function(){
+        $('.small.form').modal({
+            closable: false
+        }).modal('show');
+    });
+    $('.small.form .content').click(function(){
+        $('.small.form input:file').click();
+    });
+    $('.small.form input:file').change(function(e){
+        var name = e.target.files[0].name;
+        $('.small.form .content span').html(name);
+    });
+});
+</script>
+<?php stop(); ?>

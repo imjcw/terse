@@ -7,6 +7,9 @@
             "App\\": "app/",
             "Admin\\": "app-admin/",
             "Front\\": "app-front/"
-        }
+        },
+        "files": [
+            "app-admin/Function/Helper.php"
+        ]
     }
 }

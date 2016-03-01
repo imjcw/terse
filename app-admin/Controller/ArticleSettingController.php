@@ -23,11 +23,16 @@ class ArticleSettingController extends BaseController
         $columns = $column_biz->getColumnByIds($column_ids);
         //组合数据
         $data = $this->buildPageData($articles,$columns);
+        $url = getSystem('url');
+        if (strlen($url) == (strripos($url, '/') + 1)) {
+            $url = substr($url, 0, -1);
+        }
         $msg = getMsg();
 
         return view('article/index')->with(array(
             'data' => $data,
-            'msg' => $msg
+            'msg' => $msg,
+            'url' => $url
         ));
     }
 
@@ -55,11 +60,16 @@ class ArticleSettingController extends BaseController
         $columns = $column_biz->getColumnByIds($column_ids);
         //组合数据
         $data = $this->buildPageData($articles,$columns);
+        $url = getSystem('url');
+        if (strlen($url) == (strripos($url, '/') + 1)) {
+            $url = substr($url, 0, -1);
+        }
         $msg = getMsg();
 
         return view('article/index')->with(array(
             'data' => $data,
-            'msg' => $msg
+            'msg' => $msg,
+            'url' => $url
         ));
     }
 
@@ -118,6 +128,9 @@ class ArticleSettingController extends BaseController
         if (isset($params['title']) && $params['title']) {
             $data['title'] = filter_var($params['title'], FILTER_SANITIZE_STRING);
         }
+        if (isset($params['nickname']) && $params['nickname']) {
+            $data['nickname'] = filter_var($params['nickname'], FILTER_SANITIZE_STRING);
+        }
         if (isset($params['column']) && $params['column']) {
             $data['column'] = filter_var($params['column'], FILTER_VALIDATE_INT);
         }
@@ -154,6 +167,7 @@ class ArticleSettingController extends BaseController
         foreach ($column_list as $column) {
             $id = $column['id'];
             $columns[$id]['name'] = $column['name'];
+            $columns[$id]['nickname'] = $column['nickname'];
         }
         return view('article/edit')->with(array(
             'article' => $article,
@@ -178,6 +192,9 @@ class ArticleSettingController extends BaseController
         }
         if (isset($params['column']) && $params['column']) {
             $data['column'] = filter_var($params['column'], FILTER_VALIDATE_INT);
+        }
+        if (isset($params['nickname']) && $params['nickname']) {
+            $data['nickname'] = filter_var($params['nickname'], FILTER_SANITIZE_STRING);
         }
         if (isset($params['old_column']) && $params['old_column']) {
             $data['old_column'] = filter_var($params['old_column'], FILTER_VALIDATE_INT);
@@ -229,8 +246,10 @@ class ArticleSettingController extends BaseController
      */
     public function buildPageData($articles,$columns)
     {
-        foreach ($columns as $columns) {
-            $column_name[$columns['id']] = $columns['name'];
+        foreach ($columns as $value) {
+            $id = $value['id'];
+            $column[$id]['name'] = $value['name'];
+            $column[$id]['nickname'] = $value['nickname'];
         }
         $data = array();
         //拼接相应的数据
@@ -240,10 +259,18 @@ class ArticleSettingController extends BaseController
             $data[$id]['author'] = $article['author'];
             $data[$id]['description'] = $article['description'];
             $data[$id]['column_id'] = $article['column_id'];
-            $data[$id]['column'] = $column_name[$article['column_id']];
+            $data[$id]['column'] = $column[$article['column_id']]['name'];
             $data[$id]['is_show'] = $article['is_show'];
             $data[$id]['create_time'] = $article['create_time'];
+            $data[$id]['column_nickname'] = $column[$article['column_id']]['nickname'];
+            $data[$id]['article_nickname'] = $article['nickname'];
         }
         return $data;
+    }
+
+    public function translate()
+    {
+        $param = $_GET;
+        return translate($param['variable']);
     }
 }

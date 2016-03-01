@@ -8,8 +8,8 @@ class ArticleBiz
 {
     public function get($article_name, $column_id)
     {
-        $column_service = new ArticleService();
-        $article = $column_service->getArticle($article_name);
+        $article_service = new ArticleService();
+        $article = $article_service->getArticle($article_name);
 
         if ($article['column_id'] !== $column_id) {
             return false;
@@ -21,5 +21,11 @@ class ArticleBiz
         $article['content'] = htmlspecialchars_decode($content['content']);
 
         return $article;
+    }
+
+    public function getArticles($column_id)
+    {
+        $service = new ArticleService();
+        return $service->getArticles($column_id);
     }
 }

@@ -201,7 +201,7 @@ class ColumnSettingController extends BaseController
                 $translate = new TranslateException();
                 $name = $translate->get_pinyin($data['name']);
             }
-            $routes['article'][$data['id']] = $name;
+            $routes[$name] = array();
         }
         //写入app-front中的routes.php
         $str_start = "<?php\n";

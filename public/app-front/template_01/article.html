@@ -27,23 +27,36 @@
         border-bottom: 3px solid #009C95;
         margin-bottom: 2px;
     }
+    p{
+        font-size: 15px;
+        line-height: 27px;
+    }
+    h3{
+        line-height: 30px;
+        margin: 0 -20px 5px;
+        border-left: 4px solid #009C95;
+        text-indent: 40px;
+        font-size: 16px;
+    }
     </style>
 <body>
     <div class="ui container">
         <div class="ui two column stackable grid">
             <div class="eleven wide column">
-                <div class="ui segment">Content</div>
-                <div class="ui attached segment">
-                    <h1 style="background-color: #ebebeb; border-left: 4px solid #009C95; border-right: 4px solid #009C95; margin: 35px -18px 20px; line-height: 40px; text-align: center;font-size: 18px;"><?=$data['title'] ?></h1>
-                    <h3 style="line-height: 30px; margin: 0 -14px 5px; border-left: 4px solid #009C95; text-indent: 40px;">test</h3>
-                    <p style="font-size: 14px;"><?=$data['content'] ?></p>
+                <div class="ui segment">
+                    Content
+                </div>
+                <div class="ui attached segment" style="padding: 20px;">
+                    <h1 style="background-color: #ebebeb; border-left: 4px solid #009C95; border-right: 4px solid #009C95; margin: 0px -24px 20px; line-height: 40px; text-align: center;font-size: 18px;"><?=$data['title'] ?></h1>
+                    <?=$data['content'] ?>
                 </div>
                 <div class="ui bottom attached message">
-                    版权
+                    <strong>版权声明</strong>：本站原创文章，于3小时前，由默北发表，共 564字。<br/>
+                    <strong>转载请注明</strong>：ELK logstash 处理MySQL慢查询日志(26th) | 运维生存时间 +复制链接
                 </div>
             </div>
             <div class="five wide column">
-                <div class="ui segment">Content<?php echo "string";?></div>
+                <div class="ui segment">Content</div>
             </div>
         </div>
     </div>

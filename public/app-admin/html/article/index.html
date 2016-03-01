@@ -65,7 +65,7 @@
             <td><?=$row['create_time']?></td>
             <td style="font-size: 12px;">
                 <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/article-setting/edit?id=<?=$key?>"></i>
-                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action=""></i>
+                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="<?=$url?>/<?=$row['column_nickname']?>/<?=$row['article_nickname']?>.html"></i>
                 <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/article-setting/doDelete?id=<?=$key?>&column=<?=$row['column_id']?>"></i>
             </td>
         </tr>
@@ -107,6 +107,12 @@ $(document).ready(function(){
     $('.write.link').click(function(){
         var href = $(this).attr('data-action');
         window.open(href,'_self');
+    });
+
+    //查看
+    $('.unhide.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_blank');
     });
 
     //删除

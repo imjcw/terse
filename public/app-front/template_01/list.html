@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>admin</title>
+    <link rel="stylesheet" type="text/css" href="/include/semantic/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script type="text/javascript" src="/include/jquery/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="/include/semantic/semantic.min.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    <style type="text/css">
+    body{
+        background-color: #f1f1f1;
+    }
+    ul li{
+        display: inline-block;
+        list-style: none;
+    }
+    .ui.container.header ul li a{
+        display: block;
+        line-height: 65px;
+        padding: 0 20px;
+    }
+    .ui.container.header ul li a.select{
+        line-height: 60px;
+        border-bottom: 3px solid #009C95;
+        margin-bottom: 2px;
+    }
+    .piled.segment{
+        margin: 20px 0 !important;
+    }
+    </style>
+<body>
+    <div class="ui container">
+        <div class="ui two column stackable grid">
+            <div class="eleven wide column">
+                <div class="ui segment">
+                    Content
+                </div>
+                <?php foreach ($articles as $key => $article): ?>
+                <div class="ui piled segment">
+                    <div class="ui divided items">
+                        <div class="item">
+                            <div class="image">
+                                <img src="/info.jpg">
+                            </div>
+                            <div class="content">
+                                <a class="header" href="<?=$article['nickname']?>.html"><?=$article['title']?></a>
+                                <div class="meta">
+                                    <span class="cinema"><?=$article['create_time']?></span>
+                                </div>
+                                <div class="description">
+                                    <p style="line-height: 25px;color: #555555;"><?=$article['description']?>...</p>
+                                </div>
+                                <div class="extra">
+                                    <a class="ui right floated primary button" href="/<?=$column?>/<?=$article['nickname']?>.html">阅读全文 <i class="right chevron icon"></i> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach ?>
+            <?php pagination();?>
+            </div>
+            <div class="five wide column">
+                <div class="ui segment">Content</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
