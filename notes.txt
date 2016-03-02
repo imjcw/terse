@@ -23,6 +23,15 @@ CREATE TABLE `article`(
 `update_time` timestamp DEFAULT now() ON UPDATE now()
 )ENGINE= InnoDB CHARACTER SET utf8;
 
+CREATE TABLE `image`(
+`id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`name` varchar(33) NOT NULL COMMENT '图片名',
+`ext` varchar(5) NOT NULL COMMENT '图片类型',
+`size` varchar(10) COMMENT '图片大小'
+`create_time` timestamp DEFAULT '0000-00-00 00:00:00',
+`update_time` timestamp DEFAULT now() ON UPDATE now()
+)ENGINE= InnoDB CHARACTER SET utf8;
+
 CREATE TABLE `content`(
 `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `content` text COMMENT '文章内容',

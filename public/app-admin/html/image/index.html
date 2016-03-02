@@ -4,34 +4,47 @@
     .file.image{
         width: 27px !important;
     }
+    div.image{
+        overflow: hidden;
+    }
+    div.image img{
+        width: auto !important;
+        max-width: 100%;
+        margin: 0 auto;
+    }
 </style>
 <?php stop(); ?>
 <?php start('content'); ?>
 <!--内容-->
 <h3 class="ui top attached header">
-    <div class="terse right" style="font-size: 12px;"><i class="circular inverted teal upload link icon"></i></div>
     <i class="file image outline icon"></i> 图片管理
 </h3>
 <div class="ui attached segment">
+<span class="ui blue basic upload button"><i class="upload icon"></i> 上传图片</span>
+<span class="ui red basic layout button"><i class="tiny grid layout icon"></i> 批量操作</span>
+<span class="ui red basic remove button" style="display: none;"><i class="tiny remove icon"></i> 批量删除</span>
+<span class="ui red basic cancel button" style="display: none;"><i class="tiny reply icon"></i> 取消操作</span>
     <div class="ui four stackable doubling cards" style="margin-top:0;">
-    <?php 
-    $i = 0;
-    while ($i <= 10) {
-     ?>
-        <a class="red card">
-            <div class="image">
-                <img class="ui wireframe image" src="http://ww1.sinaimg.cn/mw690/b283ca9dgw1etcytji97lj20zk0k0q59.jpg">
+    <?php foreach ($data as $key => $file) { ?>
+        <div class="red card">
+            <div class="ui checkbox" style="z-index: 999;top: 5px;left: 5px;min-height: 0;display:none;">
+                <input type="checkbox" name="image[]" value="<?=$file['name']?>">
+                <label></label>
             </div>
-            <div class="content terse center">
-                <div class="header">
-                    可爱的小狗
+            <div class="image">
+                <img class="ui wireframe image" src="<?=$url?>/images/<?=$file['name']?>">
+            </div>
+            <div class="extra content">
+                <div class="ui two buttons">
+                    <div class="ui basic green detail button" data-url="<?=$url?>/images/<?=$file['name']?>" data-name="<?=$file['name']?>" data-size="<?=$file['size']?>">详情</div>
+                    <div class="ui basic red unlink button" data-name="<?=$file['name']?>">删除</div>
                 </div>
             </div>
-        </a>
-        <?php $i++; } ?>
+        </div>
+        <?php } ?>
     </div>
 </div>
-<form class="ui small modal form" action="/file-setting/upload" method="post" enctype="multipart/form-data">
+<form class="ui small modal form upload" action="/image-setting/upload" method="post" enctype="multipart/form-data">
     <div class="header">上传文件</div>
     <div class="content terse center" style="font-size:18px;cursor:pointer">
         <i class="icon blue upload"></i> <span>请选择上传文件</span>
@@ -47,22 +60,74 @@
             取消
         </div>
     </div>
-</form><?php stop(); ?>
+</form>
+<div class="ui small modal form detail">
+    <div class="header">图片详情</div>
+    <div class="content" style="padding: 10px 30px;">
+        <strong>图片名：</strong><span class="name"></span>
+    </div>
+    <div class="content" style="padding: 10px 30px;">
+        <strong>图片大小：</strong><span class="size"></span>
+    </div>
+    <div class="content" style="padding: 10px 30px;">
+        <strong>图片URL：</strong><a class="url" href="" target="_blank"></a>
+    </div>
+</div>
+<?php stop(); ?>
 <?php start('script');?>
 <script type="text/javascript">
 $(document).ready(function(){
     //上传
-    $('.circular.upload').click(function(){
-        $('.small.form').modal({
+    $('.upload.button').click(function(){
+        $('.small.form.upload').modal({
             closable: false
         }).modal('show');
     });
-    $('.small.form .content').click(function(){
-        $('.small.form input:file').click();
+    $('.small.form.upload .content').click(function(){
+        $('.small.form.upload input:file').click();
     });
-    $('.small.form input:file').change(function(e){
+    $('.small.form.upload input:file').change(function(e){
         var name = e.target.files[0].name;
-        $('.small.form .content span').html(name);
+        $('.small.form.upload .content span').html(name);
+    });
+    $('.layout.button').click(function(){
+        $('.remove.button').show();
+        $('.cancel.button').show();
+        $('.ui.checkbox').show();
+        $(this).hide();
+    });
+    $('.cancel.button').click(function(){
+        $('.remove.button').hide();
+        $('.ui.checkbox').hide();
+        $(this).hide();
+        $('.layout.button').show();
+    });
+    $('.remove.button').click(function(){
+        var checked = '';
+        $('input:checkbox:checked').each(function(){
+            checked += $(this).val()+',';
+        });
+        $.post('/image-setting/deleteMulti.html',{checked},function(){
+            $('.remove.button').hide();
+            $('.ui.checkbox').hide();
+            $('.cancel.button').hide();
+            $('.layout.button').show();
+        });
+    });
+    $('.detail.button').click(function(){
+        $('.small.form.detail').modal('show');
+        $('.small.form.detail .name').html($(this).attr('data-name'));
+        $('.small.form.detail .url').html($(this).attr('data-url'));
+        $('.small.form.detail .url').attr('href',$(this).attr('data-url'));
+        $('.small.form.detail .size').html($(this).attr('data-size'));
+    });
+    $('.unlink.button').click(function(){
+        var image = $(this).attr('data-name');
+        $.post('/image-setting/delete',{image},function(){
+            showTips('文件删除成功！');
+        },'json').error(function(){
+            showTips('文件删除失败！');
+        },'json');
     });
 });
 </script>

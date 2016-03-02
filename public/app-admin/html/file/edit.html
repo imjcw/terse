@@ -1,4 +1,7 @@
 <?php extend('extend/extend'); ?>
+<?php start('style'); ?>
+<link href="/public/editor.md/css/editormd.css" type="text/css" rel="stylesheet">
+<?php stop(); ?>
 <?php start('content'); ?>
 <!--内容-->
 <h3 class="ui top attached header">
@@ -10,7 +13,7 @@
         <input name="name" value="<?=$name?>">
     </div>
     <div class="field" style="height: calc(100% - 125px)">
-        <textarea name="content" style="height: calc(100%); max-height: calc(100%);"><?=$content?></textarea>
+        <textarea name="content" id="html-code" style="height: calc(100%); max-height: calc(100%);"><?=$content?></textarea>
     </div>
     <input type="hidden" name="ext" value="<?=$ext?>">
     <input type="hidden" name="dir" value="<?=$dir?>">
@@ -20,4 +23,7 @@
         <a class="ui button go_back" href="#">放弃</a>
     </div>
 </form>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script type="text/javascript" src="/public/editor.md/editormd.min.js"></script>
 <?php stop(); ?>

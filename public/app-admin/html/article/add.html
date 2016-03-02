@@ -1,6 +1,7 @@
 <?php extend('extend/extend'); ?>
 <?php start('style'); ?>
 <script src="/public/ckeditor/ckeditor.js"></script>
+<link href="/public/editor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
 <?php stop(); ?>
 <?php start('content'); ?>
 <!--内容-->
@@ -51,7 +52,7 @@
         </div>
         <div class="field">
             <label>文章内容</label>
-            <textarea name="content" placeholder="文章内容"></textarea>
+            <textarea name="content" id="content" placeholder="文章内容"></textarea>
         </div>
         <input type="hidden" name="nickname">
         <div class="field" style="text-align: center;">
@@ -62,12 +63,14 @@
 </div>
 <?php stop(); ?>
 <?php start('script'); ?>
+<script type="text/javascript" charset="utf-8" src="/public/editor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/public/editor/ueditor.all.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     var title = '';
     var column = '';
     var nickname = '';
-    CKEDITOR.replace( 'content' );
+    UE.getEditor('content',{initialFrameWidth: null, initialFrameHeight: '500'});
     $('.ui.dropdown.fluid').dropdown({
         allowAdditions: true
     });
