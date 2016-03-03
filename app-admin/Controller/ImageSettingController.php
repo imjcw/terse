@@ -35,6 +35,7 @@ class ImageSettingController extends BaseController
      */
     public function buildPageDataFile($files)
     {
+        $data = array();
         foreach ($files as $key => $file) {
             $data[$key]['name'] = $file['name'].'.'.$file['ext'];
             $data[$key]['size'] = $file['size'];
@@ -83,7 +84,12 @@ class ImageSettingController extends BaseController
     public function upload()
     {
         $exts = array('jpg','png','gif');
-        $file = $_FILES['upload'];
+        $is_article = isset($_REQUEST["CKEditorFuncNum"]);
+        if ($is_article) {
+            $file = $_FILES['upload'];
+        } else {
+            $file = $_FILES['file'];
+        }
         $error = $this->checkError($file['error']);
         $status = false;
         if ($error == 'ok') {
@@ -106,9 +112,12 @@ class ImageSettingController extends BaseController
             //移动文件到指定文件夹
             $status = move_uploaded_file($file['tmp_name'], ROOT.'/app-front/images/'.$file_name);
             chmod(ROOT.'/app-front/images/'.$file_name, 0766);
-            echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($callback,'".'http://front.marvin.cn/images/'.$file_name."','');</script>";
         }
-        //return $status ? json('success！') : json('fault！', 403);
+        if ($is_article) {
+            return $status ? "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(1,'".'http://front.marvin.cn/images/'.$file_name."','');</script>" : "<font color=\"red\"size=\"2\">*文件格式不正确（必须为.jpg/.gif/.bmp/.png文件）</font>";
+        } else {
+            return $status ? json('success！') : json('fault！', 403);
+        }
     }
 
     public function computeSize($size)

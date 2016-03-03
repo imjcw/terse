@@ -9,7 +9,8 @@
             "Front\\": "app-front/"
         },
         "files": [
-            "app-admin/Function/Helper.php"
+            "app-admin/Function/Helper.php",
+            "app-front/Function/Page.php"
         ]
     }
 }

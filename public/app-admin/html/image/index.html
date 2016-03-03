@@ -24,6 +24,9 @@
 <span class="ui red basic layout button"><i class="tiny grid layout icon"></i> 批量操作</span>
 <span class="ui red basic remove button" style="display: none;"><i class="tiny remove icon"></i> 批量删除</span>
 <span class="ui red basic cancel button" style="display: none;"><i class="tiny reply icon"></i> 取消操作</span>
+    <?php if (empty($data)): ?>
+        <div style="height: 30px;line-height: 30px;text-align: center;font-size: 18px;">暂无图片</div>
+    <?php else: ?>
     <div class="ui four stackable doubling cards" style="margin-top:0;">
     <?php foreach ($data as $key => $file) { ?>
         <div class="red card">
@@ -43,6 +46,7 @@
         </div>
         <?php } ?>
     </div>
+    <?php endif ?>
 </div>
 <form class="ui small modal form upload" action="/image-setting/upload" method="post" enctype="multipart/form-data">
     <div class="header">上传文件</div>
@@ -71,6 +75,22 @@
     </div>
     <div class="content" style="padding: 10px 30px;">
         <strong>图片URL：</strong><a class="url" href="" target="_blank"></a>
+    </div>
+</div>
+<div class="ui small modal transition info" style="margin-top: -98px;">
+    <div class="header">title</div>
+    <div class="content">
+        <p>content</p>
+    </div>
+    <div class="actions">
+        <div class="ui right labeled icon negative button">
+            不
+            <i class="close icon"></i>
+        </div>
+        <div class="ui positive right labeled icon button">
+            是
+            <i class="checkmark icon"></i>
+        </div>
     </div>
 </div>
 <?php stop(); ?>
@@ -102,18 +122,6 @@ $(document).ready(function(){
         $(this).hide();
         $('.layout.button').show();
     });
-    $('.remove.button').click(function(){
-        var checked = '';
-        $('input:checkbox:checked').each(function(){
-            checked += $(this).val()+',';
-        });
-        $.post('/image-setting/deleteMulti.html',{checked},function(){
-            $('.remove.button').hide();
-            $('.ui.checkbox').hide();
-            $('.cancel.button').hide();
-            $('.layout.button').show();
-        });
-    });
     $('.detail.button').click(function(){
         $('.small.form.detail').modal('show');
         $('.small.form.detail .name').html($(this).attr('data-name'));
@@ -121,13 +129,39 @@ $(document).ready(function(){
         $('.small.form.detail .url').attr('href',$(this).attr('data-url'));
         $('.small.form.detail .size').html($(this).attr('data-size'));
     });
+    //单个删除
     $('.unlink.button').click(function(){
         var image = $(this).attr('data-name');
-        $.post('/image-setting/delete',{image},function(){
-            showTips('文件删除成功！');
-        },'json').error(function(){
-            showTips('文件删除失败！');
-        },'json');
+        $('.transition.info .header').html('删除图片');
+        $('.transition.info .content p').html('该图片可能被使用，确认删除？');
+        $('.transition.info').modal({
+            onApprove : function(){
+                $.post('/image-setting/delete',{image},function(){
+                    showTips('文件删除成功！');
+                },'json').error(function(){
+                    showTips('文件删除失败！');
+                },'json');
+            }
+        }).modal('show');
+    });
+    //批量删除
+    $('.remove.button').click(function(){
+        $('.transition.info .header').html('批量删除图片');
+        $('.transition.info .content p').html('这些图片可能被使用，确认删除？');
+        $('.transition.info').modal({
+            onApprove : function(){
+                var checked = '';
+                $('input:checkbox:checked').each(function(){
+                    checked += $(this).val()+',';
+                });
+                $.post('/image-setting/deleteMulti.html',{checked},function(){
+                    $('.remove.button').hide();
+                    $('.ui.checkbox').hide();
+                    $('.cancel.button').hide();
+                    $('.layout.button').show();
+                });
+            }
+        }).modal('show');
     });
 });
 </script>

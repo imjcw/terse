@@ -2,7 +2,8 @@
 namespace Front\Controller;
 
 use Front\Biz\ArticleBiz;
-use Admin\Biz\ColumnBiz;
+use Front\Biz\ColumnBiz;
+use Front\Controller\BaseController;
 
 class ArticleController
 {
@@ -19,9 +20,33 @@ class ArticleController
         //获取相应的栏目
         $column_biz = new ColumnBiz();
         $column = $column_biz->getColumnByNickName($nickname);
+        $data = $column_biz->getVisibleColumns();
+        foreach ($data as $key => $value) {
+            $id = $value['id'];
+            $columns[$id]['name'] = $value['name'];
+            $columns[$id]['nickname'] = $value['nickname'];
+        }
+
         //获取所有文章
         $article_biz = new ArticleBiz();
         $article = $article_biz->get($article_name,$column['id']);
-        return view('/article')->with(array('data' => $article));
+        $articles = $this->relate($column['id'],10);
+        $clicks = $this->clicks(10);
+        if (!$article) {
+            redirect('/404');
+        }
+        return view('/article')->with(array('data' => $article,'column' => $column,'columns' => $columns,'articles' => $articles,'clicks' => $clicks));
+    }
+
+    public function relate($id, $num)
+    {
+        $biz = new ArticleBiz();
+        return $biz->getArticles($id, $num);
+    }
+
+    public function clicks($num)
+    {
+        $biz = new ArticleBiz();
+        return $biz->getClicks($num);
     }
 }

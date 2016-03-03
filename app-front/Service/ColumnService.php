@@ -1,66 +1,35 @@
 <?php
-    namespace App\Service;
+namespace Front\Service;
 
-    use App\Model\ColumnModel;
+use Front\Model\ColumnModel;
+
+class ColumnService
+{
+    /**
+     * 获取所有栏目
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-23
+     */
+    public function getVisibleColumns()
+    {
+        $model = new ColumnModel();
+        return $model->where('is_show',1)->all();
+    }
 
     /**
-    * Article Service
-    */
-    class ColumnService
+     * 根据name获取column
+     * @param  [type] $name [description]
+     * @return [type]       [description]
+     * @author marvin
+     * @date   2016-02-23
+     */
+    public function getColumnByNickName($nickname)
     {
-        public function getAllColumns()
-        {
-            $column_model = new ColumnModel();
-            return $column_model
-                        ->where('is_use', 1)
-                        ->all();
+        $model = new ColumnModel();
+        if (isset($nickname) && $nickname) {
+            $model = $model->where('nickname', $nickname);
         }
-
-        public function getOneColumn($id = 0)
-        {
-            $column_model = new ColumnModel();
-            return $column_model
-                        ->where(array('id' => $id, 'is_use' => 1))
-                        ->one();
-        }
-
-        public function insertNewColumn($data = array())
-        {
-            $column_model = new ColumnModel();
-            return $column_model->insert($data);
-        }
-
-        public function editOneColumn($data = array(), $id = 0)
-        {
-            $column_model = new ColumnModel();
-            return $column_model
-                        ->where('id', $id)
-                        ->update($data);
-        }
-
-        public function updateOneColumnStatus($id = 0, $status = 0)
-        {
-            $column_model = new ColumnModel();
-            return $column_model
-                        ->where(array('id' => $id, 'is_use' => 1))
-                        ->update(array('is_use' => $status));
-        }
-
-        public function deleteOneColumn($id = 0)
-        {
-            $column_model = new ColumnModel();
-            return $column_model
-                        ->where('id', $id)
-                        ->delete();
-        }
-
-        public function checkExit($name = '')
-        {
-            $column_model = new ColumnModel();
-            $result = $column_model
-                        ->where('name', $name)
-                        ->one();
-
-            return $result;
-        }
+        return $model->one();
     }
+}

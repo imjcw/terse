@@ -22,12 +22,12 @@ $(document).ready(function(){
             $(this).siblings('ul.subnav').slideUp();
             $(this).children('.terse.right').css("transform", "rotate(90deg) ").css('transition', 'transform 0.2s ease 0s');
         }else{
+            $('.terse.nav>li>a').removeClass('selected');
+            $('.terse.nav ul.subnav').slideUp();
+            $('.terse.nav .terse.right').css("transform", "rotate(90deg) ").css('transition', 'transform 0.2s ease 0s');
             $(this).addClass('selected');
             $(this).siblings('ul.subnav').slideDown();
             $(this).children('.terse.right').css("transform", "rotate(0deg) ").css('transition', 'transform 0.2s ease 0s');
-            $($(this).parent().siblings()).children('a').removeClass('selected');
-            $($(this).parent().siblings()).children('ul.subnav').slideUp();
-            $($(this).parent().siblings()).children('a').children('.terse.right').css("transform", "rotate(90deg) ").css('transition', 'transform 0.2s ease 0s');
         }
     });
     //下拉列表

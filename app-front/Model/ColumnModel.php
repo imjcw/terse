@@ -1,12 +1,12 @@
 <?php
-    namespace App\Model;
-    
-    use Lib\Factory\Model;
+namespace Front\Model;
 
-    /**
-    * 栏目模型
-    */
-    class ColumnModel extends Model
-    {
-        protected $table = '`column`';
-    }
+use Lib\Factory\Model;
+
+/**
+* 栏目模型
+*/
+class ColumnModel extends Model
+{
+    protected $table = '`column`';
+}

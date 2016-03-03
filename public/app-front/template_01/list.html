@@ -31,13 +31,20 @@
         margin: 20px 0 !important;
     }
     </style>
-<body>
+<body style="border-top: 2px solid #2185D0;">
     <div class="ui container">
+        <div class="ui secondary pointing menu" style="background-color: #FFFFFF;border-color: #FFFFFF; ">
+            <a class="item" href="/">首页</a>
+            <?php foreach ($columns as $value) {?>
+            <?php if ($value['nickname'] == $column): ?>
+            <a class="active item" href="/<?=$value['nickname']?>"><?=$value['name']?></a>
+            <?php else: ?>
+            <a class="item" href="/<?=$value['nickname']?>"><?=$value['name']?></a>
+            <?php endif ?>
+            <?php } ?>
+        </div>
         <div class="ui two column stackable grid">
             <div class="eleven wide column">
-                <div class="ui segment">
-                    Content
-                </div>
                 <?php foreach ($articles as $key => $article): ?>
                 <div class="ui piled segment">
                     <div class="ui divided items">

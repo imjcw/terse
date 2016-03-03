@@ -1,0 +1,175 @@
+<?php extend('extend/extend'); ?>
+<?php start('style'); ?>
+<script src="/public/ckeditor/ckeditor.js"></script>
+<link href="/public/editor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<?php stop(); ?>
+<?php start('content'); ?>
+<!--内容-->
+<h3 class="ui top attached header">
+    <i class="file text outline icon"></i> 文档管理
+</h3>
+<div class="ui attached segment">
+    <form class="ui form" action="/article-setting/doAdd" method="post">
+        <div class="field">
+            <label>文章名称</label>
+            <input type="text" name="title" placeholder="文章名称">
+        </div>
+        <div class="field url" style="display: none">
+            固定链接： <span style="color: #2185D0;">http://front.marvin.cn/<span class="column"></span>/<span class="nickname"></span>.html</span>
+            <i class="circular inverted blue mini write icon link"></i>
+            <i class="circular inverted blue mini refresh icon link" style="display: none"></i>
+            <i class="circular inverted red mini remove icon link" style="display: none"></i>
+        </div>
+        <div class="two fields">
+            <div class="field">
+                 <label>所属栏目：</label>
+                 <select name="column" class="ui dropdown">
+                    <option value="0">请选择</option>
+                    <?php foreach ($columns as $id => $column): ?>
+                    <option value="<?=$id?>" data-name="<?=$column['nickname']?>"><?=$column['name']?></option>
+                    <?php endforeach; ?>
+                 </select>
+            </div>
+            <div class="field">
+                <label>标签</label>
+                <div class="ui fluid multiple search selection dropdown">
+                    <input type="hidden" value="angular0,angular1">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">标签，输入新建标签</div>
+                    <div class="menu">
+                        <div class="item" data-value="angular">Angular</div>
+                        <div class="item" data-value="angular0">Angular0</div>
+                        <div class="item" data-value="angular1">Angular1</div>
+                        <div class="item" data-value="angular2">Angular2</div>
+                        <div class="item" data-value="angular3">Angular3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label>文章描述</label>
+            <textarea name="description" rows="3" placeholder="文章描述(不多于300字符)"></textarea>
+        </div>
+        <div class="field">
+            <label>文章内容</label>
+            <textarea name="content" id="content" placeholder="文章内容"></textarea>
+        </div>
+        <input type="hidden" name="nickname">
+        <div class="field" style="text-align: center;">
+            <button class="ui primary button">保存</button>
+            <a class="ui button go_back" href="#">放弃</a>
+        </div>
+    </form>
+</div>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script type="text/javascript" charset="utf-8" src="/public/editor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/public/editor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    var title = '';
+    var column = '';
+    var nickname = '';
+    UE.getEditor('content',{initialFrameWidth: null, initialFrameHeight: '500'});
+    $('.ui.dropdown.fluid').dropdown({
+        allowAdditions: true
+    });
+    $('input[name=title]').change(function(){
+        variable = $('input[name=title]').val();
+        if (nickname == title) {
+            $.get('/article-setting/translate',{variable},function(response){
+                title = response;
+                nickname = response;
+                buildUrl();
+            });
+        }
+    });
+    $('select[name=column]').change(function(){
+        column = $('select[name=column]').val();
+        buildUrl();
+    });
+    function buildUrl(){
+        if (nickname) {
+            value = nickname;
+        }
+        if (value && column) {
+            var column_name = $('option[value='+column+']').attr('data-name');
+            $('.column').html(column_name);
+            $('.nickname').html(value);
+            $('.url').show();
+            $('input[name=nickname]').val(value);
+        }
+    }
+    $('.write.link').click(function(){
+        var value = title;
+        if (nickname != title) {
+            value = nickname;
+        }
+        $('.nickname').html('<input style="width:auto;padding:3px 5px;" type="text" value="'+value+'">');
+        $('.url .write.link').hide();
+        $('.url .refresh.link').show();
+        $('.url .remove.link').show();
+    });
+    $('.url .refresh.link').click(function(){
+        nickname = $('.url input').val();
+        $('input[name=nickname]').val(nickname);
+        $('.nickname').html(nickname);
+        $('.url .write.link').show();
+        $('.url .refresh.link').hide();
+        $('.url .remove.link').hide();
+    });
+    $('.url .remove.link').click(function(){
+        var value = title;
+        if (nickname) {
+            value = nickname;
+        }
+        $('.nickname').html(value);
+        $('.url .write.link').show();
+        $('.url .refresh.link').hide();
+        $('.url .remove.link').hide();
+    });
+    //表单验证
+    $('.ui.form').form({
+        inline : true,
+        on : 'blur',
+        fields: {
+            title : {
+                identifier : 'title',
+                rules : [
+                {
+                    type : 'maxLength[30]',
+                    prompt : '请输入30字以下的文章名'
+                },
+                {
+                    type : 'empty',
+                    prompt : '请输入文章名'
+                }
+                ]
+            },
+            column : {
+                identifier : 'column',
+                rules : [
+                {
+                    type : 'regExp[/^-?[1-9]\d*/gi]',
+                    prompt : '请选择栏目'
+                },
+                {
+                    type : 'number',
+                    prompt : '请按规范操作'
+                }
+                ]
+            },
+            description : {
+                identifier : 'description',
+                rules : [
+                {
+                    type : 'maxLength[300]',
+                    prompt : '请输入300字及以下的栏目描述'
+                }
+                ]
+            },
+        }
+  });
+});
+</script>
+<?php stop(); ?>

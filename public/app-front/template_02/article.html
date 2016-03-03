@@ -1,1 +1,84 @@
-sdfasd
+<?php extend('extend'); ?>
+<?php start('mainbody'); ?>
+<div id="mainbody">
+  <div class="blogs">
+    <div id="index_view">
+      <h2 class="t_nav"><a href="/">网站首页</a><a href="/<?=$column['nickname']?>"><?=$column['name']?></a></h2>
+      <h1 class="c_titile"><?=$data['title'] ?></h1>
+      <p class="box">发布时间：<?=$data['create_time']?><span>编辑：Admin</span></p>
+      <ul>
+        <?=$data['content'] ?>
+      </ul>
+      <div class="share"> 
+        <!-- Baidu Button BEGIN -->
+        <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare"> <span class="bds_more">分享到</span> <a class="bds_qzone"></a> <a class="bds_tsina"></a> <a class="bds_tqq"></a> <a class="bds_renren"></a> <a class="bds_t163"></a> <a class="shareCount"></a> </div>
+        <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6574585" ></script> 
+        <script type="text/javascript" id="bdshell_js"></script> 
+        <script type="text/javascript">
+document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script> 
+        <!-- Baidu Button END --> 
+      </div>
+    </div>
+    <!--bloglist end-->
+    <aside>
+      <div class="search">
+        <form class="searchform" method="get" action="#">
+          <input type="text" name="s" value="Search" onfocus="this.value=''" onblur="this.value='Search'">
+        </form>
+      </div>
+      <div class="tuijian">
+        <h2>最新文章</h2>
+        <ol>
+        <?php $news = news(10);?>
+        <?php foreach ($news as $key => $new) {?>
+          <li>
+            <span>
+              <strong>
+                <?=$key+1?>
+              </strong>
+            </span>
+            <a href="/<?=$column['nickname']?>/<?=$new['nickname']?>.html">
+              <?=$new['title']?>
+            </a>
+          </li>
+        <?php } ?>
+        </ol>
+      </div>
+      <div class="toppic">
+        <h2>图文并茂</h2>
+        <ul>
+          <li><a href="/"><img src="/img/k01.jpg">伤不起
+            <p>恩恩</p>
+            </a></li>
+          <li><a href="/"><img src="/img/k02.jpg">呵呵呵呵呵呵呵
+            <p>恩恩</p>
+            </a></li>
+          <li><a href="/"><img src="/img/k03.jpg">呵呵呵呵呵呵呵
+            <p>恩恩</p>
+            </a></li>
+        </ul>
+      </div>
+      <div class="clicks">
+        <h2>热门点击</h2>
+        <ol>
+        <?php $clicks = hot(10);?>
+        <?php foreach ($clicks as $click) {?>
+          <li>
+            <span>
+              <a href="/<?=$columns[$click['column_id']]['nickname']?>">
+                <?=$columns[$click['column_id']]['name']?>
+              </a>
+            </span>
+            <a href="/<?=$columns[$click['column_id']]['nickname']?>/<?=$click['nickname']?>.html">
+              <?=$click['title']?>
+            </a>
+          </li>
+        <?php } ?>
+        </ol>
+      </div>
+    </aside>
+  </div>
+  <!--blogs end--> 
+</div>
+<?php stop(); ?>

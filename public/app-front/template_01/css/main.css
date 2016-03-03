@@ -146,3 +146,7 @@ ul,li{
     color: #eeeeee;
 }
 
+img{
+    max-width: 100%;
+    min-height: auto;
+}
