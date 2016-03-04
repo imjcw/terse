@@ -1,5 +1,5 @@
-<?php extend('extend'); ?>
-<?php start('mainbody'); ?>
+@extend('extend')
+@start('mainbody')
 <div id="mainbody">
   <div class="info">
     <figure> <img src="/img/art.jpg"  alt="Panama Hat">
@@ -24,47 +24,45 @@
   <div class="blank"></div>
   <div class="blogs">
     <ul class="bloglist">
-      <?php $news = news(10);?>
-      <?php foreach ($news as $key => $new):?>
+      @article(type:news num:10)
       <li>
         <div class="arrow_box">
           <div class="ti"></div>
           <!--Èý½ÇÐÎ-->
           <div class="ci"></div>
           <!--Ô²ÐÎ-->
-          <h2 class="title"><a href="/<?=$columns[$new['column_id']]['nickname']?>/<?=$new['nickname']?>.html" target="_blank"><?=$new['title']?></a></h2>
+          <h2 class="title"><a href="{{$article['url']}}" target="_blank">{{$article['title']}}</a></h2>
           <ul class="textinfo">
-            <a href="/<?=$columns[$new['column_id']]['nickname']?>/<?=$new['nickname']?>.html"><img src="/img/s1.jpg"></a>
-            <p><?=$new['description']?></p>
+            <a href="{{$article['url']}}"><img src="/img/s1.jpg"></a>
+            <p>{{$article['description']}}</p>
           </ul>
           <ul class="details">
             <li class="likes"><a href="#">10</a></li>
             <li class="comments"><a href="#">34</a></li>
-            <li class="icon-time"><a href="#"><?=$new['create_time']?></a></li>
+            <li class="icon-time"><a href="#">{{$article['create_time']}}</a></li>
           </ul>
         </div>
         <!--arrow_box end--> 
       </li>
-      <?php endforeach ?>
+      @endArticle
     </ul>
     <!--bloglist end-->
     <aside>
       <div class="tuijian">
         <h2>推荐文章</h2>
         <ol>
-        <?php $recommends = recommend(10);?>
-        <?php foreach ($recommends as $key => $recommend) {?>
+        @article(type:recommend num:10)
           <li>
             <span>
               <strong>
-                <?=$key+1?>
+                {{$key+1}}
               </strong>
             </span>
-            <a href="/<?=$columns[$recommend['column_id']]['nickname']?>/<?=$recommend['nickname']?>.html">
-              <?=$recommend['title']?>
+            <a href="{{$article['url']}}">
+              {{$article['title']}}
             </a>
           </li>
-        <?php } ?>
+        @endArticle
         </ol>
       </div>
       <div class="toppic">
@@ -84,19 +82,18 @@
       <div class="clicks">
         <h2>热门点击</h2>
         <ol>
-        <?php $clicks = hot(10);?>
-        <?php foreach ($clicks as $click) {?>
+        @article(type:hot num:10)
           <li>
             <span>
-              <a href="/<?=$columns[$click['column_id']]['nickname']?>">
-                <?=$columns[$click['column_id']]['name']?>
+              <a href="{{$article['column_url']}}">
+                {{$article['column_name']}}
               </a>
             </span>
-            <a href="/<?=$columns[$click['column_id']]['nickname']?>/<?=$click['nickname']?>.html">
-              <?=$click['title']?>
+            <a href="{{$article['url']}}">
+              {{$article['title']}}
             </a>
           </li>
-        <?php } ?>
+        @endArticle
         </ol>
       </div>
       <div class="search">
@@ -108,4 +105,4 @@
   </div>
   <!--blogs end--> 
 </div>
-<?php stop(); ?>
+@stop
