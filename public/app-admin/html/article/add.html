@@ -1,8 +1,8 @@
-<?php extend('extend/extend'); ?>
-<?php start('style'); ?>
+@extend('extend/extend')
+@start('style')
 <script src="/public/ckeditor/ckeditor.js"></script>
-<?php stop(); ?>
-<?php start('content'); ?>
+@stop
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
     <i class="file text outline icon"></i> 文档管理
@@ -60,9 +60,8 @@
         </div>
     </form>
 </div>
-<?php stop(); ?>
-<?php start('script'); ?>
-.min.js"></script>
+@stop
+@start('script')
 <script type="text/javascript">
 $(document).ready(function(){
     var title = '';
@@ -170,4 +169,4 @@ $(document).ready(function(){
   });
 });
 </script>
-<?php stop(); ?>
+@stop

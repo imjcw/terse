@@ -1,5 +1,5 @@
-<?php extend('extend/extend'); ?>
-<?php start('content'); ?>
+@extend('extend/extend')
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
     <i class="file text outline icon"></i> 栏目管理
@@ -24,8 +24,8 @@
         </div>
     </form>
 </div>
-<?php stop(); ?>
-<?php start('script'); ?>
+@stop
+@start('script')
 <script type="text/javascript">
 $(document).ready(function(){
     //表单验证
@@ -72,4 +72,4 @@ $(document).ready(function(){
   });
 });
 </script>
-<?php stop(); ?>
+@stop

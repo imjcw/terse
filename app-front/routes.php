@@ -1,12 +1,6 @@
 <?php
 $routes = array (
-  'test1' => 
-  array (
-  ),
-  'er' => 
-  array (
-  ),
-  'wewe' => 
+  'ee' => 
   array (
   ),
 );

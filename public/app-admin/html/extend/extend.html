@@ -6,7 +6,7 @@
     <title>admin</title>
     <link rel="stylesheet" type="text/css" href="/public/include/semantic/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="/public/css/main.css">
-    <?php export('style'); ?>
+    @export('style')
 </head>
 <body style="overflow: hidden;">
     <div class="terse page left">
@@ -130,7 +130,7 @@
             </span>
         </div>
         <div class="terse page bottom">
-            <?php export('content'); ?>
+            @export('content')
         </div>
     </div>
     <div class="terse tip">
@@ -141,5 +141,5 @@
 <script type="text/javascript" src="/public/include/jquery/jquery-2.1.4.js"></script>
 <script type="text/javascript" src="/public/include/semantic/semantic.min.js"></script>
 <script type="text/javascript" src="/public/js/main.js"></script>
-<?php export('script'); ?>
+@export('script')
 </html>

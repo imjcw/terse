@@ -1,5 +1,5 @@
-<?php extend('extend/extend'); ?>
-<?php start('style'); ?>
+@extend('extend/extend')
+@start('style')
 <style type="text/css">
     .ui.attached.header{
         margin-top: 0;
@@ -14,8 +14,8 @@
         color: #000000;
     }
 </style>
-<?php stop(); ?>
-<?php start('content'); ?>
+@stop
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
     <i class="file text outline icon"></i> 文档管理
@@ -79,8 +79,8 @@
     <span style="margin: 0 5px;">这是一个小提示！</span>
     <i class="remove icon" style="margin-right: -10px;"></i>
 </div>
-<?php stop(); ?>
-<?php start('script');?>
+@stop
+@start('script')
 <script type="text/javascript">
 $(document).ready(function(){
     <?php if (!empty($msg)): ?>
@@ -149,4 +149,4 @@ $(document).ready(function(){
     }
 });
 </script>
-<?php stop(); ?>
+@stop

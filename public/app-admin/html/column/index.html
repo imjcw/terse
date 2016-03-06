@@ -1,12 +1,12 @@
-<?php extend('extend/extend'); ?>
-<?php start('style');?>
+@extend('extend/extend')
+@start('style')
 <style type="text/css">
     .ui.popup{
         padding: .3em .5em;
     }
 </style>
-<?php stop();?>
-<?php start('content'); ?>
+@stop
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
     <i class="grid layout icon"></i> 栏目管理
@@ -79,8 +79,8 @@
         </div>
     </div>
 </div>
-<?php stop(); ?>
-<?php start('script'); ?>
+@stop
+@start('script')
 <script type="text/javascript">
 $(document).ready(function(){
     var del_href;
@@ -151,4 +151,4 @@ $(document).ready(function(){
     }
 });
 </script>
-<?php stop(); ?>
+@stop
