@@ -14,7 +14,7 @@
         <input type="text" name="title" placeholder="文章名称" value="{{$article['title']}}">
     </div>
     <div class="field url">
-        固定链接： <span style="color: #2185D0;">http://front.marvin.cn/<span class="column">{{$columns[$article['column_id']]['nickname']}}</span>/<span class="nickname">{{$article['nickname']}}</span>.html</span>
+        固定链接： <span style="color: #2185D0;">{{$url}}/<span class="column">{{$columns[$article['column_id']]['nickname']}}</span>/<span class="nickname">{{$article['nickname']}}</span>.html</span>
         <i class="circular inverted blue mini write icon link"></i>
         <i class="circular inverted blue mini refresh icon link" style="display: none"></i>
         <i class="circular inverted red mini remove icon link" style="display: none"></i>

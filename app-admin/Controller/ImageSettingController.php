@@ -113,8 +113,12 @@ class ImageSettingController extends BaseController
             $status = move_uploaded_file($file['tmp_name'], ROOT.'/app-front/images/'.$file_name);
             chmod(ROOT.'/app-front/images/'.$file_name, 0766);
         }
+        $url = getSystem('url');
+        if (strlen($url) == (strripos($url, '/') + 1)) {
+            $url = substr($url, 0, -1);
+        }
         if ($is_article) {
-            return $status ? "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(1,'".'http://front.marvin.cn/images/'.$file_name."','');</script>" : "<font color=\"red\"size=\"2\">*文件格式不正确（必须为.jpg/.gif/.bmp/.png文件）</font>";
+            return $status ? "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(1,'".$url.'/images/'.$file_name."','');</script>" : "<font color=\"red\"size=\"2\">*文件格式不正确（必须为.jpg/.gif/.bmp/.png文件）</font>";
         } else {
             return $status ? json('success！') : json('fault！', 403);
         }

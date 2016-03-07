@@ -116,7 +116,11 @@ class ArticleSettingController extends BaseController
             $columns[$id]['name'] = $column['name'];
             $columns[$id]['nickname'] = $column['nickname'];
         }
-        return view('article/add')->with(array('columns' => $columns));
+        $url = getSystem('url');
+        if (strlen($url) == (strripos($url, '/') + 1)) {
+            $url = substr($url, 0, -1);
+        }
+        return view('article/add')->with(array('columns' => $columns,'url' => $url));
     }
 
     /**
@@ -171,9 +175,14 @@ class ArticleSettingController extends BaseController
             $columns[$id]['name'] = $column['name'];
             $columns[$id]['nickname'] = $column['nickname'];
         }
+        $url = getSystem('url');
+        if (strlen($url) == (strripos($url, '/') + 1)) {
+            $url = substr($url, 0, -1);
+        }
         return view('article/edit')->with(array(
             'article' => $article,
-            'columns' => $columns
+            'columns' => $columns,
+            'url' => $url
             ));
     }
 
