@@ -1,5 +1,5 @@
-<?php extend('extend/extend'); ?>
-<?php start('style');?>
+@extend('extend/extend')
+@start('style')
 <style type="text/css">
     .ui.attached.header{
         margin-top: 0;
@@ -20,35 +20,35 @@
         overflow:hidden;
     }
 </style>
-<?php stop();?>
-<?php start('content'); ?>
+@stop
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
-    <i class="archive icon" style="font-size: 1.28em;margin-top: -3px;"></i> 模板管理
+    <i class="archive icon"></i> 模板管理
 </h3>
 <div class="ui attached segment">
 <div class="ui five column doubling cards" style="margin-right: -7px;margin-left: -7px;">
-    <?php foreach ($templates as $id => $template): ?>
-        <div class="ui link card <?=$template['is_use'] ? '' : 'template' ?> ">
+    @foreach($templates as $id => $template)
+        <div class="ui link card {{$template['is_use'] ? '' : 'template'}}">
             <div class="image">
-            <?php if ($template['is_use']): ?>
+            @if($template['is_use'])
                 <span class="terse icon">
-                    <i class="mini circular write icon link" data-id="<?=$id?>" data-description="<?=$template['description']?>"></i>
+                    <i class="mini circular write icon link" data-id="{{$id}}" data-description="{{$template['description']}}"></i>
                 </span>
                 <div class="ui red bottom right attached label">已启用</div>
-            <?php else: ?>
+            @else
                 <span class="terse icon">
-                    <i class="mini circular write icon link" data-id="<?=$id?>" data-description="<?=$template['description']?>"></i>
+                    <i class="mini circular write icon link" data-id="{{$id}}" data-description="{{$template['description']}}"></i>
                     <i class="mini circular trash outline icon link"></i>
                 </span>
-            <?php endif ?>
-                <img src="<?=$template['img_src']?>">
+            @endif
+                <img src="{{$template['img_src']}}">
             </div>
             <div class="content">
-                <span class="header terse center" href="/template-setting/choose?id=<?=$id?>&name=<?=$template['name']?>"><?=$template['nickname']?></span>
+                <span class="header terse center" href="/template-setting/choose?id={{$id}}&name={{$template['name']}}">{{$template['nickname']}}</span>
             </div>
         </div>
-    <?php endforeach ?>
+    @endforeach
     <div class="ui link card" style="border: 1px dashed #D4D4D5; box-shadow: 0px 0px 0px; color: #AAAAAA;">
         <i class="massive plus outline icon" style="margin: auto; position: absolute; top: 0; left: 0; bottom: 0; right: 0;"></i>
     </div>
@@ -165,8 +165,8 @@
         </div>
     </div>
 </div>
-<?php stop(); ?>
-<?php start('script'); ?>
+@stop
+@start('script')
 <script type="text/javascript">
     var action = '';
     $('.blurring.image').dimmer({
@@ -307,4 +307,4 @@
         }).modal('show');
     });
 </script>
-<?php stop(); ?>
+@stop

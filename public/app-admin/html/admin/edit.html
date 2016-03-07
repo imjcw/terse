@@ -1,26 +1,26 @@
-<?php extend('extend/extend'); ?>
-<?php start('content'); ?>
+@extend('extend/extend')
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
     <i class="users icon"></i> 管理员管理
 </h3>
 <div class="ui attached segment">
-<form class="ui form buttom attached segment" action="/admin-setting/doEdit?id=<?=$id?>" method="post">
+<form class="ui form buttom attached segment" action="/admin-setting/doEdit?id={{$id}}" method="post">
     <div class="field">
         <label>管理员昵称</label>
-        <input type="text" name="nickname" placeholder="管理员昵称" value="<?=$nickname?>">
+        <input type="text" name="nickname" placeholder="管理员昵称" value="{{$nickname}}">
     </div>
     <div class="field">
         <label>管理员账号</label>
-        <input type="text" name="name" placeholder="管理员账号" value="<?=$name?>">
+        <input type="text" name="name" placeholder="管理员账号" value="{{$name}}">
     </div>
     <div class="field">
         <label>管理员密码</label>
-        <input type="password" name="password" placeholder="管理员密码" value="<?=$password?>">
+        <input type="password" name="password" placeholder="管理员密码" value="{{$password}}">
     </div>
     <div class="field">
         <label>管理员简介</label>
-        <textarea name="description" placeholder="管理员简介"><?=$description?></textarea>
+        <textarea name="description" placeholder="管理员简介">{{$description}}</textarea>
     </div>
     <div class="field" style="text-align: center;">
         <button class="ui blue submit button">保存</button>
@@ -28,8 +28,8 @@
     </div>
 </form>
 </div>
-<?php stop(); ?>
-<?php start('script'); ?>
+@stop
+@start('script')
 <script type="text/javascript">
 $(document).ready(function(){
     //表单验证
@@ -85,4 +85,4 @@ $(document).ready(function(){
   });
 });
 </script>
-<?php stop(); ?>
+@stop

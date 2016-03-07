@@ -1,20 +1,20 @@
-<?php extend('extend/extend'); ?>
-<?php start('style'); ?>
+@extend('extend/extend')
+@start('style')
 <script src="/public/ckeditor/ckeditor.js"></script>
-<?php stop(); ?>
-<?php start('content'); ?>
+@stop
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
     <i class="file text outline icon"></i> 文档管理
 </h3>
 <div class="ui attached segment">
-<form class="ui form" action="/article-setting/doEdit?id=<?= $article['id'] ?>" method="post">
+<form class="ui form" action="/article-setting/doEdit?id={{$article['id']}}" method="post">
     <div class="field">
         <label>文章名称</label>
-        <input type="text" name="title" placeholder="文章名称" value="<?= $article['title'] ?>">
+        <input type="text" name="title" placeholder="文章名称" value="{{$article['title']}}">
     </div>
     <div class="field url">
-        固定链接： <span style="color: #2185D0;">http://front.marvin.cn/<span class="column"><?=$columns[$article['column_id']]['nickname']?></span>/<span class="nickname"><?=$article['nickname']?></span>.html</span>
+        固定链接： <span style="color: #2185D0;">http://front.marvin.cn/<span class="column">{{$columns[$article['column_id']]['nickname']}}</span>/<span class="nickname">{{$article['nickname']}}</span>.html</span>
         <i class="circular inverted blue mini write icon link"></i>
         <i class="circular inverted blue mini refresh icon link" style="display: none"></i>
         <i class="circular inverted red mini remove icon link" style="display: none"></i>
@@ -22,39 +22,39 @@
     <div class="field">
          <label>所属栏目：</label>
          <select name="column" class="ui dropdown">
-            <?php foreach ($columns as $id => $column): ?>
-            <?php if ($article['column_id'] == $id): ?>
-            <option value="<?= $id ?>" selected='selected' data-name="<?=$column['nickname']?>"><?= $column['name'] ?></option>
-            <?php else: ?>
-            <option value="<?= $id ?>" data-name="<?=$column['nickname']?>"><?= $column['name'] ?></option>
-            <?php endif ?>
-            <?php endforeach; ?>
+            @foreach($columns as $id => $column)
+            @if($article['column_id'] == $id)
+            <option value="{{$id}}" selected='selected' data-name="{{$column['nickname']}}">{{$column['name']}}</option>
+            @else
+            <option value="{{$id}}" data-name="{{$column['nickname']}}">{{$column['name']}}</option>
+            @endif
+            @endforeach
          </select>
     </div>
     <div class="field">
         <label>文章描述</label>
-        <textarea name="description" rows="3" placeholder="文章描述"><?= $article['description']?></textarea>
+        <textarea name="description" rows="3" placeholder="文章描述">{{$article['description']}}</textarea>
     </div>
     <div class="field">
         <label>文章内容</label>
-        <textarea name="content" placeholder="文章内容"><?= $article['content']?></textarea>
+        <textarea name="content" placeholder="文章内容">{{$article['content']}}</textarea>
     </div>
-    <input type="hidden" name="nickname" value="<?=$article['nickname']?>">
+    <input type="hidden" name="nickname" value="{{$article['nickname']}}">
     <div class="field" style="text-align: center;">
         <button class="ui blue submit button">保存</button>
         <a class="ui button go_back" href="#">放弃</a>
     </div>
-    <input type="hidden" name="old_column" value="<?= $article['column_id'] ?>">
-    <input type="hidden" name="content_id" value="<?= $article['content_id'] ?>">
+    <input type="hidden" name="old_column" value="{{$article['column_id']}}">
+    <input type="hidden" name="content_id" value="{{$article['content_id']}}">
 </form>
 </div>
-<?php stop(); ?>
-<?php start('script'); ?>
+@stop
+@start('script')
 <script type="text/javascript">
 $(document).ready(function(){
-    var title = "<?= $article['title'] ?>";
-    var column = "<?=$article['column_id']?>";
-    var nickname = "<?=$article['nickname']?>";
+    var title = "{{$article['title']}}";
+    var column = "{{$article['column_id']}}";
+    var nickname = "{{$article['nickname']}}";
     CKEDITOR.replace( 'content' );
     $('.ui.dropdown.fluid').dropdown({
         allowAdditions: true
@@ -158,4 +158,4 @@ $(document).ready(function(){
   });
 });
 </script>
-<?php stop(); ?>
+@stop

@@ -1,5 +1,5 @@
-<?php extend('extend/extend'); ?>
-<?php start('content'); ?>
+@extend('extend/extend')
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
     <i class="settings icon"></i> 系统设置
@@ -8,23 +8,23 @@
     <form class="ui form container" action="updateSystemInfo" method="post">
         <div class="field">
             <label>站点网址：</label>
-            <input name="url" type="text" placeholder="http://" value="<?=$system['url']?>">
+            <input name="url" type="text" placeholder="http://" value="{{$system['url']}}">
         </div>
         <div class="field">
             <label>网站名称：</label>
-            <input name="title" type="text" placeholder="×××网站" value="<?=$system['title']?>">
+            <input name="title" type="text" placeholder="×××网站" value="{{$system['title']}}">
         </div>
         <div class="field">
             <label>网站简介：</label>
-            <textarea name="description" placeholder="网站简介(建议不超过80字)"><?=$system['description']?></textarea>
+            <textarea name="description" placeholder="网站简介(建议不超过80字)">{{$system['description']}}</textarea>
         </div>
         <div class="field">
             <label>网站关键词：</label>
-            <input name="keywords" type="text" placeholder="关键词之间用英文','间隔" value="<?=$system['keywords']?>">
+            <input name="keywords" type="text" placeholder="关键词之间用英文','间隔" value="{{$system['keywords']}}">
         </div>
         <div class="field">
             <label>版权信息：</label>
-            <input name="copyright" type="text" placeholder="版权信息(建议不超过20字)" value="<?=$system['copyright']?>">
+            <input name="copyright" type="text" placeholder="版权信息(建议不超过20字)" value="{{$system['copyright']}}">
         </div>
         <div class="ui field centered grid">
             <button class="ui blue labeled icon button">
@@ -34,13 +34,13 @@
         </div>
     </form>
 </div>
-<?php stop(); ?>
-<?php start('script'); ?>
+@stop
+@start('script')
 <script type="text/javascript">
 $(document).ready(function(){
-    <?php if (!empty($msg)): ?>
-    showTips("<?=$msg?>");
-    <?php endif ?>
+    @if(!empty($msg))
+    showTips("{{$msg}}");
+    @endif
     //表单验证
     $('.ui.form').form({
         inline : true,
@@ -95,4 +95,4 @@ $(document).ready(function(){
   });
 });
 </script>
-<?php stop(); ?>
+@stop

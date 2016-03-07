@@ -31,35 +31,35 @@
             </tr>
         </thead>
         <tbody>
-            <?php if (empty($columns)): ?>
+            @if(empty($columns))
                 <tr class="terse center">
                     <td colspan="8">暂时没有任何栏目</td>
                 </tr>
-            <?php endif ?>
-            <?php foreach ($columns as $id => $column) { ?>
+            @endif
+            @foreach($columns as $id => $column)
             <tr>
-                <td class="collapsing"><?=$id?></td>
-                <td><?=$column['name']?></td>
-                <td><?=$column['nickname']?></td>
-                <td><a href="/article-setting/search.html?column=<?=$id?>"><?=$column['articles']?> 篇</a></td>
+                <td class="collapsing">{{$id}}</td>
+                <td>{{$column['name']}}</td>
+                <td>{{$column['nickname']}}</td>
+                <td><a href="/article-setting/search.html?column=<?=$id?>">{{$column['articles']}} 篇</a></td>
                 <td>
                     <span class="ui toggle checkbox">
-                        <?php if ($column['is_show']): ?>
+                        @if($column['is_show'])
                         <input type="checkbox" name="public" checked="checked" data-id="<?=$id?>">
                         <label></label>
-                        <?php else: ?>
+                        @else
                         <input type="checkbox" name="public" data-id="<?=$id?>">
                         <label></label>
-                        <?php endif ?>
+                        @endif
                     </span>
                 </td>
-                <td class="break"><?=$column['description']?></td>
+                <td class="break">{{$column['description']}}</td>
                 <td style="font-size: 12px;">
-                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/column-setting/edit?id=<?=$id?>"></i>
-                    <i class="circular red trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/column-setting/doDelete?id=<?=$id?>" data-article="<?=$column['articles']?>"></i>
+                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/column-setting/edit?id={{$id}}"></i>
+                    <i class="circular red trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/column-setting/doDelete?id={{$id}}" data-article="{{$column['articles']}}"></i>
                 </td>
             </tr>
-            <?php }?>
+            @endforeach
         </tbody>
     </table>
 </div>
@@ -84,9 +84,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
     var del_href;
-    <?php if (!empty($msg)): ?>
-    showTips("<?=$msg?>");
-    <?php endif ?>
+    @if(!empty($msg))
+    showTips("{{$msg}}");
+    @endif
     //开启提示框
     $('.icon.link').popup({
         inline: true

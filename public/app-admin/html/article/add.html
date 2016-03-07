@@ -24,9 +24,9 @@
                  <label>所属栏目：</label>
                  <select name="column" class="ui dropdown">
                     <option value="0">请选择</option>
-                    <?php foreach ($columns as $id => $column): ?>
-                    <option value="<?=$id?>" data-name="<?=$column['nickname']?>"><?=$column['name']?></option>
-                    <?php endforeach; ?>
+                    @foreach($columns as $id => $column)
+                    <option value="{{$id}}" data-name="{{$column['nickname']}}">{{$column['name']}}</option>
+                    @endforeach
                  </select>
             </div>
             <div class="field">

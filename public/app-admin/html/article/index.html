@@ -40,36 +40,36 @@
         </tr>
     </thead>
     <tbody>
-        <?php if (empty($data)): ?>
+        @if(empty($articles))
             <tr class="terse center">
                 <td colspan="7">暂时没有任何文章</td>
             </tr>
-        <?php endif ?>
-        <?php $i=1; foreach ($data as $key => $row) { ?>
+        @endif
+        @foreach($articles as $id => $article)
         <tr>
-            <td class="collapsing"><?=$i++?></td>
-            <td><?=$row['title']?></td>
-            <td><a href="/article-setting/search?author=<?=$row['author']?>"><?=$row['author']?></a></td>
-            <td><?=$row['column']?></td>
+            <td class="collapsing">{{$i++}}</td>
+            <td>{{$article['title']}}</td>
+            <td><a href="/article-setting/search?author={{$article['author']}}">{{$article['author']}}</a></td>
+            <td>{{$article['column']}}</td>
             <td>
                 <span class="ui toggle checkbox">
-                    <?php if ($row['is_show']): ?>
-                    <input type="checkbox" name="public" checked="checked" data-id="<?=$key?>">
+                    @if($article['is_show'])
+                    <input type="checkbox" name="public" checked="checked" data-id="{{$id}}">
                     <label>显示</label>
-                    <?php else: ?>
-                    <input type="checkbox" name="public" data-id="<?=$key?>">
+                    @else
+                    <input type="checkbox" name="public" data-id="{{$id}}">
                     <label>隐藏</label>
-                    <?php endif ?>
+                    @endif
                 </span>
             </td>
-            <td><?=$row['create_time']?></td>
+            <td>{{$article['create_time']}}</td>
             <td style="font-size: 12px;">
-                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/article-setting/edit?id=<?=$key?>"></i>
-                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="<?=$url?>/<?=$row['column_nickname']?>/<?=$row['article_nickname']?>.html"></i>
-                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/article-setting/doDelete?id=<?=$key?>&column=<?=$row['column_id']?>"></i>
+                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/article-setting/edit?id={{$id}}"></i>
+                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="{{$url}}/{{$article['column_nickname']}}/{{$article['article_nickname']}}.html"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/article-setting/doDelete?id={{$id}}&column={{$article['column_id']}}"></i>
             </td>
         </tr>
-        <?php } ?>
+        @endforeach
     </tbody>
 </table>
     共 <?=$_SESSION['pagesize']?> 页 
@@ -83,9 +83,9 @@
 @start('script')
 <script type="text/javascript">
 $(document).ready(function(){
-    <?php if (!empty($msg)): ?>
-    showTips("<?=$msg?>");
-    <?php endif ?>
+    @if(!empty($msg))
+    showTips("{{$msg}}");
+    @endif
     //获取回车搜索响应事件
     $(function(){
         $('#search').on('keypress',function(event){

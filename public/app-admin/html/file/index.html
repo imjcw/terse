@@ -1,5 +1,5 @@
-<?php extend('extend/extend'); ?>
-<?php start('style'); ?>
+@extend('extend/extend')
+@start('style')
 <style type="text/css">
     .ui.attached.header{
         margin-top: 0;
@@ -43,43 +43,43 @@
         padding: 0 5px;
     }
 </style>
-<?php stop(); ?>
-<?php start('content'); ?>
+@stop
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
-    <i class="archive icon" style="font-size: 1.28em;margin-top: -3px;"></i> 文件管理
+    <i class="archive icon"></i> 文件管理
 </h3>
 <div class="ui attached segment">
     <ul class="terse list">
-        <?php if (empty($data)): ?>
+        @if(empty($data))
         <li class="item terse center text">
             该文件夹下没有任何文件或文件夹
         </li>
-        <?php endif ?>
-        <?php if (isset($data['dir'])): ?>
-            <?php foreach ($data['dir'] as $dir): ?>
+        @endif
+        @if(isset($data['dir']))
+            @foreach($data['dir'] as $dir)
             <li class="item">
                 <span class="terse right">
-                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path=<?=$realPath.'/'.$dir['name']?>"></i>
-                    <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path=<?=$realPath.'/'.$dir['name']?>"></i>
+                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path={{$realPath.'/'.$dir['name']}}"></i>
+                    <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path={{$realPath.'/'.$dir['name']}}"></i>
                 </span>
-                <i class="blue <?=$dir['class']?> icon"></i>
-                <a href="?path=<?=$realPath.'/'.$dir['name']?>" class="name"><?=$dir['name']?></a>
+                <i class="blue {{$dir['class']}} icon"></i>
+                <a href="?path={{$realPath.'/'.$dir['name']}}" class="name">{{$dir['name']}}</a>
             </li>
-            <?php endforeach ?>
-        <?php endif ?>
-        <?php if (isset($data['file'])): ?>
-            <?php foreach ($data['file'] as $file): ?>
+            @endforeach
+        @endif
+        @if(isset($data['file']))
+            @foreach($data['file'] as $file)
             <li class="item">
                 <span class="terse right">
-                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path=<?=$realPath.'/'.$file['name'].'&ext='.$file['ext']?>"></i>
-                    <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path=<?=$realPath.'/'.$file['name']?>"></i>
+                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path={{$realPath.'/'.$file['name'].'&ext='.$file['ext']}}"></i>
+                    <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path={{$realPath.'/'.$file['name']}}"></i>
                 </span>
-                <i class="blue <?=$file['class']?> icon"></i>
-                <span class="text name"><?=$file['name']?></span>.<span class="text ext"><?=$file['ext']?></span>
+                <i class="blue {{$file['class']}} icon"></i>
+                <span class="text name">{{$file['name']}}</span>.<span class="text ext">{{$file['ext']}}</span>
             </li>
-            <?php endforeach ?>
-        <?php endif ?>
+            @endforeach
+        @endif
         <li class="item" style="display: none;">
             <div class="ui mini action input">
                 <i></i>
@@ -131,8 +131,8 @@
         </div>
     </div>
 </form>
-<?php stop(); ?>
-<?php start('script');?>
+@stop
+@start('script')
 <script type="text/javascript">
 $(document).ready(function(){
     var old_name = '';
@@ -240,4 +240,4 @@ $(document).ready(function(){
     });
 });
 </script>
-<?php stop(); ?>
+@stop

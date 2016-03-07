@@ -30,7 +30,8 @@ class ArticleSettingController extends BaseController
         $msg = getMsg();
 
         return view('article/index')->with(array(
-            'data' => $data,
+            'i' => 0,
+            'articles' => $data,
             'msg' => $msg,
             'url' => $url
         ));
@@ -67,7 +68,8 @@ class ArticleSettingController extends BaseController
         $msg = getMsg();
 
         return view('article/index')->with(array(
-            'data' => $data,
+            'i' => 0,
+            'articles' => $data,
             'msg' => $msg,
             'url' => $url
         ));

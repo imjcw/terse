@@ -25,6 +25,7 @@ class RecycleSettingController extends BaseController
         $msg = getMsg();
 
         return view('recycle/index')->with(array(
+            'i' => 0,
             'articles' => $data,
             'msg' => $msg
         ));

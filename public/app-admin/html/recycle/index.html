@@ -1,5 +1,5 @@
-<?php extend('extend/extend'); ?>
-<?php start('content'); ?>
+@extend('extend/extend')
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
     <i class="file text outline icon"></i> 文档管理
@@ -17,37 +17,37 @@
         </tr>
     </thead>
     <tbody>
-        <?php if (empty($articles)): ?>
+        @if(empty($articles))
             <tr class="terse center">
                 <td colspan="6">干净的回收站</td>
             </tr>
-        <?php endif ?>
-        <?php $i=1; foreach ($articles as $id => $article) { ?>
+        @endif
+        @foreach($articles as $id => $article)
         <tr>
-            <td class="collapsing"><?=$i++?></td>
-            <td><?=$article['title']?></td>
-            <td><?=$article['author']?></td>
-            <td><?=$article['column']?></td>
-            <td><?=$article['create_time']?></td>
+            <td class="collapsing">{{$i++}}</td>
+            <td>{{$article['title']}}</td>
+            <td>{{$article['author']}}</td>
+            <td>{{$article['column']}}</td>
+            <td>{{$article['create_time']}}</td>
             <td>
-                <a class="edit" href="/recycle-setting/reuse?id=<?=$id?>&column=<?=$article['column_id']?>">恢复</a>
+                <a class="edit" href="/recycle-setting/reuse?id={{$id}}&column={{$article['column_id']}}">恢复</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <a class="delete text red" href="/recycle-setting/doDelete?id=<?=$id?>&content=<?=$article['content_id']?>">彻底删除</a>
+                <a class="delete text red" href="/recycle-setting/doDelete?id={{$id}}&content={{$article['content_id']}}">彻底删除</a>
             </td>
         </tr>
-        <?php } ?>
+        @endforeach
     </tbody>
 </table>
     共 <?=$_SESSION['pagesize']?> 页 
 <?php pagination();?>
 </div>
-<?php stop();?>
-<?php start('script'); ?>
+@stop
+@start('script')
 <script type="text/javascript">
 $(document).ready(function(){
-    <?php if (!empty($msg)): ?>
-    showTips("<?=$msg?>");
-    <?php endif ?>
+    @if(!empty($msg))
+    showTips("{{$msg}}");
+    @endif
 });
 </script>
-<?php stop(); ?>
+@stop

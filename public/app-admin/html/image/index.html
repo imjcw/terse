@@ -1,5 +1,5 @@
-<?php extend('extend/extend'); ?>
-<?php start('style'); ?>
+@extend('extend/extend')
+@start('style')
 <style type="text/css">
     .file.image{
         width: 27px !important;
@@ -13,8 +13,8 @@
         margin: 0 auto;
     }
 </style>
-<?php stop(); ?>
-<?php start('content'); ?>
+@stop
+@start('content')
 <!--内容-->
 <h3 class="ui top attached header">
     <i class="file image outline icon"></i> 图片管理
@@ -24,29 +24,29 @@
 <span class="ui red basic layout button"><i class="tiny grid layout icon"></i> 批量操作</span>
 <span class="ui red basic remove button" style="display: none;"><i class="tiny remove icon"></i> 批量删除</span>
 <span class="ui red basic cancel button" style="display: none;"><i class="tiny reply icon"></i> 取消操作</span>
-    <?php if (empty($data)): ?>
+    @if(empty($data))
         <div style="height: 30px;line-height: 30px;text-align: center;font-size: 18px;">暂无图片</div>
-    <?php else: ?>
+    @else
     <div class="ui four stackable doubling cards" style="margin-top:0;">
-    <?php foreach ($data as $key => $file) { ?>
+        @foreach($data as $key => $file)
         <div class="red card">
             <div class="ui checkbox" style="z-index: 999;top: 5px;left: 5px;min-height: 0;display:none;">
-                <input type="checkbox" name="image[]" value="<?=$file['name']?>">
+                <input type="checkbox" name="image[]" value="{{$file['name']}}">
                 <label></label>
             </div>
             <div class="image">
-                <img class="ui wireframe image" src="<?=$url?>/images/<?=$file['name']?>">
+                <img class="ui wireframe image" src="{{$url}}/images/{{$file['name']}}">
             </div>
             <div class="extra content">
                 <div class="ui two buttons">
-                    <div class="ui basic green detail button" data-url="<?=$url?>/images/<?=$file['name']?>" data-name="<?=$file['name']?>" data-size="<?=$file['size']?>">详情</div>
-                    <div class="ui basic red unlink button" data-name="<?=$file['name']?>">删除</div>
+                    <div class="ui basic green detail button" data-url="{{$url}}/images/{{$file['name']}}" data-name="{{$file['name']}}" data-size="{{$file['size']}}">详情</div>
+                    <div class="ui basic red unlink button" data-name="{{$file['name']}}">删除</div>
                 </div>
             </div>
         </div>
-        <?php } ?>
+        @endforeach
     </div>
-    <?php endif ?>
+    @endif
 </div>
 <form class="ui small modal form upload" action="/image-setting/upload" method="post" enctype="multipart/form-data">
     <div class="header">上传文件</div>
@@ -93,8 +93,8 @@
         </div>
     </div>
 </div>
-<?php stop(); ?>
-<?php start('script');?>
+@stop
+@start('script')
 <script type="text/javascript">
 $(document).ready(function(){
     //上传
@@ -165,4 +165,4 @@ $(document).ready(function(){
     });
 });
 </script>
-<?php stop(); ?>
+@stop
