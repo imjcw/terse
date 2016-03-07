@@ -30,12 +30,12 @@ class ArticleController
         //获取所有文章
         $article_biz = new ArticleBiz();
         $article = $article_biz->get($article_name,$column['id']);
-        $articles = $this->relate($column['id'],10);
-        $clicks = $this->clicks(10);
+        $article['column_name'] = $column['name'];
+        $article['column_nickname'] = $column['nickname'];
         if (!$article) {
             redirect('/404');
         }
-        return view('/article')->with(array('data' => $article,'column' => $column,'columns' => $columns,'articles' => $articles,'clicks' => $clicks));
+        return view('/article')->with(array('data' => $article));
     }
 
     public function relate($id, $num)

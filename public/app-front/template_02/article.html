@@ -1,13 +1,13 @@
-<?php extend('extend'); ?>
-<?php start('mainbody'); ?>
+@extend('extend')
+@start('mainbody')
 <div id="mainbody">
   <div class="blogs">
     <div id="index_view">
-      <h2 class="t_nav"><a href="/">网站首页</a><a href="/<?=$column['nickname']?>"><?=$column['name']?></a></h2>
-      <h1 class="c_titile"><?=$data['title'] ?></h1>
-      <p class="box">发布时间：<?=$data['create_time']?><span>编辑：Admin</span></p>
+      <h2 class="t_nav"><a href="/">网站首页</a><a href="/{{$data['column_nickname']}}">{{$data['column_name']}}</a></h2>
+      <h1 class="c_titile">{{$data['title']}}</h1>
+      <p class="box">发布时间：{{$data['create_time']}}<span>编辑：{{$data['author']}}</span></p>
       <ul>
-        <?=$data['content'] ?>
+        {{$data['content']}}
       </ul>
       <div class="share"> 
         <!-- Baidu Button BEGIN -->
@@ -30,19 +30,18 @@ document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static
       <div class="tuijian">
         <h2>最新文章</h2>
         <ol>
-        <?php $news = news(10);?>
-        <?php foreach ($news as $key => $new) {?>
+        @article(type:news num:10)
           <li>
             <span>
               <strong>
-                <?=$key+1?>
+                {{$key+1}}
               </strong>
             </span>
-            <a href="/<?=$column['nickname']?>/<?=$new['nickname']?>.html">
-              <?=$new['title']?>
+            <a href="{{$article['url']}}">
+              {{$article['title']}}
             </a>
           </li>
-        <?php } ?>
+        @endarticle
         </ol>
       </div>
       <div class="toppic">
@@ -62,23 +61,22 @@ document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static
       <div class="clicks">
         <h2>热门点击</h2>
         <ol>
-        <?php $clicks = hot(10);?>
-        <?php foreach ($clicks as $click) {?>
+        @article(type:hot num:10)
           <li>
             <span>
-              <a href="/<?=$columns[$click['column_id']]['nickname']?>">
-                <?=$columns[$click['column_id']]['name']?>
+              <a href="{{$article['url']}}">
+              {{$article['column_name']}}
               </a>
             </span>
-            <a href="/<?=$columns[$click['column_id']]['nickname']?>/<?=$click['nickname']?>.html">
-              <?=$click['title']?>
+            <a href="{{$article['url']}}">
+              {{$article['title']}}
             </a>
           </li>
-        <?php } ?>
+        @endarticle
         </ol>
       </div>
     </aside>
   </div>
   <!--blogs end--> 
 </div>
-<?php stop(); ?>
+@stop

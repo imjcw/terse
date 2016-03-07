@@ -104,7 +104,7 @@ if (!function_exists('news')) {
 }
 
 if (!function_exists('relate')) {
-    function relate($variable){
+    function relate($ee){
         $service = new SettingService();
         $system = $service->getSystemInfo();
         foreach ($system as $info) {
@@ -112,5 +112,32 @@ if (!function_exists('relate')) {
                 return $info['value'];
             }
         }
+    }
+}
+
+if (!function_exists('columnlist')) {
+    function columnlist(){
+        $route = $_SESSION['route'];
+        $nickname = end($route);
+        //获取相应的栏目
+        $column_biz = new ColumnBiz();
+        $column = $column_biz->getColumnByNickName($nickname);
+        //获取所有文章
+        $article_biz = new ArticleBiz();
+        $articles = $article_biz->getArticles($column['id'],20);
+        $data = array();
+        foreach ($articles as $key => $article) {
+            //column
+            $data[$key]['column_name'] = $column['name'];
+            $data[$key]['column_url'] = '/'.$column['nickname'];
+            //article
+            $data[$key]['title'] = $article['title'];
+            $data[$key]['author'] = $article['author'];
+            $data[$key]['nickname'] = $article['nickname'];
+            $data[$key]['url'] = "/{$column['nickname']}/{$article['nickname']}.".TEMPLATE_TYPE;
+            $data[$key]['description'] = $article['description'];
+            $data[$key]['create_time'] = $article['create_time'];
+        }
+        return $data;
     }
 }
