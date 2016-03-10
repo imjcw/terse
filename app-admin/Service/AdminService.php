@@ -54,6 +54,7 @@ class AdminService
         if (isset($params['description']) && $params['description']) {
             $data['description'] = $params['description'];
         }
+        $data['create_time'] = NULL;
         return $model->insert($data);
     }
 
@@ -106,19 +107,22 @@ class AdminService
 
     /**
      * 检查是否存在
-     * @param  string $name [description]
+     * @param  array $params [description]
      * @return [type]       [description]
      * @author marvin
      * @date   2016-02-25
      */
-    public function checkExit($name)
+    public function checkExit($params)
     {
         $model = new AdminModel();
-        if (isset($name) && $name) {
-            $model = $model->where('name',$name);
+        if (isset($params['name']) && $params['name']) {
+            $model = $model->where('name',$params['name']);
+        }
+        if (isset($params['nickname']) && $params['nickname']) {
+            $model = $model->orWhere('nickname',$params['nickname']);
         }
 
-        return $model->one();
+        return $model->all();
     }
 
     /**

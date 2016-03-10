@@ -3,6 +3,7 @@ namespace Admin\Controller;
 
 use Admin\Biz\AdminBiz;
 use Admin\Controller\BaseController;
+use Lib\Filter\Filter;
 
 class AdminSettingController extends BaseController
 {
@@ -13,18 +14,22 @@ class AdminSettingController extends BaseController
      * @date   2016-02-24
      */
     public function index(){
+        //获取所有管理员数据
         $biz = new AdminBiz();
         $admins = $biz->getAdmins();
+        //组合数据
         foreach ($admins as $admin) {
             $id = $admin['id'];
-            $data[$id]['nickname'] = $admin['nickname'];
             $data[$id]['name'] = $admin['name'];
+            $data[$id]['nickname'] = $admin['nickname'];
             $data[$id]['is_use'] = $admin['is_use'];
             $data[$id]['create_time'] = date('Y-m-d', strtotime($admin['create_time']));
         }
-
+        $msg = getMsg();
         return view('admin/index')->with(array(
-            'admins' => $data
+            'i' => 1,
+            'admins' => $data,
+            'msg' => $msg
         ));
     }
 
@@ -45,22 +50,21 @@ class AdminSettingController extends BaseController
      */
     public function doAdd(){
         $params = $_POST;
-        if (isset($params['nickname']) && $params['nickname']) {
-            $data['nickname'] = filter_var($params['nickname'], FILTER_SANITIZE_STRING);
+        //过滤变量
+        $filter = new Filter();
+        $data = $filter->make($params,array(
+            'nickname' => 'string',
+            'name' => 'required | string',
+            'password' => 'required | string',
+            'description' => 'string',
+            ));
+        if ($filter->error()) {
+            dd($filter->error());
         }
-        if (isset($params['name']) && $params['name']) {
-            $data['name'] = filter_var($params['name'], FILTER_SANITIZE_STRING);
-        }
-        if (isset($params['password']) && $params['password']) {
-            $data['password'] = filter_var($params['password'], FILTER_SANITIZE_STRING);
-        }
-        if (isset($params['description']) && $params['description']) {
-            $data['description'] = filter_var($params['description'], FILTER_SANITIZE_STRING);
-        }
-
+        //新增管理员
         $biz = new AdminBiz();
         $result = $biz->addAdmin($data);
-
+        $_SESSION['msg'] = $result ? '添加管理员成功！' : '添加管理员失败！';
         return redirect('admin/index');
     }
 
@@ -72,13 +76,17 @@ class AdminSettingController extends BaseController
      */
     public function edit(){
         $params = $_GET;
-        if (isset($params['id']) && $params['id']) {
-            $id = filter_var($params['id'], FILTER_VALIDATE_INT);
+        //过滤操作
+        $filter = new Filter();
+        $data = $filter->make($params,array(
+            'id' => 'required | int'
+            ));
+        if ($filter->error()) {
+            dd($filter->error());
         }
-
+        //获取管理员
         $biz = new AdminBiz();
-        $admin = $biz->getAdmin($id);
-
+        $admin = $biz->getAdmin($data['id']);
         return view('admin/edit')->with($admin);
     }
 
@@ -89,27 +97,25 @@ class AdminSettingController extends BaseController
      * @date   2016-02-25
      */
     public function doEdit(){
-        $params = $_GET;
-        if (isset($params['id']) && $params['id']) {
-            $id = filter_var($params['id'], FILTER_VALIDATE_INT);
+        $filter = new Filter();
+        $get = $_GET;
+        $post = $_POST;
+        $params = array_merge($get,$post);
+        //过滤操作
+        $data = $filter->make($params,array(
+            'id' => 'required | int | min:1',
+            'nickname' => 'required | string',
+            'name' => 'required | string',
+            'password' => 'required | string',
+            'description' => 'string',
+            ));
+        if ($filter->error()) {
+            dd($filter->error());
         }
-
-        $params = $_POST;
-        if (isset($params['nickname']) && $params['nickname']) {
-            $data['nickname'] = filter_var($params['nickname'], FILTER_SANITIZE_STRING);
-        }
-        if (isset($params['name']) && $params['name']) {
-            $data['name'] = filter_var($params['name'], FILTER_SANITIZE_STRING);
-        }
-        if (isset($params['password']) && $params['password']) {
-            $data['password'] = filter_var($params['password'], FILTER_SANITIZE_STRING);
-        }
-        if (isset($params['description']) && $params['description']) {
-            $data['description'] = filter_var($params['description'], FILTER_SANITIZE_STRING);
-        }
-
+        //更新管理员
         $biz = new AdminBiz();
-        $result = $biz->updateAdmin($id, $data);
+        $result = $biz->updateAdmin($data['id'], $data);
+        $_SESSION['msg'] = $result ? '编辑管理员成功！' : '编辑管理员失败！';
         return redirect('admin/index');
     }
 
@@ -121,12 +127,20 @@ class AdminSettingController extends BaseController
      */
     public function doDelete(){
         $params = $_GET;
-        if (isset($params['id']) && $params['id']) {
-            $id = filter_var($params['id'], FILTER_VALIDATE_INT);
+        //过滤操作
+        $filter = new Filter();
+        $data = $filter->make($params,array(
+            'id' => 'required | int'
+            ));
+        if ($filter->error()) {
+            dd($filter->error());
         }
-
+        if ($data['id'] == $_SESSION['user_id']) {
+            return json('不能删除自己！',403);
+        }
         $biz = new AdminBiz();
         $result = $biz->deleteAdmin($id);
+        $_SESSION['msg'] = $result ? '编辑管理员成功！' : '编辑管理员失败！';
         return redirect('admin/index');
     }
 
@@ -139,14 +153,19 @@ class AdminSettingController extends BaseController
     public function changeVisible()
     {
         $params = $_POST;
-        if (isset($params['id']) && $params['id']) {
-            $id = intval($_POST['id']);
+        $filter = new Filter();
+        $data = $filter->make($params,array(
+            'id' => 'required | int',
+            'status' => 'required | int',
+            ));
+        if ($filter->error()) {
+            dd($filter->error());
         }
-        if (isset($params['status']) && $params['status']) {
-            $status = intval($_POST['status']);
+        if ($data['id'] == $_SESSION['user_id']) {
+            return json('不能禁用自己！',403);
         }
         $biz = new AdminBiz();
-        $result = $biz->changeVisible($id,$status);
+        $result = $biz->changeVisible($data['id'],$data['status']);
         return $result ? json('success！') : json('fault！', 403);
     }
 }

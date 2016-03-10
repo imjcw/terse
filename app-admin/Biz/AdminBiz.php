@@ -43,8 +43,8 @@ class AdminBiz extends BaseBiz
     public function addAdmin($data)
     {
         $service = new AdminService();
-        $result = $service->checkExit($data['name']);
-        if ($result['id'] != $data['id']) {
+        $admins = $service->checkExit(array('name' => $data['name'],'nickname' => $data['nickname']));
+        if ($admins) {
             return false;
         }
 
@@ -64,8 +64,15 @@ class AdminBiz extends BaseBiz
     public function updateAdmin($id, $data)
     {
         $service = new AdminService();
-        $result = $service->checkExit($data['name']);
-        if ($result['id'] != $data['id']) {
+        $admins = $service->checkExit(array('name' => $data['name'],'nickname' => $data['nickname']));
+        if (count($admins) > 1) {
+            return false;
+        }
+        if ($admins && ($admins['id'] != $data['id'])) {
+            return false;
+        }
+        $result = $service->checkExit($data['nickname']);
+        if ($result && ($result['id'] != $data['id'])) {
             return false;
         }
 
