@@ -1,79 +1,121 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>admin</title>
-    <link rel="stylesheet" type="text/css" href="/include/semantic/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <script type="text/javascript" src="/include/jquery/jquery-2.1.4.js"></script>
-    <script type="text/javascript" src="/include/semantic/semantic.min.js"></script>
-    <script type="text/javascript" src="/js/main.js"></script>
-    <style type="text/css">
-    body{
-        background-color: #f1f1f1;
-    }
-    ul li{
-        display: inline-block;
-        list-style: none;
-    }
-    .ui.container.header ul li a{
-        display: block;
-        line-height: 65px;
-        padding: 0 20px;
-    }
-    .ui.container.header ul li a.select{
-        line-height: 60px;
-        border-bottom: 3px solid #009C95;
-        margin-bottom: 2px;
-    }
-    .piled.segment{
-        margin: 20px 0 !important;
-    }
-    </style>
-<body style="border-top: 2px solid #2185D0;">
-    <div class="ui container">
-        <div class="ui secondary pointing menu" style="background-color: #FFFFFF;border-color: #FFFFFF; ">
-            <a class="item" href="/">首页</a>
-            <?php foreach ($columns as $value) {?>
-            <?php if ($value['nickname'] == $column): ?>
-            <a class="active item" href="/<?=$value['nickname']?>"><?=$value['name']?></a>
-            <?php else: ?>
-            <a class="item" href="/<?=$value['nickname']?>"><?=$value['name']?></a>
-            <?php endif ?>
-            <?php } ?>
-        </div>
-        <div class="ui two column stackable grid">
-            <div class="eleven wide column">
-                <?php foreach ($articles as $key => $article): ?>
-                <div class="ui piled segment">
-                    <div class="ui divided items">
-                        <div class="item">
-                            <div class="image">
-                                <img src="/info.jpg">
-                            </div>
-                            <div class="content">
-                                <a class="header" href="<?=$article['nickname']?>.html"><?=$article['title']?></a>
-                                <div class="meta">
-                                    <span class="cinema"><?=$article['create_time']?></span>
-                                </div>
-                                <div class="description">
-                                    <p style="line-height: 25px;color: #555555;"><?=$article['description']?>...</p>
-                                </div>
-                                <div class="extra">
-                                    <a class="ui right floated primary button" href="/<?=$column?>/<?=$article['nickname']?>.html">阅读全文 <i class="right chevron icon"></i> </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+@extend('extend')
+@start('style')
+<link href="/css/style.css" rel="stylesheet">
+@stop
+@start('mainbody')
+<article>
+    <h2 class="about_h">您现在的位置是：<a href="/">首页</a>><a href="1/">慢生活</a></h2>
+    <div class="bloglist">
+        @article(type:news num:10)
+        <div class="newblog">
+            <ul>
+                <h3>
+                    <a href="{{$article['url']}}">{{$article['title']}}</a>
+                </h3>
+                <div class="autor">
+                    <span>作者：杨青</span>
+                    <span>分类：[<a href="/">日记</a>]</span>
+                    <span>浏览（<a href="/">459</a>）</span>
+                    <span>评论（<a href="/">30</a>）</span>
                 </div>
-            <?php endforeach ?>
-            <?php pagination();?>
-            </div>
-            <div class="five wide column">
-                <div class="ui segment">Content</div>
-            </div>
+                <p>
+                    {{$article['description']}}
+                    <a href="{{$article['url']}}" target="_blank" class="readmore">全文</a>
+                </p>
+            </ul>
+            <figure><img src="/images/001.jpg" ></figure>
+            <div class="dateview">{{$article['create_time']}}</div>
         </div>
+        @endarticle
     </div>
-</body>
-</html>
+    <div class="page">
+        <a title="Total record">
+        <b>113</b>
+        </a><b>1</b>
+        <a href="/">2</a>
+        <a href="/">3</a>
+        <a href="/">4</a>
+        <a href="/">5</a>
+        <a href="/">&gt;</a>
+        <a href="/">&gt;&gt;</a>
+    </div>
+</article>
+@stop
+@start('aside')
+<aside>
+    <div class="rnav">
+      <li class="rnav1 "><a href="/">日记</a></li>
+      <li class="rnav2 "><a href="/">欣赏</a></li>
+      <li class="rnav3 "><a href="/">程序人生</a></li>
+      <li class="rnav4 "><a href="/">经典语录</a></li>
+    </div>
+    <div class="ph_news">
+        <h2>
+            <p>点击排行</p>
+        </h2>
+        <ul class="ph_n">
+            @article(type:news num:10)
+            <li><span>{{$key+1}}</span><a href="{{$article['url']}}">{{$article['title']}}</a></li>
+            @endarticle
+        </ul>
+        <h2>
+            <p>栏目推荐</p>
+        </h2>
+        <ul>
+            @article(type:news num:10)
+            <li><a href="{{$article['url']}}">{{$article['title']}}</a></li>
+            @endarticle
+        </ul>
+        <h2>
+          <p>最新评论</p>
+        </h2>
+        <ul class="pl_n">
+          <dl>
+            <dt><img src="/images/s8.jpg"> </dt>
+            <dt> </dt>
+            <dd>DanceSmile
+              <time>49分钟前</time>
+            </dd>
+            <dd><a href="/">文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
+          </dl>
+          <dl>
+            <dt><img src="/images/s7.jpg"> </dt>
+            <dt> </dt>
+            <dd>yisa
+              <time>2小时前</time>
+            </dd>
+            <dd><a href="/">我手机里面也有这样一个号码存在</a></dd>
+          </dl>
+          <dl>
+            <dt><img src="/images/s6.jpg"> </dt>
+            <dt> </dt>
+            <dd>小林博客
+              <time>8月7日</time>
+            </dd>
+            <dd><a href="/">博客色彩丰富，很是好看</a></dd>
+          </dl>
+          <dl>
+            <dt><img src="/images/003.jpg"> </dt>
+            <dt> </dt>
+            <dd>DanceSmile
+              <time>49分钟前</time>
+            </dd>
+            <dd><a href="/">文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
+          </dl>
+          <dl>
+            <dt><img src="/images/002.jpg"> </dt>
+            <dt> </dt>
+            <dd>yisa
+              <time>2小时前</time>
+            </dd>
+            <dd><a href="/">我手机里面也有这样一个号码存在</a></dd>
+          </dl>
+        </ul>
+        <h2>
+            <p>最近访客</p>
+            <ul>
+                <img src="/images/vis.jpg"><!-- 直接使用“多说”插件的调用代码 -->
+            </ul>
+        </h2>
+    </div>
+@stop

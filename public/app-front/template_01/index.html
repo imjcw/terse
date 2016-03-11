@@ -1,0 +1,79 @@
+@extend('extend')
+@start('mainbody')
+<article>
+    <div class="banner">
+        <ul class="texts">
+            <p>The best life is use of willing attitude, a happy-go-lucky life. </p>
+            <p>最好的生活是用心甘情愿的态度，过随遇而安的生活。</p>
+        </ul>
+    </div>
+    <div class="bloglist">
+        <h2>
+            <p><span>推荐</span>文章</p>
+        </h2>
+        @article(type:news num:10)
+        <div class="blogs">
+            <h3>
+                <a href="{{$article['url']}}">{{$article['title']}}</a>
+            </h3>
+            <figure>
+                <img src="/images/01.jpg" >
+            </figure>
+            <ul>
+                <p>{{$article['description']}}</p>
+                <a href="{{$article['url']}}" target="_blank" class="readmore">阅读全文&gt;&gt;</a>
+            </ul>
+            <p class="autor">
+                <span>作者：杨青</span>
+                <span>分类：【<a href="/">日记</a>】</span>
+                <span>浏览（<a href="/">459</a>）</span>
+                <span>评论（<a href="/">30</a>）</span>
+            </p>
+            <div class="dateview">{{$article['create_time']}}</div>
+        </div>
+        @endarticle
+    </div>
+</article>
+@stop
+@start('aside')
+<aside>
+    <div class="avatar"><a href="about.html"><span>关于杨青</span></a></div>
+    <div class="topspaceinfo">
+        <h1>执子之手，与子偕老</h1>
+        <p>于千万人之中，我遇见了我所遇见的人....</p>
+    </div>
+    <div class="about_c">
+        <p>网名：DanceSmile | 即步非烟</p>
+        <p>职业：Web前端设计师、网页设计 </p>
+        <p>籍贯：四川省—成都市</p>
+        <p>电话：13662012345</p>
+        <p>邮箱：dancesmiling@qq.com</p>
+    </div>
+    <div class="tj_news">
+        <h2>
+            <p class="tj_t1">最新文章</p>
+        </h2>
+        <ul>
+            @article(type:news num:10)
+            <li><a href="{{$article['url']}}">{{$article['title']}}</a></li>
+            @endarticle
+        </ul>
+        <h2>
+            <p class="tj_t2">推荐文章</p>
+        </h2>
+        <ul>
+            @article(type:hot num:10)
+            <li><a href="{{$article['url']}}">{{$article['title']}}</a></li>
+            @endarticle
+        </ul>
+    </div>
+    <div class="links">
+        <h2>
+            <p>友情链接</p>
+        </h2>
+        <ul>
+            <li><a href="/">杨青个人博客</a></li>
+            <li><a href="/">3DST技术社区</a></li>
+        </ul>
+    </div>
+@stop

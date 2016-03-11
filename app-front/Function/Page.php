@@ -97,7 +97,7 @@ if (!function_exists('news')) {
             $data[$key]['nickname'] = $article['nickname'];
             $data[$key]['url'] = "{$column['url']}/{$article['nickname']}.".TEMPLATE_TYPE;
             $data[$key]['description'] = $article['description'];
-            $data[$key]['create_time'] = $article['create_time'];
+            $data[$key]['create_time'] = date('Y-m-d',strtotime($article['create_time']));
         }
         return $data;
     }

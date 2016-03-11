@@ -1,64 +1,109 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>admin</title>
-    <link rel="stylesheet" type="text/css" href="/include/semantic/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <script type="text/javascript" src="/include/jquery/jquery-2.1.4.js"></script>
-    <script type="text/javascript" src="/include/semantic/semantic.min.js"></script>
-    <script type="text/javascript" src="/js/main.js"></script>
-    <style type="text/css">
-    body{
-        background-color: #f1f1f1;
-    }
-    ul li{
-        display: inline-block;
-        list-style: none;
-    }
-    .ui.container.header ul li a{
-        display: block;
-        line-height: 65px;
-        padding: 0 20px;
-    }
-    .ui.container.header ul li a.select{
-        line-height: 60px;
-        border-bottom: 3px solid #009C95;
-        margin-bottom: 2px;
-    }
-    p{
-        font-size: 15px;
-        line-height: 27px;
-    }
-    h3{
-        line-height: 30px;
-        margin: 0 -20px 5px;
-        border-left: 4px solid #009C95;
-        text-indent: 40px;
-        font-size: 16px;
-    }
-    </style>
-<body>
-    <div class="ui container">
-        <div class="ui two column stackable grid">
-            <div class="eleven wide column">
-                <div class="ui segment">
-                    Content
-                </div>
-                <div class="ui attached segment" style="padding: 20px;">
-                    <h1 style="background-color: #ebebeb; border-left: 4px solid #009C95; border-right: 4px solid #009C95; margin: 0px -24px 20px; line-height: 40px; text-align: center;font-size: 18px;"><?=$data['title'] ?></h1>
-                    <?=$data['content'] ?>
-                </div>
-                <div class="ui bottom attached message">
-                    <strong>版权声明</strong>：本站原创文章，于3小时前，由默北发表，共 564字。<br/>
-                    <strong>转载请注明</strong>：ELK logstash 处理MySQL慢查询日志(26th) | 运维生存时间 +复制链接
-                </div>
-            </div>
-            <div class="five wide column">
-                <div class="ui segment">Content</div>
-            </div>
+@extend('extend')
+@start('style')
+<link href="/css/style.css" rel="stylesheet">
+@stop
+@start('mainbody')
+<article>
+    <h2 class="about_h">您现在的位置是：<a href="/">首页</a>><a href="/{{$data['column_nickname']}}">{{$data['column_name']}}</a></h2>
+    <div class="index_about">
+        <h2 class="c_titile">{{$data['title']}}</h2>
+        <p class="box_c"><span class="d_time">发布时间：{{$data['create_time']}}</span><span>编辑：{{$data['author']}}</span></p>
+        <ul class="infos">
+            {{$data['content']}}
+        </ul>
+        <div class="keybq">
+            <p><span>关键字词</span>：黑色,个人博客,时间轴,响应式</p>
+        </div>
+        <div class="nextinfo">
+            <p>上一篇：<a href="/news/s/2013-09-04/606.html">程序员应该如何高效的工作学习</a></p>
+            <p>下一篇：<a href="/news/s/2013-10-21/616.html">柴米油盐的生活才是真实</a></p>
+        </div>
+        <div class="otherlink">
+            <h2>相关文章</h2>
+            <ul>
+                @article(type:hot num:10)
+                <li><a href="{{$article['url']}}" title="{{$article['title']}}">{{$article['title']}}</a></li>
+                @endarticle
+            </ul>
         </div>
     </div>
-</body>
-</html>
+</article>
+@stop
+@start('aside')
+<aside>
+    <div class="rnav">
+      <li class="rnav1 "><a href="/">日记</a></li>
+      <li class="rnav2 "><a href="/">欣赏</a></li>
+      <li class="rnav3 "><a href="/">程序人生</a></li>
+      <li class="rnav4 "><a href="/">经典语录</a></li>
+    </div>
+    <div class="ph_news">
+        <h2>
+            <p>点击排行</p>
+        </h2>
+        <ul class="ph_n">
+            @article(type:news num:10)
+            <li><span>{{$key+1}}</span><a href="{{$article['url']}}">{{$article['title']}}</a></li>
+            @endarticle
+        </ul>
+        <h2>
+            <p>栏目推荐</p>
+        </h2>
+        <ul>
+            @article(type:news num:10)
+            <li><a href="{{$article['url']}}">{{$article['title']}}</a></li>
+            @endarticle
+        </ul>
+        <h2>
+          <p>最新评论</p>
+        </h2>
+        <ul class="pl_n">
+          <dl>
+            <dt><img src="/images/s8.jpg"> </dt>
+            <dt> </dt>
+            <dd>DanceSmile
+              <time>49分钟前</time>
+            </dd>
+            <dd><a href="/">文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
+          </dl>
+          <dl>
+            <dt><img src="/images/s7.jpg"> </dt>
+            <dt> </dt>
+            <dd>yisa
+              <time>2小时前</time>
+            </dd>
+            <dd><a href="/">我手机里面也有这样一个号码存在</a></dd>
+          </dl>
+          <dl>
+            <dt><img src="/images/s6.jpg"> </dt>
+            <dt> </dt>
+            <dd>小林博客
+              <time>8月7日</time>
+            </dd>
+            <dd><a href="/">博客色彩丰富，很是好看</a></dd>
+          </dl>
+          <dl>
+            <dt><img src="/images/003.jpg"> </dt>
+            <dt> </dt>
+            <dd>DanceSmile
+              <time>49分钟前</time>
+            </dd>
+            <dd><a href="/">文章非常详细，我很喜欢.前端的工程师很少，我记得几年前yahoo花高薪招聘前端也招不到</a></dd>
+          </dl>
+          <dl>
+            <dt><img src="/images/002.jpg"> </dt>
+            <dt> </dt>
+            <dd>yisa
+              <time>2小时前</time>
+            </dd>
+            <dd><a href="/">我手机里面也有这样一个号码存在</a></dd>
+          </dl>
+        </ul>
+        <h2>
+            <p>最近访客</p>
+            <ul>
+                <img src="/images/vis.jpg"><!-- 直接使用“多说”插件的调用代码 -->
+            </ul>
+        </h2>
+    </div>
+@stop
