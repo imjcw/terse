@@ -79,7 +79,8 @@ class ArticleService
         $data['create_time'] = NULL;
 
         $model = new ArticleModel();
-        return $model->insert($data);
+        $result = $model->insert($data);
+        return mysql_insert_id();
     }
 
     /**

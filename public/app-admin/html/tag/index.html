@@ -15,8 +15,6 @@
     <i class="tags icon"></i> 标签管理
 </h3>
 <div class="ui attached segment">
-<a class="ui blue basic button" href="/admin-setting/add"><i class="tiny add user icon"></i> 添加</a>
-<a class="ui red basic button" href="/admin-setting/add"><i class="tiny remove user icon"></i> 批量删除</a>
 <table class="ui blue unstackable selectable celled table">
     <thead>
         <tr>
@@ -29,20 +27,19 @@
         </tr>
     </thead>
     <tbody>
-        @if(empty($admins))
+        @if(empty($tags))
             <tr class="terse center">
-                <td colspan="6">暂无管理员</td>
+                <td colspan="6">暂无标签</td>
             </tr>
         @endif
-        @foreach($admins as $id => $admin)
+        @foreach($tags as $id => $tag)
         <tr>
             <td class="collapsing">{{$i++}}</td>
-            <td>{{$admin['nickname']}}</td>
-            <td>{{$admin['name']}}</td>
-            <td>{{$admin['create_time']}}</td>
+            <td>{{$tag['nickname']}}</td>
+            <td>{{$tag['name']}}</td>
+            <td>{{$tag['create_time']}}</td>
             <td style="font-size: 12px;">
-                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/admin-setting/edit?id={{$id}}"></i>
-                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/admin-setting/doDelete?id={{$id}}"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/tag-setting/doDelete?id={{$id}}"></i>
             </td>
         </tr>
         @endforeach
@@ -62,44 +59,11 @@ $(document).ready(function(){
         inline: true
     });
 
-    //编辑
-    $('.write.link').click(function(){
-        var href = $(this).attr('data-action');
-        window.open(href,'_self');
-    });
-
     //删除
     $('.trash.link').click(function(){
         var href = $(this).attr('data-action');
         window.open(href,'_self');
     });
-
-    for (var i = $('.toggle.checkbox').length - 1; i >= 0; i--) {
-        $('.toggle.checkbox:eq('+i+')').checkbox().first().checkbox({
-            onChecked: function() {
-                var id = $(this).attr('data-id');
-                var msg = '启用';
-                $.post('/admin-setting/changeVisible',{id,status:1}).success(function(){
-                    showTips('管理员启用成功！');
-                }).error(function(){
-                    msg = '禁用';
-                    showTips('管理员启用失败！');
-                });
-                $(this).siblings('label').html(msg);
-            },
-            onUnchecked: function() {
-                var id = $(this).attr('data-id');
-                var msg = '禁用';
-                $.post('/admin-setting/changeVisible',{id,status:0}).success(function(){
-                    showTips('管理员禁用成功！');
-                }).error(function(){
-                    msg = '启用';
-                    showTips('管理员禁用失败！');
-                });
-                $(this).siblings('label').html(msg);
-            },
-        });
-    }
 });
 </script>
 @stop

@@ -22,25 +22,20 @@
         <div class="two fields">
             <div class="field">
                  <label>所属栏目：</label>
-                 <select name="column" class="ui dropdown">
+                 <select name="category" class="ui dropdown">
                     <option value="0">请选择</option>
-                    @foreach($columns as $id => $column)
-                    <option value="{{$id}}" data-name="{{$column['nickname']}}">{{$column['name']}}</option>
+                    @foreach($categorys as $id => $category)
+                    <option value="{{$id}}" data-name="{{$category['nickname']}}">{{$category['name']}}</option>
                     @endforeach
                  </select>
             </div>
             <div class="field">
                 <label>标签</label>
                 <div class="ui fluid multiple search selection dropdown">
-                    <input type="hidden" value="angular0,angular1">
+                    <input type="hidden" name="tags">
                     <i class="dropdown icon"></i>
                     <div class="default text">标签，输入新建标签</div>
                     <div class="menu">
-                        <div class="item" data-value="angular">Angular</div>
-                        <div class="item" data-value="angular0">Angular0</div>
-                        <div class="item" data-value="angular1">Angular1</div>
-                        <div class="item" data-value="angular2">Angular2</div>
-                        <div class="item" data-value="angular3">Angular3</div>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ namespace Admin\Controller;
 use Admin\Biz\ArticleBiz;
 use Admin\Biz\ColumnBiz;
 use Admin\Controller\BaseController;
+use Lib\Filter\Filter;
 
 class ArticleSettingController extends BaseController
 {
@@ -103,24 +104,24 @@ class ArticleSettingController extends BaseController
     public function add(){
         //获取栏目
         $biz = new ColumnBiz();
-        $column_list = $biz->getColumns();
+        $category_list = $biz->getColumns();
         //判断是否为空，没有栏目则返回添加栏目
-        if (empty($column_list)) {
+        if (empty($category_list)) {
             $_SESSION['msg'] = '请先添加栏目！';
             return redirect('column/index');
         }
         //组合数据
-        $columns = array();
-        foreach ($column_list as $column) {
-            $id = $column['id'];
-            $columns[$id]['name'] = $column['name'];
-            $columns[$id]['nickname'] = $column['nickname'];
+        $categorys = array();
+        foreach ($category_list as $category) {
+            $id = $category['id'];
+            $categorys[$id]['name'] = $category['name'];
+            $categorys[$id]['nickname'] = $category['nickname'];
         }
         $url = getSystem('url');
         if (strlen($url) == (strripos($url, '/') + 1)) {
             $url = substr($url, 0, -1);
         }
-        return view('article/add')->with(array('columns' => $columns,'url' => $url));
+        return view('article/add')->with(array('categorys' => $categorys,'url' => $url));
     }
 
     /**
@@ -131,18 +132,14 @@ class ArticleSettingController extends BaseController
      */
     public function doAdd(){
         $params = $_POST;
-        if (isset($params['title']) && $params['title']) {
-            $data['title'] = filter_var($params['title'], FILTER_SANITIZE_STRING);
-        }
-        if (isset($params['nickname']) && $params['nickname']) {
-            $data['nickname'] = filter_var($params['nickname'], FILTER_SANITIZE_STRING);
-        }
-        if (isset($params['column']) && $params['column']) {
-            $data['column'] = filter_var($params['column'], FILTER_VALIDATE_INT);
-        }
-        if (isset($params['description']) && $params['description']) {
-            $data['description'] = filter_var($params['description'], FILTER_SANITIZE_STRING);
-        }
+        $filter = new Filter();
+        $data = $filter->make($params,array(
+            'title' => 'required | string',
+            'nickname' => 'string',
+            'category' => 'required | int | min:1',
+            'tags' => 'required | string',
+            'description' => 'required | string',
+            ));
         if (isset($params['content']) && $params['content']) {
             $data['content'] = addslashes(htmlspecialchars($params['content']));
         }

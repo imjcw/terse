@@ -1,12 +1,9 @@
 <?php
-    namespace Admin\Model;
-    
-    use Lib\Factory\Model;
+namespace Admin\Model;
 
-    /**
-    * 系统模型
-    */
-    class SettingModel extends Model
-    {
-        protected $table = '`setting`';
-    }
+use Lib\Factory\Model;
+
+class SettingModel extends Model
+{
+    protected $table = '`setting`';
+}

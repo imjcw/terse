@@ -4,6 +4,7 @@ namespace Admin\Biz;
 use Admin\Service\ColumnService;
 use Admin\Service\ArticleService;
 use Admin\Service\ContentService;
+use Admin\Service\TagService;
 
 class ArticleBiz
 {
@@ -50,6 +51,29 @@ class ArticleBiz
      */
     public function addArticle($data)
     {
+        //获取标签
+        $tags = explode(',', $data['tags']);
+        //检测是否存在，存在则更新nums，不存在则新增
+        $tag_service = new TagService();
+        $exist_tags = $tag_service->getExistTags($tags);
+        foreach ($exist_tags as $key => $value) {
+            $name = $value['name'];
+            $tagg[$name]['id'] = $value['id'];
+            $tagg[$name]['nums'] = $value['nums'];
+        }
+        foreach ($tags as $tag) {
+            if (isset($tagg[$tag])) {
+                $update_nums[$tag] = $tagg[$tag]['nums'];
+            } else {
+                $add_tag[] = $tag;
+            }
+        }
+        if (isset($update_nums)) {
+            $tag_service->updateNums($update_nums);
+        }
+        if (isset($add_tag)) {
+            $tag_service->addTag($add_tag);
+        }
         //写入文章内容
         $content_service = new ContentService();
         $content_id = $content_service->addContent(array('content' => $data['content']));
@@ -66,7 +90,11 @@ class ArticleBiz
         $data['content'] = $content_id;
 
         $article_service = new ArticleService();
-        return $article_service->addArticle($data);
+        $article_id = $article_service->addArticle($data);
+        //添加关系
+        $tag_ids = $tag_service->getExistTags($tags,'id');
+        $tag_service->addRelation($article_id,$data['category'],$tag_ids);
+        return true;
     }
 
     /**
