@@ -3,6 +3,7 @@ namespace Admin\Biz;
 
 use Admin\Service\ArticleService;
 use Admin\Service\ContentService;
+use Admin\Service\TagService;
 
 class RecycleBiz
 {
@@ -36,6 +37,25 @@ class RecycleBiz
 
         $content_service = new ContentService();
         $result = $content_service->deleteContent($params['content']);
+
+        $tag_service = new TagService();
+        $relations = $tag_service->getRelationsByArticleId($params['id']);
+        $tag_ids = array_column($relations, 'tag_id');
+        $tags = $tag_service->getTagsByIds($tag_ids);
+        $tag_service->deleteRelations($tag_ids,$params['id']);
+        foreach ($tags as $key => $tag) {
+            if ($tag['nums'] == 1) {
+                $delete[] = $tag['id'];
+            } else {
+                $update[$tag['name']] = $tag['nums'];
+            }
+        }
+        if (isset($delete)) {
+            $tag_service->deleteTags($tag_ids);
+        }
+        if (isset($update)) {
+            $tag_service->updateNums($update,'delete');
+        }
 
         return $result;
     }
