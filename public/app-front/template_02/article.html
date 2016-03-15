@@ -3,7 +3,7 @@
 <div id="mainbody">
   <div class="blogs">
     <div id="index_view">
-      <h2 class="t_nav"><a href="/">网站首页</a><a href="/{{$data['column_nickname']}}">{{$data['column_name']}}</a></h2>
+      <h2 class="t_nav"><a href="/">网站首页</a><a href="/{{$data['category_nickname']}}">{{$data['category_name']}}</a></h2>
       <h1 class="c_titile">{{$data['title']}}</h1>
       <p class="box">发布时间：{{$data['create_time']}}<span>编辑：{{$data['author']}}</span></p>
       <ul>
@@ -65,7 +65,7 @@ document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static
           <li>
             <span>
               <a href="{{$article['url']}}">
-              {{$article['column_name']}}
+              {{$article['category_name']}}
               </a>
             </span>
             <a href="{{$article['url']}}">

@@ -1,9 +1,9 @@
 <?php
 namespace Admin\Biz;
 
-use Admin\Service\ColumnService;
+use Admin\Service\CategoryService;
 
-class ColumnBiz
+class CategoryBiz
 {
     /**
      * 获取所有栏目
@@ -11,10 +11,10 @@ class ColumnBiz
      * @author marvin
      * @date   2016-02-23
      */
-    public function getColumns()
+    public function getCategorys()
     {
-        $service = new ColumnService();
-        return $service->getColumns();
+        $service = new CategoryService();
+        return $service->getCategorys();
     }
 
     /**
@@ -24,10 +24,10 @@ class ColumnBiz
      * @author marvin
      * @date   2016-02-23
      */
-    public function getColumn($id)
+    public function getCategory($id)
     {
-        $service = new ColumnService();
-        return $service->getColumn($id);
+        $service = new CategoryService();
+        return $service->getCategory($id);
     }
 
     /**
@@ -36,11 +36,11 @@ class ColumnBiz
      * @author marvin
      * @date   2016-02-23
      */
-    public function addColumn($data)
+    public function addCategory($data)
     {
         $data['create_time'] = NULL;
 
-        $service = new ColumnService();
+        $service = new CategoryService();
         //检测栏目名是否重复
         $result = $service->checkExit('name',$data['name']);
         if ($result) {
@@ -54,7 +54,7 @@ class ColumnBiz
             }
         }
         //新建栏目
-        return $service->addColumn($data);
+        return $service->addCategory($data);
     }
 
     /**
@@ -64,9 +64,9 @@ class ColumnBiz
      * @author marvin
      * @date   2016-02-24
      */
-    public function updateColumn($data)
+    public function updateCategory($data)
     {
-        $service = new ColumnService();
+        $service = new CategoryService();
         //检测栏目名是否重复
         $result = $service->checkExit('name',$data['name']);
         if ($result) {
@@ -84,7 +84,7 @@ class ColumnBiz
             }
         }
         //更新栏目
-        return $service->updateColumn($data);
+        return $service->updateCategory($data);
     }
 
     /**
@@ -94,10 +94,10 @@ class ColumnBiz
      * @author marvin
      * @date   2016-02-23
      */
-    public function deleteColumn($id)
+    public function deleteCategory($id)
     {
-        $service = new ColumnService();
-        return $service->deleteColumn($id);
+        $service = new CategoryService();
+        return $service->deleteCategory($id);
     }
 
     /**
@@ -107,10 +107,10 @@ class ColumnBiz
      * @author marvin
      * @date   2016-02-15
      */
-    public function getColumnByIds($id)
+    public function getCategoryByIds($id)
     {
-        $service = new ColumnService();
-        return $service->getColumnByIds($id);
+        $service = new CategoryService();
+        return $service->getCategoryByIds($id);
     }
 
     /**
@@ -123,8 +123,8 @@ class ColumnBiz
      */
     public function updateArticleNums($id, $action)
     {
-        $column_service = new ColumnService();
-        $column_service->updateArticleNums($id, $action);
+        $category_service = new CategoryService();
+        $category_service->updateArticleNums($id, $action);
     }
 
     /**
@@ -137,13 +137,13 @@ class ColumnBiz
      */
     public function changeVisible($id, $status=0)
     {
-        $service = new ColumnService();
+        $service = new CategoryService();
         return $service->changeVisible($id, $status);
     }
 
-    public function getColumnByNickName($nickname)
+    public function getCategoryByNickName($nickname)
     {
-        $service = new ColumnService();
-        return $service->getColumnByNickName($nickname);
+        $service = new CategoryService();
+        return $service->getCategoryByNickName($nickname);
     }
 }

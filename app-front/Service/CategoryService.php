@@ -1,9 +1,9 @@
 <?php
 namespace Front\Service;
 
-use Front\Model\ColumnModel;
+use Front\Model\CategoryModel;
 
-class ColumnService
+class CategoryService
 {
     /**
      * 获取所有栏目
@@ -11,9 +11,9 @@ class ColumnService
      * @author marvin
      * @date   2016-02-23
      */
-    public function getVisibleColumns()
+    public function getVisibleCategorys()
     {
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         return $model->where('is_show',1)->all();
     }
 
@@ -24,9 +24,9 @@ class ColumnService
      * @author marvin
      * @date   2016-02-23
      */
-    public function getColumnByNickName($nickname)
+    public function getCategoryByNickName($nickname)
     {
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         if (isset($nickname) && $nickname) {
             $model = $model->where('nickname', $nickname);
         }

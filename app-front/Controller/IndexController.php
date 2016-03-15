@@ -2,7 +2,7 @@
 namespace Front\Controller;
 
 use Admin\Biz\ArticleBiz;
-use Admin\Biz\ColumnBiz;
+use Admin\Biz\CategoryBiz;
 use Front\Controller\BaseController;
 
 class IndexController

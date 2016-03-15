@@ -15,7 +15,7 @@
             <input type="text" name="title" placeholder="文章名称">
         </div>
         <div class="field url" style="display: none">
-            固定链接： <span style="color: #2185D0;">http://front.marvin.cn/<span class="column"></span>/<span class="nickname"></span>.html</span>
+            固定链接： <span style="color: #2185D0;">http://front.marvin.cn/<span class="category"></span>/<span class="nickname"></span>.html</span>
             <i class="circular inverted blue mini write icon link"></i>
             <i class="circular inverted blue mini refresh icon link" style="display: none"></i>
             <i class="circular inverted red mini remove icon link" style="display: none"></i>
@@ -23,10 +23,10 @@
         <div class="two fields">
             <div class="field">
                  <label>所属栏目：</label>
-                 <select name="column" class="ui dropdown">
+                 <select name="category" class="ui dropdown">
                     <option value="0">请选择</option>
-                    <?php foreach ($columns as $id => $column): ?>
-                    <option value="<?=$id?>" data-name="<?=$column['nickname']?>"><?=$column['name']?></option>
+                    <?php foreach ($categorys as $id => $category): ?>
+                    <option value="<?=$id?>" data-name="<?=$category['nickname']?>"><?=$category['name']?></option>
                     <?php endforeach; ?>
                  </select>
             </div>
@@ -68,7 +68,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     var title = '';
-    var column = '';
+    var category = '';
     var nickname = '';
     UE.getEditor('content',{initialFrameWidth: null, initialFrameHeight: '500'});
     $('.ui.dropdown.fluid').dropdown({
@@ -84,17 +84,17 @@ $(document).ready(function(){
             });
         }
     });
-    $('select[name=column]').change(function(){
-        column = $('select[name=column]').val();
+    $('select[name=category]').change(function(){
+        category = $('select[name=category]').val();
         buildUrl();
     });
     function buildUrl(){
         if (nickname) {
             value = nickname;
         }
-        if (value && column) {
-            var column_name = $('option[value='+column+']').attr('data-name');
-            $('.column').html(column_name);
+        if (value && category) {
+            var category_name = $('option[value='+category+']').attr('data-name');
+            $('.category').html(category_name);
             $('.nickname').html(value);
             $('.url').show();
             $('input[name=nickname]').val(value);
@@ -146,8 +146,8 @@ $(document).ready(function(){
                 }
                 ]
             },
-            column : {
-                identifier : 'column',
+            category : {
+                identifier : 'category',
                 rules : [
                 {
                     type : 'regExp[/^-?[1-9]\d*/gi]',

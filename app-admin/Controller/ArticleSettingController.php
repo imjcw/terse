@@ -2,7 +2,7 @@
 namespace Admin\Controller;
 
 use Admin\Biz\ArticleBiz;
-use Admin\Biz\ColumnBiz;
+use Admin\Biz\CategoryBiz;
 use Admin\Controller\BaseController;
 use Lib\Filter\Filter;
 
@@ -18,12 +18,12 @@ class ArticleSettingController extends BaseController
         //获取所有文章
         $article_biz = new ArticleBiz();
         $articles = $article_biz->getArticles();
-        $column_ids = array_column($articles,'column_id');
+        $category_ids = array_column($articles,'category_id');
         //获取相应的栏目
-        $column_biz = new ColumnBiz();
-        $columns = $column_biz->getColumnByIds($column_ids);
+        $category_biz = new CategoryBiz();
+        $categorys = $category_biz->getCategoryByIds($category_ids);
         //组合数据
-        $data = $this->buildPageData($articles,$columns);
+        $data = $this->buildPageData($articles,$categorys);
         $url = getSystem('url');
         if (strlen($url) == (strripos($url, '/') + 1)) {
             $url = substr($url, 0, -1);
@@ -31,7 +31,7 @@ class ArticleSettingController extends BaseController
         $msg = getMsg();
 
         return view('article/index')->with(array(
-            'i' => 0,
+            'i' => 1,
             'articles' => $data,
             'msg' => $msg,
             'url' => $url
@@ -47,8 +47,8 @@ class ArticleSettingController extends BaseController
     public function search()
     {
         $params = $_GET;
-        if (isset($params['column'])) {
-            $search['column'] = strval($params['column']);
+        if (isset($params['category'])) {
+            $search['category'] = strval($params['category']);
         }
         if (isset($params['author'])) {
             $search['author'] = strval($params['author']);
@@ -56,12 +56,12 @@ class ArticleSettingController extends BaseController
         //获取所有文章
         $article_biz = new ArticleBiz();
         $articles = $article_biz->search($search);
-        $column_ids = array_column($articles,'column_id');
+        $category_ids = array_column($articles,'category_id');
         //获取相应的栏目
-        $column_biz = new ColumnBiz();
-        $columns = $column_biz->getColumnByIds($column_ids);
+        $category_biz = new CategoryBiz();
+        $categorys = $category_biz->getCategoryByIds($category_ids);
         //组合数据
-        $data = $this->buildPageData($articles,$columns);
+        $data = $this->buildPageData($articles,$categorys);
         $url = getSystem('url');
         if (strlen($url) == (strripos($url, '/') + 1)) {
             $url = substr($url, 0, -1);
@@ -69,7 +69,7 @@ class ArticleSettingController extends BaseController
         $msg = getMsg();
 
         return view('article/index')->with(array(
-            'i' => 0,
+            'i' => 1,
             'articles' => $data,
             'msg' => $msg,
             'url' => $url
@@ -103,12 +103,12 @@ class ArticleSettingController extends BaseController
      */
     public function add(){
         //获取栏目
-        $biz = new ColumnBiz();
-        $category_list = $biz->getColumns();
+        $biz = new CategoryBiz();
+        $category_list = $biz->getCategorys();
         //判断是否为空，没有栏目则返回添加栏目
         if (empty($category_list)) {
             $_SESSION['msg'] = '请先添加栏目！';
-            return redirect('column/index');
+            return redirect('category/index');
         }
         //组合数据
         $categorys = array();
@@ -163,14 +163,14 @@ class ArticleSettingController extends BaseController
         }
         $article_biz = new ArticleBiz();
         $article = $article_biz->getArticle($id);
-        $column_biz = new ColumnBiz();
-        $column_list = $column_biz->getColumns();
+        $category_biz = new CategoryBiz();
+        $category_list = $category_biz->getCategorys();
         //组合数据
-        $columns = array();
-        foreach ($column_list as $column) {
-            $id = $column['id'];
-            $columns[$id]['name'] = $column['name'];
-            $columns[$id]['nickname'] = $column['nickname'];
+        $categorys = array();
+        foreach ($category_list as $category) {
+            $id = $category['id'];
+            $categorys[$id]['name'] = $category['name'];
+            $categorys[$id]['nickname'] = $category['nickname'];
         }
         $url = getSystem('url');
         if (strlen($url) == (strripos($url, '/') + 1)) {
@@ -178,7 +178,7 @@ class ArticleSettingController extends BaseController
         }
         return view('article/edit')->with(array(
             'article' => $article,
-            'columns' => $columns,
+            'categorys' => $categorys,
             'url' => $url
             ));
     }
@@ -198,14 +198,14 @@ class ArticleSettingController extends BaseController
         if (isset($params['title']) && $params['title']) {
             $data['title'] = filter_var($params['title'], FILTER_SANITIZE_STRING);
         }
-        if (isset($params['column']) && $params['column']) {
-            $data['column'] = filter_var($params['column'], FILTER_VALIDATE_INT);
+        if (isset($params['category']) && $params['category']) {
+            $data['category'] = filter_var($params['category'], FILTER_VALIDATE_INT);
         }
         if (isset($params['nickname']) && $params['nickname']) {
             $data['nickname'] = filter_var($params['nickname'], FILTER_SANITIZE_STRING);
         }
-        if (isset($params['old_column']) && $params['old_column']) {
-            $data['old_column'] = filter_var($params['old_column'], FILTER_VALIDATE_INT);
+        if (isset($params['old_category']) && $params['old_category']) {
+            $data['old_category'] = filter_var($params['old_category'], FILTER_VALIDATE_INT);
         }
         if (isset($params['description']) && $params['description']) {
             $data['description'] = filter_var($params['description'], FILTER_SANITIZE_STRING);
@@ -215,6 +215,12 @@ class ArticleSettingController extends BaseController
         }
         if (isset($params['content_id']) && $params['content_id']) {
             $data['content_id'] = filter_var($params['content_id'], FILTER_VALIDATE_INT);
+        }
+        if (isset($params['tags']) && $params['tags']) {
+            $data['tags'] = filter_var($params['tags'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($params['old_tags']) && $params['old_tags']) {
+            $data['old_tags'] = filter_var($params['old_tags'], FILTER_SANITIZE_STRING);
         }
 
         $biz = new ArticleBiz();
@@ -234,8 +240,8 @@ class ArticleSettingController extends BaseController
         if (isset($params['id']) && $params['id']) {
             $data['id'] = intval($params['id']);
         }
-        if (isset($params['column']) && $params['column']) {
-            $data['column'] = intval($params['column']);
+        if (isset($params['category']) && $params['category']) {
+            $data['category'] = intval($params['category']);
         }
 
         $biz = new ArticleBiz();
@@ -252,12 +258,12 @@ class ArticleSettingController extends BaseController
      * @author marvin <imjcw@imjcw.com>
      * @date   2016-02-18
      */
-    public function buildPageData($articles,$columns)
+    public function buildPageData($articles,$categorys)
     {
-        foreach ($columns as $value) {
+        foreach ($categorys as $value) {
             $id = $value['id'];
-            $column[$id]['name'] = $value['name'];
-            $column[$id]['nickname'] = $value['nickname'];
+            $category[$id]['name'] = $value['name'];
+            $category[$id]['nickname'] = $value['nickname'];
         }
         $data = array();
         //拼接相应的数据
@@ -266,11 +272,11 @@ class ArticleSettingController extends BaseController
             $data[$id]['title'] = $article['title'];
             $data[$id]['author'] = $article['author'];
             $data[$id]['description'] = $article['description'];
-            $data[$id]['column_id'] = $article['column_id'];
-            $data[$id]['column'] = $column[$article['column_id']]['name'];
+            $data[$id]['category_id'] = $article['category_id'];
+            $data[$id]['category'] = $category[$article['category_id']]['name'];
             $data[$id]['is_show'] = $article['is_show'];
             $data[$id]['create_time'] = $article['create_time'];
-            $data[$id]['column_nickname'] = $column[$article['column_id']]['nickname'];
+            $data[$id]['category_nickname'] = $category[$article['category_id']]['nickname'];
             $data[$id]['article_nickname'] = $article['nickname'];
         }
         return $data;

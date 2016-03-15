@@ -1,12 +1,13 @@
 <?php
 namespace Admin\Controller;
 
-use Admin\Biz\ColumnBiz;
+use Admin\Biz\CategoryBiz;
 use Admin\Biz\ArticleBiz;
 use Admin\Controller\BaseController;
 use Admin\Exception\TranslateException;
+use Lib\Filter\Filter;
 
-class ColumnSettingController extends BaseController
+class CategorySettingController extends BaseController
 {
     /**
      * 栏目管理首页
@@ -16,23 +17,23 @@ class ColumnSettingController extends BaseController
      */
     public function index(){
         /* 获取所有栏目 */
-        $biz = new ColumnBiz();
-        $columns = $biz->getColumns();
+        $biz = new CategoryBiz();
+        $categorys = $biz->getCategorys();
 
         /* 拼凑数据 */
         $data = array();
-        foreach ($columns as $column) {
-            $id = $column['id'];
-            $data[$id]['name'] = $column['name'];
-            $data[$id]['nickname'] = $column['nickname'];
-            $data[$id]['is_show'] = $column['is_show'];
-            $data[$id]['articles'] = $column['article_nums'];
-            $data[$id]['description'] = $column['description'];
+        foreach ($categorys as $category) {
+            $id = $category['id'];
+            $data[$id]['name'] = $category['name'];
+            $data[$id]['nickname'] = $category['nickname'];
+            $data[$id]['is_show'] = $category['is_show'];
+            $data[$id]['articles'] = $category['article_nums'];
+            $data[$id]['description'] = $category['description'];
         }
         $msg = getMsg();
 
-        return view('column/index')->with(array(
-            'columns' => $data,
+        return view('category/index')->with(array(
+            'categorys' => $data,
             'msg' => $msg
         ));
     }
@@ -43,7 +44,7 @@ class ColumnSettingController extends BaseController
      * @date   2016-02-23
      */
     public function add(){
-        return view('column/add');
+        return view('category/add');
     }
 
     /**
@@ -55,30 +56,27 @@ class ColumnSettingController extends BaseController
     public function doAdd(){
         $params = $_POST;
         //字段验证
-        if (isset($params['name']) && $params['name']) {
-            $data['name'] = strval($params['name']);
-        }
-        if (isset($params['nickname']) && $params['nickname']) {
-            $data['nickname'] = strval($params['nickname']);
-        }
-        if (isset($params['description']) && $params['description']) {
-            $data['description'] = strval($params['description']);
-        }
+        $filter = new Filter();
+        $data = $filter->make($params,array(
+            'name'        => 'required | string',
+            'nickname'    => 'required | string',
+            'description' => 'string'
+            ));
 
         //添加栏目
-        $biz = new ColumnBiz();
-        $result = $biz->addColumn($data);
+        $biz = new CategoryBiz();
+        $result = $biz->addCategory($data);
         if ($result) {
             $data['id'] = $result;
             if (!$this->writeRoutes($data)) {
                 $_SESSION['msg'] = '路由更新失败！请编辑该栏目！';
-                return redirect('/column/index');
+                return redirect('/category/index');
             }            
         }
 
         //设置提示信息
         $_SESSION['msg'] = $result ? '添加栏目成功！' : '添加栏目失败！';
-        return redirect('/column/index');
+        return redirect('/category/index');
     }
 
     /**
@@ -92,9 +90,9 @@ class ColumnSettingController extends BaseController
         if (isset($params) && $params['id']) {
             $id = intval($params['id']);
         }
-        $biz = new ColumnBiz();
-        $column = $biz->getColumn($id);
-        return view('column/edit')->with($column);
+        $biz = new CategoryBiz();
+        $category = $biz->getCategory($id);
+        return view('category/edit')->with($category);
     }
 
     /**
@@ -120,17 +118,17 @@ class ColumnSettingController extends BaseController
             $data['description'] = strval($params['description']);
         }
 
-        $biz = new ColumnBiz();
-        $result = $biz->updateColumn($data);
+        $biz = new CategoryBiz();
+        $result = $biz->updateCategory($data);
         if ($result) {
             if (!$this->writeRoutes($data)) {
                 $_SESSION['msg'] = '路由更新失败！请重新编辑该栏目！';
-                return redirect('/column/index');
+                return redirect('/category/index');
             }            
         }
 
         $_SESSION['msg'] = $result ? '编辑栏目成功！' : '编辑栏目失败！';
-        return redirect('/column/index');
+        return redirect('/category/index');
     }
 
     /**
@@ -145,23 +143,23 @@ class ColumnSettingController extends BaseController
             $id = intval($params['id']);
         }
 
-        $column_biz = new ColumnBiz();
-        $result = $column_biz->deleteColumn($id);
+        $category_biz = new CategoryBiz();
+        $result = $category_biz->deleteCategory($id);
         if ($result) {
             $article_biz = new ArticleBiz();
             if (isset($params['article']) && $params['article']) {
-                $article_biz->deleteArticlesByColumnId($id);
+                $article_biz->deleteArticlesByCategoryId($id);
             } else {
-                $article_biz->updateColumnId($id);
+                $article_biz->updateCategoryId($id);
             }
             $data['id'] = $id;
             if (!$this->writeRoutes($data, 'delete')) {
                 $_SESSION['msg'] = '路由更新失败！请手动更新！';
-                return redirect('/column-setting/index');
+                return redirect('/category/index');
             }
         }
         $_SESSION['msg'] = $result ? '删除栏目成功！' : '删除栏目失败！';
-        return redirect('/column/index');
+        return redirect('/category/index');
     }
 
     /**
@@ -176,7 +174,7 @@ class ColumnSettingController extends BaseController
     {
         $id = intval($_POST['id']);
         $status = intval($_POST['status']);
-        $biz = new ColumnBiz();
+        $biz = new CategoryBiz();
         $result = $biz->changeVisible($id,$status);
         return $result ? json('success！') : json('fault！', 403);
     }

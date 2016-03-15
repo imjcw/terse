@@ -2,7 +2,7 @@
 namespace Admin\Controller;
 
 use Admin\Biz\RecycleBiz;
-use Admin\Biz\ColumnBiz;
+use Admin\Biz\CategoryBiz;
 use Admin\Controller\BaseController;
 
 class RecycleSettingController extends BaseController
@@ -16,12 +16,12 @@ class RecycleSettingController extends BaseController
     public function index(){
         $article_biz = new RecycleBiz();
         $articles = $article_biz->getArticles();
-        $column_ids = array_column($articles,'column_id');
+        $category_ids = array_column($articles,'category_id');
         //获取相应的栏目
-        $column_biz = new ColumnBiz();
-        $columns = $column_biz->getColumnByIds($column_ids);
+        $category_biz = new CategoryBiz();
+        $categorys = $category_biz->getCategoryByIds($category_ids);
         //组合数据
-        $data = $this->buildPageData($articles,$columns);
+        $data = $this->buildPageData($articles,$categorys);
         $msg = getMsg();
 
         return view('recycle/index')->with(array(
@@ -43,15 +43,15 @@ class RecycleSettingController extends BaseController
         if (isset($params['id']) && $params['id']) {
             $id = intval($params['id']);
         }
-        if (isset($params['column']) && $params['column']) {
-            $column = intval($params['column']);
+        if (isset($params['category']) && $params['category']) {
+            $category = intval($params['category']);
         }
 
         $biz = new RecycleBiz();
         $result = $biz->reuseArticle($id);
         if ($result) {
-            $column_service = new ColumnBiz();
-            $column_service->updateArticleNums($column,'add');
+            $category_service = new CategoryBiz();
+            $category_service->updateArticleNums($category,'add');
         }
         $_SESSION['msg'] = $result ? '恢复文章成功！' : '恢复文章失败！';
         return redirect('recycle/index');
@@ -86,10 +86,10 @@ class RecycleSettingController extends BaseController
      * @author marvin <imjcw@imjcw.com>
      * @date   2016-02-18
      */
-    public function buildPageData($articles,$columns)
+    public function buildPageData($articles,$categorys)
     {
-        foreach ($columns as $columns) {
-            $column_name[$columns['id']] = $columns['name'];
+        foreach ($categorys as $categorys) {
+            $category_name[$categorys['id']] = $categorys['name'];
         }
         $data = array();
         //拼接相应的数据
@@ -97,8 +97,8 @@ class RecycleSettingController extends BaseController
             $id = $article['id'];
             $data[$id]['title'] = $article['title'];
             $data[$id]['author'] = $article['author'];
-            $data[$id]['column_id'] = $article['column_id'];
-            $data[$id]['column'] = $column_name[$article['column_id']];
+            $data[$id]['category_id'] = $article['category_id'];
+            $data[$id]['category'] = $category_name[$article['category_id']];
             $data[$id]['content_id'] = $article['content_id'];
             $data[$id]['create_time'] = $article['create_time'];
         }

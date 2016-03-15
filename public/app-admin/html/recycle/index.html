@@ -27,10 +27,10 @@
             <td class="collapsing">{{$i++}}</td>
             <td>{{$article['title']}}</td>
             <td>{{$article['author']}}</td>
-            <td>{{$article['column']}}</td>
+            <td>{{$article['category']}}</td>
             <td>{{$article['create_time']}}</td>
             <td>
-                <a class="edit" href="/recycle-setting/reuse?id={{$id}}&column={{$article['column_id']}}">恢复</a>
+                <a class="edit" href="/recycle-setting/reuse?id={{$id}}&category={{$article['category_id']}}">恢复</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
                 <a class="delete text red" href="/recycle-setting/doDelete?id={{$id}}&content={{$article['content_id']}}">彻底删除</a>
             </td>

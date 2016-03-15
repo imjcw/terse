@@ -12,10 +12,10 @@
     <i class="grid layout icon"></i> 栏目管理
 </h3>
 <div class="ui attached segment">
-    <a class="ui blue basic button" href="/column-setting/add">
+    <a class="ui blue basic button" href="/category-setting/add">
         <i class="tiny plus icon"></i> 添加
     </a>
-    <a class="ui red basic button" href="/column-setting/add">
+    <a class="ui red basic button" href="/category-setting/add">
         <i class="tiny remove icon"></i> 批量删除
     </a>
     <table class="ui blue unstackable selectable celled table">
@@ -31,32 +31,32 @@
             </tr>
         </thead>
         <tbody>
-            @if(empty($columns))
+            @if(empty($categorys))
                 <tr class="terse center">
                     <td colspan="8">暂时没有任何栏目</td>
                 </tr>
             @endif
-            @foreach($columns as $id => $column)
+            @foreach($categorys as $id => $category)
             <tr>
                 <td class="collapsing">{{$id}}</td>
-                <td>{{$column['name']}}</td>
-                <td>{{$column['nickname']}}</td>
-                <td><a href="/article-setting/search.html?column=<?=$id?>">{{$column['articles']}} 篇</a></td>
+                <td>{{$category['name']}}</td>
+                <td>{{$category['nickname']}}</td>
+                <td><a href="/article-setting/search.html?category={{$id}}">{{$category['articles']}} 篇</a></td>
                 <td>
                     <span class="ui toggle checkbox">
-                        @if($column['is_show'])
-                        <input type="checkbox" name="public" checked="checked" data-id="<?=$id?>">
+                        @if($category['is_show'])
+                        <input type="checkbox" name="public" checked="checked" data-id="{{$id}}">
                         <label></label>
                         @else
-                        <input type="checkbox" name="public" data-id="<?=$id?>">
+                        <input type="checkbox" name="public" data-id="{{$id}}">
                         <label></label>
                         @endif
                     </span>
                 </td>
-                <td class="break">{{$column['description']}}</td>
+                <td class="break">{{$category['description']}}</td>
                 <td style="font-size: 12px;">
-                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/column-setting/edit?id={{$id}}"></i>
-                    <i class="circular red trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/column-setting/doDelete?id={{$id}}" data-article="{{$column['articles']}}"></i>
+                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/category-setting/edit?id={{$id}}"></i>
+                    <i class="circular red trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/category-setting/doDelete?id={{$id}}" data-article="{{$category['articles']}}"></i>
                 </td>
             </tr>
             @endforeach
@@ -131,7 +131,7 @@ $(document).ready(function(){
             onChecked: function() {
                 var check = $(this);
                 var id = $(this).attr('data-id');
-                $.post('/column-setting/changeVisible',{id,status:1}).success(function(){
+                $.post('/category-setting/changeVisible',{id,status:1}).success(function(){
                     showTips('栏目启用成功！');
                 }).error(function(){
                     showTips('栏目启用失败！');
@@ -140,7 +140,7 @@ $(document).ready(function(){
             },
             onUnchecked: function() {
                 var id = $(this).attr('data-id');
-                $.post('/column-setting/changeVisible',{id,status:0}).success(function(){
+                $.post('/category-setting/changeVisible',{id,status:0}).success(function(){
                     showTips('栏目禁用成功！');
                 }).error(function(){
                     showTips('栏目禁用失败！');

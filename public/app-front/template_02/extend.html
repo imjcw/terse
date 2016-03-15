@@ -13,9 +13,9 @@
   <nav id="nav">
     <ul>
       <li><a href="/" >网站首页</a></li>
-      @column()
-      <li><a href="{{ $column['url'] }}" title="{{ $column['name'] }}">{{ $column['name'] }}</a></li>
-      @endcolumn
+      @category()
+      <li><a href="{{ $category['url'] }}" title="{{ $category['name'] }}">{{ $category['name'] }}</a></li>
+      @endcategory
     </ul>
     
   </nav>

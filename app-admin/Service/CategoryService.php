@@ -1,9 +1,9 @@
 <?php
 namespace Admin\Service;
 
-use Admin\Model\ColumnModel;
+use Admin\Model\CategoryModel;
 
-class ColumnService
+class CategoryService
 {
     /**
      * 获取所有栏目
@@ -11,9 +11,9 @@ class ColumnService
      * @author marvin
      * @date   2016-02-23
      */
-    public function getColumns()
+    public function getCategorys()
     {
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         return $model->all();
     }
 
@@ -24,9 +24,9 @@ class ColumnService
      * @author marvin
      * @date   2016-02-23
      */
-    public function getColumn($id)
+    public function getCategory($id)
     {
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         if (isset($id) && $id) {
             $model = $model->where('id', $id);
         }
@@ -39,7 +39,7 @@ class ColumnService
      * @author marvin
      * @date   2016-02-23
      */
-    public function addColumn($params)
+    public function addCategory($params)
     {
         if (isset($params['name']) && $params['name']) {
             $data['name'] = strval($params['name']);
@@ -51,7 +51,7 @@ class ColumnService
             $data['description'] = strval($params['description']);
         }
 
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         $result = $model->insert($data);
         if ($result) {
             $result = mysql_insert_id();
@@ -66,9 +66,9 @@ class ColumnService
      * @author marvin
      * @date   2016-02-23
      */
-    public function updateColumn($params)
+    public function updateCategory($params)
     {
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         if (isset($params) && $params['id']) {
             $model = $model->where('id', $params['id']);
         }
@@ -91,9 +91,9 @@ class ColumnService
      * @author marvin
      * @date   2016-02-23
      */
-    public function deleteColumn($id)
+    public function deleteCategory($id)
     {
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         if (isset($id) && $id) {
             $model = $model->where('id', $id);
         }
@@ -101,15 +101,15 @@ class ColumnService
     }
 
     /**
-     * 根据ID获取column
+     * 根据ID获取category
      * @param  [type] $id [description]
      * @return [type]     [description]
      * @author marvin
      * @date   2016-02-14
      */
-    public function getColumnByIds($ids)
+    public function getCategoryByIds($ids)
     {
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         if (isset($ids) && is_array($ids) && !empty($ids)) {
             $model = $model->whereIn('id', $ids);
         }
@@ -117,15 +117,15 @@ class ColumnService
     }
 
     /**
-     * 根据name获取column
+     * 根据name获取category
      * @param  [type] $name [description]
      * @return [type]       [description]
      * @author marvin
      * @date   2016-02-23
      */
-    public function getColumnByNickName($nickname)
+    public function getCategoryByNickName($nickname)
     {
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         if (isset($nickname) && $nickname) {
             $model = $model->where('nickname', $nickname);
         }
@@ -142,18 +142,18 @@ class ColumnService
      */
     public function updateArticleNums($id, $action)
     {
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         if (isset($id) && $id) {
             $model = $model->where('id', $id);
-            $column = $model->select('article_nums')->one();
+            $category = $model->select('article_nums')->one();
         }
         if ($action == 'add') {
-            $column['article_nums']++;
+            $category['article_nums']++;
         }
         if ($action == 'subtract') {
-            $column['article_nums']--;
+            $category['article_nums']--;
         }
-        $model->update(array('article_nums' => $column['article_nums']));
+        $model->update(array('article_nums' => $category['article_nums']));
     }
 
     /**
@@ -166,7 +166,7 @@ class ColumnService
      */
     public function changeVisible($id, $status=0)
     {
-        $model = new ColumnModel();
+        $model = new CategoryModel();
         if (isset($id) && $id) {
             $model = $model->where('id',$id);
         }
@@ -184,7 +184,7 @@ class ColumnService
     public function checkExit($field, $name)
     {
         if (isset($field, $name) && $field && $name) {
-            $model = new ColumnModel();
+            $model = new CategoryModel();
             $result = $model->where($field, $name)->all();
         }
         return $result;

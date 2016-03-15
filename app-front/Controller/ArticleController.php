@@ -2,7 +2,7 @@
 namespace Front\Controller;
 
 use Front\Biz\ArticleBiz;
-use Front\Biz\ColumnBiz;
+use Front\Biz\CategoryBiz;
 use Front\Controller\BaseController;
 
 class ArticleController
@@ -18,23 +18,24 @@ class ArticleController
         $article_name = end($route);
         $nickname = $route[count($route) - 2 ];
         //获取相应的栏目
-        $column_biz = new ColumnBiz();
-        $column = $column_biz->getColumnByNickName($nickname);
-        $data = $column_biz->getVisibleColumns();
+        $category_biz = new CategoryBiz();
+        $category = $category_biz->getCategoryByNickName($nickname);
+        $data = $category_biz->getVisibleCategorys();
         foreach ($data as $key => $value) {
             $id = $value['id'];
-            $columns[$id]['name'] = $value['name'];
-            $columns[$id]['nickname'] = $value['nickname'];
+            $categorys[$id]['name'] = $value['name'];
+            $categorys[$id]['nickname'] = $value['nickname'];
         }
 
         //获取所有文章
         $article_biz = new ArticleBiz();
-        $article = $article_biz->get($article_name,$column['id']);
-        $article['column_name'] = $column['name'];
-        $article['column_nickname'] = $column['nickname'];
+        $article = $article_biz->get($article_name,$category['id']);
+        $article['category_name'] = $category['name'];
+        $article['category_nickname'] = $category['nickname'];
         if (!$article) {
             redirect('/404');
         }
+        $article_biz->hasView($article['id']);
         return view('/article')->with(array('data' => $article));
     }
 

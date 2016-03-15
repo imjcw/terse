@@ -24,9 +24,9 @@
         </div>
         <nav id="topnav">
             <a href="/">首页</a>
-            @column
-            <a href="{{ $column['url'] }}">{{ $column['name'] }}</a>
-            @endcolumn
+            @category
+            <a href="{{ $category['url'] }}">{{ $category['name'] }}</a>
+            @endcategory
         </nav>
     </header>
 @export('mainbody')

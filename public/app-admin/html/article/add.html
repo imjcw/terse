@@ -14,7 +14,7 @@
             <input type="text" name="title" placeholder="文章名称">
         </div>
         <div class="field url" style="display: none">
-            固定链接： <span style="color: #2185D0;">{{$url}}/<span class="column"></span>/<span class="nickname"></span>.html</span>
+            固定链接： <span style="color: #2185D0;">{{$url}}/<span class="category"></span>/<span class="nickname"></span>.html</span>
             <i class="circular inverted blue mini write icon link"></i>
             <i class="circular inverted blue mini refresh icon link" style="display: none"></i>
             <i class="circular inverted red mini remove icon link" style="display: none"></i>
@@ -60,14 +60,14 @@
 <script type="text/javascript">
 $(document).ready(function(){
     var title = '';
-    var column = '';
+    var category = '';
     var nickname = '';
     CKEDITOR.replace( 'content' );
     $('.ui.dropdown.fluid').dropdown({
         allowAdditions: true
     });
     $('input[name=title]').change(function(){
-        variable = $('input[name=title]').val();
+        var variable = $('input[name=title]').val();
         if (nickname == title) {
             $.get('/article-setting/translate',{variable},function(response){
                 title = response;
@@ -76,17 +76,18 @@ $(document).ready(function(){
             });
         }
     });
-    $('select[name=column]').change(function(){
-        column = $('select[name=column]').val();
+    $('select[name=category]').change(function(){
+        category = $('select[name=category]').val();
         buildUrl();
     });
     function buildUrl(){
+        var value;
         if (nickname) {
             value = nickname;
         }
-        if (value && column) {
-            var column_name = $('option[value='+column+']').attr('data-name');
-            $('.column').html(column_name);
+        if (value && category) {
+            var category_name = $('option[value='+category+']').attr('data-name');
+            $('.category').html(category_name);
             $('.nickname').html(value);
             $('.url').show();
             $('input[name=nickname]').val(value);
@@ -138,8 +139,8 @@ $(document).ready(function(){
                 }
                 ]
             },
-            column : {
-                identifier : 'column',
+            category : {
+                identifier : 'category',
                 rules : [
                 {
                     type : 'regExp[/^-?[1-9]\d*/gi]',

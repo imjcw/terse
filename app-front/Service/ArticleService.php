@@ -59,7 +59,7 @@ class ArticleService
         $model = new ArticleModel();
         $model = $model->where('is_show',1);
         $model = $model->where('is_use',1);
-        return $model->orderBy('id')->paginate($num)->all();
+        return $model->orderBy('views')->paginate($num)->all();
     }
 
     /**
@@ -75,5 +75,12 @@ class ArticleService
         $model = $model->where('is_show',1);
         $model = $model->where('is_use',1);
         return $model->orderBy('id')->paginate($num)->all();
+    }
+
+    public function hasView($id)
+    {
+        $model = new ArticleModel();
+        $article = $model->select('views')->where('id',$id)->one();
+        $model->where('id',$id)->update(array('views'=> ++$article['views']));
     }
 }

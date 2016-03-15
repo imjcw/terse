@@ -1,23 +1,23 @@
 <?php
 use Front\Biz\ArticleBiz;
-use Front\Biz\ColumnBiz;
+use Front\Biz\CategoryBiz;
 
-$column_data = array();
+$category_data = array();
 /**
  * 栏目
  */
-if (!function_exists('column')) {
-    function column(){
-        $biz = new ColumnBiz();
-        $columns = $biz->getVisibleColumns();
+if (!function_exists('category')) {
+    function category(){
+        $biz = new CategoryBiz();
+        $categorys = $biz->getVisibleCategorys();
         $data = array();
-        foreach ($columns as $key => $column) {
-            $id = $column['id'];
-            $data[$id]['name'] = $column['name'];
-            $data[$id]['url'] = '/'.$column['nickname'];
+        foreach ($categorys as $key => $category) {
+            $id = $category['id'];
+            $data[$id]['name'] = $category['name'];
+            $data[$id]['url'] = '/'.$category['nickname'];
         }
-        global $column_data;
-        $column_data = $data;
+        global $category_data;
+        $category_data = $data;
         return $data;
     }
 }
@@ -29,20 +29,20 @@ if (!function_exists('recommend')) {
     function recommend(){
         $article_biz = new ArticleBiz();
         $articles = $article_biz->getRecommend(10);
-        global $column_data;
-        if (empty($column_data)) {
-            $column_data = column();
+        global $category_data;
+        if (empty($category_data)) {
+            $category_data = category();
         }
         $data = array();
         foreach ($articles as $key => $article) {
-            //column
-            $column = $column_data[$article['column_id']];
-            $data[$key]['column_name'] = $column['name'];
-            $data[$key]['column_url'] = $column['url'];
+            //category
+            $category = $category_data[$article['category_id']];
+            $data[$key]['category_name'] = $category['name'];
+            $data[$key]['category_url'] = $category['url'];
             //article
             $data[$key]['title'] = $article['title'];
             $data[$key]['nickname'] = $article['nickname'];
-            $data[$key]['url'] = "{$column['url']}/{$article['nickname']}.".TEMPLATE_TYPE;
+            $data[$key]['url'] = "{$category['url']}/{$article['nickname']}.".TEMPLATE_TYPE;
         }
         return $data;
     }
@@ -55,20 +55,20 @@ if (!function_exists('hot')) {
     function hot($num){
         $article_biz = new ArticleBiz();
         $articles = $article_biz->getHot($num);
-        global $column_data;
-        if (empty($column_data)) {
-            $column_data = column();
+        global $category_data;
+        if (empty($category_data)) {
+            $category_data = category();
         }
         $data = array();
         foreach ($articles as $key => $article) {
-            //column
-            $column = $column_data[$article['column_id']];
-            $data[$key]['column_name'] = $column['name'];
-            $data[$key]['column_url'] = $column['url'];
+            //category
+            $category = $category_data[$article['category_id']];
+            $data[$key]['category_name'] = $category['name'];
+            $data[$key]['category_url'] = $category['url'];
             //article
             $data[$key]['title'] = $article['title'];
             $data[$key]['nickname'] = $article['nickname'];
-            $data[$key]['url'] = "{$column['url']}/{$article['nickname']}.".TEMPLATE_TYPE;
+            $data[$key]['url'] = "{$category['url']}/{$article['nickname']}.".TEMPLATE_TYPE;
         }
         return $data;
     }
@@ -81,21 +81,21 @@ if (!function_exists('news')) {
     function news($num){
         $article_biz = new ArticleBiz();
         $articles = $article_biz->getNew($num);
-        global $column_data;
-        if (empty($column_data)) {
-            $column_data = column();
+        global $category_data;
+        if (empty($category_data)) {
+            $category_data = category();
         }
         $data = array();
         foreach ($articles as $key => $article) {
-            //column
-            $column = $column_data[$article['column_id']];
-            $data[$key]['column_name'] = $column['name'];
-            $data[$key]['column_url'] = $column['url'];
+            //category
+            $category = $category_data[$article['category_id']];
+            $data[$key]['category_name'] = $category['name'];
+            $data[$key]['category_url'] = $category['url'];
             //article
             $data[$key]['title'] = $article['title'];
             $data[$key]['author'] = $article['author'];
             $data[$key]['nickname'] = $article['nickname'];
-            $data[$key]['url'] = "{$column['url']}/{$article['nickname']}.".TEMPLATE_TYPE;
+            $data[$key]['url'] = "{$category['url']}/{$article['nickname']}.".TEMPLATE_TYPE;
             $data[$key]['description'] = $article['description'];
             $data[$key]['create_time'] = date('Y-m-d',strtotime($article['create_time']));
         }
@@ -115,26 +115,26 @@ if (!function_exists('relate')) {
     }
 }
 
-if (!function_exists('columnlist')) {
-    function columnlist(){
+if (!function_exists('categorylist')) {
+    function categorylist(){
         $route = $_SESSION['route'];
         $nickname = end($route);
         //获取相应的栏目
-        $column_biz = new ColumnBiz();
-        $column = $column_biz->getColumnByNickName($nickname);
+        $category_biz = new CategoryBiz();
+        $category = $category_biz->getCategoryByNickName($nickname);
         //获取所有文章
         $article_biz = new ArticleBiz();
-        $articles = $article_biz->getArticles($column['id'],20);
+        $articles = $article_biz->getArticles($category['id'],20);
         $data = array();
         foreach ($articles as $key => $article) {
-            //column
-            $data[$key]['column_name'] = $column['name'];
-            $data[$key]['column_url'] = '/'.$column['nickname'];
+            //category
+            $data[$key]['category_name'] = $category['name'];
+            $data[$key]['category_url'] = '/'.$category['nickname'];
             //article
             $data[$key]['title'] = $article['title'];
             $data[$key]['author'] = $article['author'];
             $data[$key]['nickname'] = $article['nickname'];
-            $data[$key]['url'] = "/{$column['nickname']}/{$article['nickname']}.".TEMPLATE_TYPE;
+            $data[$key]['url'] = "/{$category['nickname']}/{$article['nickname']}.".TEMPLATE_TYPE;
             $data[$key]['description'] = $article['description'];
             $data[$key]['create_time'] = $article['create_time'];
         }

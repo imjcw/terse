@@ -67,8 +67,8 @@ class ArticleService
         if (isset($params['nickname']) && $params['nickname']) {
             $data['nickname'] = $params['nickname'];
         }
-        if (isset($params['column']) && $params['column']) {
-            $data['column_id'] = $params['column'];
+        if (isset($params['category']) && $params['category']) {
+            $data['category_id'] = $params['category'];
         }
         if (isset($params['description']) && $params['description']) {
             $data['description'] = $params['description'];
@@ -104,8 +104,8 @@ class ArticleService
         if (isset($params['nickname']) && $params['nickname']) {
             $data['nickname'] = $params['nickname'];
         }
-        if (isset($params['column']) && $params['column']) {
-            $data['column_id'] = $params['column'];
+        if (isset($params['category']) && $params['category']) {
+            $data['category_id'] = $params['category'];
         }
         if (isset($params['description']) && $params['description']) {
             $data['description'] = $params['description'];
@@ -162,8 +162,8 @@ class ArticleService
     public function search($params)
     {
         $model = new ArticleModel();
-        if (isset($params['column']) && $params['column']) {
-            $model = $model->where('column_id',$params['column']);
+        if (isset($params['category']) && $params['category']) {
+            $model = $model->where('category_id',$params['category']);
         }
         if (isset($params['author']) && $params['author']) {
             $model = $model->where('author',$params['author']);
@@ -199,13 +199,13 @@ class ArticleService
      * @author marvin
      * @date   2016-02-24
      */
-    public function updateColumnId($id)
+    public function updateCategoryId($id)
     {
         $model = new ArticleModel();
         if (isset($id) && $id) {
-            $model = $model->where('column_id',$id);
+            $model = $model->where('category_id',$id);
         }
-        return $model->update(array('column_id' => 0,'is_show'=>0));
+        return $model->update(array('category_id' => 0,'is_show'=>0));
     }
 
     /**
@@ -215,11 +215,11 @@ class ArticleService
      * @author marvin
      * @date   2016-02-24
      */
-    public function deleteArticlesByColumnId($id)
+    public function deleteArticlesByCategoryId($id)
     {
         $model = new ArticleModel();
         if (isset($id) && $id) {
-            $model = $model->where('column_id',$id);
+            $model = $model->where('category_id',$id);
         }
         return $model->delete();
     }

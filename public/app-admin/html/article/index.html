@@ -50,7 +50,7 @@
             <td class="collapsing">{{$i++}}</td>
             <td>{{$article['title']}}</td>
             <td><a href="/article-setting/search?author={{$article['author']}}">{{$article['author']}}</a></td>
-            <td>{{$article['column']}}</td>
+            <td>{{$article['category']}}</td>
             <td>
                 <span class="ui toggle checkbox">
                     @if($article['is_show'])
@@ -65,8 +65,8 @@
             <td>{{$article['create_time']}}</td>
             <td style="font-size: 12px;">
                 <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/article-setting/edit?id={{$id}}"></i>
-                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="{{$url}}/{{$article['column_nickname']}}/{{$article['article_nickname']}}.html"></i>
-                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/article-setting/doDelete?id={{$id}}&column={{$article['column_id']}}"></i>
+                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="{{$url}}/{{$article['category_nickname']}}/{{$article['article_nickname']}}.html"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/article-setting/doDelete?id={{$id}}&category={{$article['category_id']}}"></i>
             </td>
         </tr>
         @endforeach

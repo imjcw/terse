@@ -6,7 +6,7 @@ use Lib\Factory\Model;
 /**
 * 栏目模型
 */
-class ColumnModel extends Model
+class CategoryModel extends Model
 {
-    protected $table = '`column`';
+    protected $table = '`category`';
 }

@@ -12,6 +12,30 @@ class TagService
         return $model->all();
     }
 
+    public function getTagsByIds($ids)
+    {
+        $model = new TagModel();
+        if (is_array($ids) && !empty($ids)) {
+            $model = $model->whereIn('id',$ids);
+        }
+        return $model->all();
+    }
+
+    public function getRelations()
+    {
+        $model = new TagRelationShipsModel();
+        return $model->all();
+    }
+
+    public function getRelationsByArticleId($id)
+    {
+        $model = new TagRelationShipsModel();
+        if ($id && is_int($id)) {
+            $model = $model->where('article_id',$id);
+        }
+        return $model->all();
+    }
+
     public function getExistTags($tags, $filter = '')
     {
         $model = new TagModel();
@@ -31,11 +55,26 @@ class TagService
         return $model->insert($data);
     }
 
-    public function updateNums($params)
+    public function deleteTags($params)
+    {
+        $data = array();
+        $model = new TagModel();
+        if (is_array($params) && !empty($params)) {
+            $model = $model->whereIn('id',$params);
+        }
+        return $model->delete();
+    }
+
+    public function updateNums($params,$action)
     {
         $model = new TagModel();
         foreach ($params as $key => $value) {
-            $model->where('name',$key)->update(array('nums' => ++$value));
+            if ($action == 'add') {
+                $model->where('name',$key)->update(array('nums' => ++$value));
+            }
+            if ($action == 'delete') {
+                $model->where('name',$key)->update(array('nums' => --$value));
+            }
         }
         return true;
     }
@@ -50,5 +89,11 @@ class TagService
             $data[$key]['tag_id'] = $tag_id['id'];
         }
         return $model->insert($data);
+    }
+
+    public function deleteRelations($params,$id)
+    {
+        $model = new TagRelationShipsModel();
+        return $model->where('article_id',$id)->whereIn('tag_id',$params)->delete();
     }
 }
