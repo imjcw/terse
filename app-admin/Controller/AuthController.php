@@ -5,10 +5,6 @@ use Admin\Biz\AuthBiz;
 
 class AuthController
 {
-    function __construct(){
-        session_start();
-    }
-
     /**
      * 展示登陆页面
      * @return [type]     [description]
