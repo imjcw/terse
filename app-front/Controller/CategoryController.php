@@ -20,6 +20,7 @@ class CategoryController
         //获取相应的栏目
         $category_biz = new CategoryBiz();
         $category = $category_biz->getCategoryByNickName($nickname);
+        $_SESSION['category'] = $category['name'];
         //获取所有文章
         $article_biz = new ArticleBiz();
         $articles = $article_biz->getArticles($category['id'],20);

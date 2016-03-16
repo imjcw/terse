@@ -26,8 +26,7 @@ class ArticleBiz
     public function hasView($id)
     {
         $article_service = new ArticleService();
-        session_set_cookie_params(1*24*60*60);
-        session_start();
+        session_set_cookie_params(60*60);
         if (!isset($_SESSION['ip_id'])) {
             $_SESSION['ip_id'] = array();
         }

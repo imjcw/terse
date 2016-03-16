@@ -35,6 +35,7 @@ class ArticleController
         if (!$article) {
             redirect('/404');
         }
+        $_SESSION['article'] = $article['title'];
         $article_biz->hasView($article['id']);
         return view('/article')->with(array('data' => $article));
     }
