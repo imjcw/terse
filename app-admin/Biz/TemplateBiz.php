@@ -43,6 +43,13 @@ class TemplateBiz
         $template_service = new TemplateService();
         $result = $template_service->choose($data['id']);
         if ($result) {
+            $handle = opendir(ROOT . '/storage/views/app-front');
+            while (($name = readdir($handle)) != false) {
+                if ($name == '.' || $name == '..' || $name == '.gitignore') {
+                    continue;
+                }
+                unlink(ROOT . '/storage/views/app-front/' . $name);
+            }
             $setting_service = new SettingService();
             $result = $setting_service->updateTemplateInfo(array('template_name' => $data['name']));
         }

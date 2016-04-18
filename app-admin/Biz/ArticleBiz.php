@@ -30,8 +30,8 @@ class ArticleBiz
     public function getArticle($id)
     {
         //获取指定ID的文章
-        $category_service = new ArticleService();
-        $article = $category_service->getArticle($id);
+        $article_service = new ArticleService();
+        $article = $article_service->getArticle($id);
 
         //获取指定ID的文章内容
         $content_service = new ContentService();
