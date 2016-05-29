@@ -16,4 +16,11 @@ class ConfigException
         $template = $service->getCurrentTemplate();
         return $template['value'];
     }
+
+    public function setWebname()
+    {
+        $service = new SettingService();
+        $template = $service->getWebname();
+        $_SESSION['webname'] = $template['value'];
+    }
 }

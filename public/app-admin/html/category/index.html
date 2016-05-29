@@ -15,9 +15,6 @@
     <a class="ui blue basic button" href="/category-setting/add">
         <i class="tiny plus icon"></i> 添加
     </a>
-    <a class="ui red basic button" href="/category-setting/add">
-        <i class="tiny remove icon"></i> 批量删除
-    </a>
     <table class="ui blue unstackable selectable celled table">
         <thead>
             <tr>
@@ -56,7 +53,7 @@
                 <td class="break">{{$category['description']}}</td>
                 <td style="font-size: 12px;">
                     <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/category-setting/edit?id={{$id}}"></i>
-                    <i class="circular red trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/category-setting/doDelete?id={{$id}}" data-article="{{$category['articles']}}"></i>
+                    <i class="circular red trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/category-setting/doDelete?id={{$id}}&nickname={{$category['nickname']}}"  data-article="{{$category['articles']}}"></i>
                 </td>
             </tr>
             @endforeach

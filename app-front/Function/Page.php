@@ -79,8 +79,18 @@ if (!function_exists('hot')) {
  */
 if (!function_exists('news')) {
     function news($num){
-        $article_biz = new ArticleBiz();
-        $articles = $article_biz->getNew($num);
+        $route = $_SESSION['route'];
+        $nickname = end($route);
+        if ($nickname) {
+            //获取相应的栏目
+            $category_biz = new CategoryBiz();
+            $category = $category_biz->getCategoryByNickName($nickname);
+            $article_biz = new ArticleBiz();
+            $articles = $article_biz->getNew($num, $category['id']);
+        } else {
+            $article_biz = new ArticleBiz();
+            $articles = $article_biz->getNew($num);
+        }
         global $category_data;
         if (empty($category_data)) {
             $category_data = category();
@@ -97,6 +107,7 @@ if (!function_exists('news')) {
             $data[$key]['nickname'] = $article['nickname'];
             $data[$key]['url'] = "{$category['url']}/{$article['nickname']}.".TEMPLATE_TYPE;
             $data[$key]['description'] = $article['description'];
+            $data[$key]['views'] = $article['views'];
             $data[$key]['create_time'] = date('Y-m-d',strtotime($article['create_time']));
         }
         return $data;
@@ -139,5 +150,11 @@ if (!function_exists('categorylist')) {
             $data[$key]['create_time'] = $article['create_time'];
         }
         return $data;
+    }
+}
+
+if (!function_exists('tags')) {
+    function tags() {
+
     }
 }

@@ -139,8 +139,8 @@ class AdminSettingController extends BaseController
             return json('不能删除自己！',403);
         }
         $biz = new AdminBiz();
-        $result = $biz->deleteAdmin($id);
-        $_SESSION['msg'] = $result ? '编辑管理员成功！' : '编辑管理员失败！';
+        $result = $biz->deleteAdmin($data['id']);
+        $_SESSION['msg'] = $result ? '删除管理员成功！' : '删除管理员失败！';
         return redirect('admin/index');
     }
 

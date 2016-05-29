@@ -26,7 +26,7 @@ class TemplateService
      * @author marvin
      * @date   2016-02-25
      */
-    public function addTemplates($data)
+    public function addTemplate($data)
     {
         $model = new TemplateModel();
         return $model->insert($data);
@@ -69,5 +69,12 @@ class TemplateService
         $model = new TemplateModel();
         $model->where('is_use',1)->update(array('is_use'=>0));
         return $model->where('id',$id)->update(array('is_use'=>1));
+    }
+
+    public function deleteTemplate($id)
+    {
+        $model = new TemplateModel();
+        $model->where('id', $id);
+        return $model->delete();
     }
 }

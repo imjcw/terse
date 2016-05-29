@@ -8,5 +8,6 @@ define('APP_NAME', 'Front');
 define('TEMPLATE_TYPE', getConfig('template'));
 define('TEMPLATE_NAME', ConfigException::getCurrentTemplate());
 session_start();
+ConfigException::setWebname();
 $route = Route::init();
 $route->run();

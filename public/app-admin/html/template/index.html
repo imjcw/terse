@@ -39,7 +39,7 @@
             @else
                 <span class="terse icon">
                     <i class="mini circular write icon link" data-id="{{$id}}" data-description="{{$template['description']}}"></i>
-                    <i class="mini circular trash outline icon link"></i>
+                    <i class="mini circular trash outline icon link" href="/template-setting/deleteTemplate?id={{$id}}&name={{$template['name']}}"></i>
                 </span>
             @endif
                 <img src="{{$template['img_src']}}">
@@ -54,7 +54,7 @@
     </div>
 </div>
 </div>
-<form id="add" class="ui small modal form">
+<form id="add" class="ui small modal form" onsubmit="return false;" onkeydown="if (event.keyCode == 13) { return false; }">
     <div class="header">添加模板</div>
     <div class="content" style="position:relative">
         <div class="ui two column very relaxed grid">
@@ -236,7 +236,7 @@
             success:function(response){
                 var name = e.target.files[0].name;
                 $('#edit img').attr('src',"/public/tpl_img/"+name);
-                $('#edit input[name=img]').val("/public/tpl_img/"+name);
+                $('#add input[name=img]').val("/public/tpl_img/"+name);
             },
             error:function(response){
                 showTips(response['msg']);
@@ -270,17 +270,47 @@
     });
     $('input[name=template]').change(function(e){
         var name = e.target.files[0].name;
-        console.log(name);
+        $('#upload_template span').html(name);
+    });
+    $('#add .blue.button').click(function(){
+        var formData = new FormData();
+        formData.append('file', $('#add input[name=template]')[0].files[0]);
+        formData.append('name', $('#add input[name=name]').val());
+        formData.append('description', $('#add textarea').html());
+        formData.append('image', $('#add input[name=img]').val());
+        $.ajax({
+            type: 'POST',
+            url: '/template-setting/upload_zip',
+            data: formData,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success:function(response){
+                if (response['status'] == '200') {
+                    window.location.reload();
+                } else {
+                    alert(response['message']);
+                }
+            },
+            error:function(response){
+                alert(response.responseJSON.message);
+            }
+        });
+        return false;
     });
 
 
     //删除模板
     $('.trash.link').click(function(e){
         e.stopPropagation();
+        var href = $(this).attr('href');
         $('.small.modal.info .header').html('删除模板');
         $('.small.modal.info .content p').html('模板删除后，将无法恢复，确认删除？');
         $('.small.modal.info').modal({
-            closable: false
+            closable: false,
+            onApprove: function(){
+                window.open(href,'_self');
+            }
         }).modal('show');
     });
 

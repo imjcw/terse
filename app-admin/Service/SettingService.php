@@ -81,4 +81,16 @@ class SettingService
         $model = new SettingModel();
         return $model->where('name','template_name')->one();
     }
+
+    /**
+     * 获取当前模板信息
+     * @return [type]     [description]
+     * @author marvin
+     * @date   2016-02-24
+     */
+    public function getWebname()
+    {
+        $model = new SettingModel();
+        return $model->where('name','name')->one();
+    }
 }

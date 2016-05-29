@@ -30,7 +30,7 @@ class TagService
     public function getRelationsByArticleId($id)
     {
         $model = new TagRelationShipsModel();
-        if ($id && is_int($id)) {
+        if ($id) {
             $model = $model->where('article_id',$id);
         }
         return $model->all();

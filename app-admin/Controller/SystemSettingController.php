@@ -39,8 +39,8 @@ class SystemSettingController extends BaseController
         if (isset($params['url']) && $params['url']) {
             $data['url'] = filter_var($params['url'], FILTER_SANITIZE_STRING);
         }
-        if (isset($params['title']) && $params['title']) {
-            $data['title'] = filter_var($params['title'], FILTER_SANITIZE_STRING);
+        if (isset($params['name']) && $params['name']) {
+            $data['name'] = filter_var($params['name'], FILTER_SANITIZE_STRING);
         }
         if (isset($params['description']) && $params['description']) {
             $data['description'] = filter_var($params['description'], FILTER_SANITIZE_STRING);
@@ -53,7 +53,12 @@ class SystemSettingController extends BaseController
         }
         $biz = new SettingBiz();
         $result = $biz->updateSystemInfo($data);
-        $_SESSION['msg'] = $result ? '修改系统信息成功！' : '修改系统信息失败！';
+        if ($result) {
+            $_SESSION['msg'] = '修改系统信息成功！';
+            $_SESSION['webname'] = $data['name'];
+        } else {
+            $_SESSION['msg'] = '修改系统信息失败！';
+        }
         return redirect('system/index');
     }
 }

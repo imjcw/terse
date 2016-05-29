@@ -20,6 +20,28 @@ class ArticleBiz
 
         $article['content'] = htmlspecialchars_decode($content['content']);
 
+        $pre = $article_service->getPre($article['id']);
+
+        $next = $article_service->getNext($article['id']);
+
+        if (empty($pre)) {
+            $article['pre_title'] = '';
+            $article['pre_url'] = '';
+        } else {
+            $article['pre_title'] = $pre['title'];
+            $article['pre_nickname'] = $pre['nickname'];
+            $article['pre_url'] = $pre['category_id'];
+        }
+
+        if (empty($next)) {
+            $article['next_title'] = '';
+            $article['next_url'] = '';
+        } else {
+            $article['next_title'] = $next['title'];
+            $article['next_nickname'] = $next['nickname'];
+            $article['next_url'] = $next['category_id'];
+        }
+
         return $article;
     }
 
@@ -83,9 +105,9 @@ class ArticleBiz
      * @author marvin
      * @date   2016-03-03
      */
-    public function getNew($num)
+    public function getNew($num, $category_id = null)
     {
         $service = new ArticleService();
-        return $service->getNew($num);
+        return $service->getNew($num, $category_id);
     }
 }

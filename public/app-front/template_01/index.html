@@ -16,18 +16,14 @@
             <h3>
                 <a href="{{$article['url']}}">{{$article['title']}}</a>
             </h3>
-            <figure>
-                <img src="/images/01.jpg" >
-            </figure>
-            <ul>
+            <ul style="float: none; width: 100%;">
                 <p>{{$article['description']}}</p>
                 <a href="{{$article['url']}}" target="_blank" class="readmore">阅读全文&gt;&gt;</a>
             </ul>
             <p class="autor">
-                <span>作者：杨青</span>
-                <span>分类：【<a href="/">日记</a>】</span>
-                <span>浏览（<a href="/">459</a>）</span>
-                <span>评论（<a href="/">30</a>）</span>
+                <span>作者：{{$article['author']}}</span>
+                <span>分类：【<a href="{{$article['category_url']}}">{{$article['category_name']}}</a>】</span>
+                <span>浏览（<a>{{$article['views']}}</a>）</span>
             </p>
             <div class="dateview">{{$article['create_time']}}</div>
         </div>

@@ -26,6 +26,7 @@ class CategoryController
         $articles = $article_biz->getArticles($category['id'],20);
         return view('/list')->with(array(
             'articles' => $articles,
+            'category_name'=>$category['name'],
             'category'=>$category['nickname'],
             'categorys' => $categorys
             ));

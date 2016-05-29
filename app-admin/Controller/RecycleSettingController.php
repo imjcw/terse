@@ -68,8 +68,8 @@ class RecycleSettingController extends BaseController
         if (isset($params['id']) && $params['id']) {
             $data['id'] = intval($params['id']);
         }
-        if (isset($params['id']) && $params['id']) {
-            $data['content'] = intval($params['id']);
+        if (isset($params['content']) && $params['content']) {
+            $data['content'] = intval($params['content']);
         }
 
         $biz = new RecycleBiz();

@@ -31,6 +31,12 @@ class TemplateBiz
         return $service->updateTemplate($data);
     }
 
+    public function addTemplate($data)
+    {
+        $service = new TemplateService();
+        return $service->addTemplate($data);
+    }
+
     /**
      * 选择模板
      * @param  [type] $data [description]
@@ -54,5 +60,11 @@ class TemplateBiz
             $result = $setting_service->updateTemplateInfo(array('template_name' => $data['name']));
         }
         return $result;
+    }
+
+    public function deleteTemplate($id)
+    {
+        $service = new TemplateService();
+        return $service->deleteTemplate($id);
     }
 }

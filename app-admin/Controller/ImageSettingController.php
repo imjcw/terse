@@ -21,8 +21,10 @@ class ImageSettingController extends BaseController
         if (strlen($url) == (strripos($url, '/') + 1)) {
             $url = substr($url, 0, -1);
         }
+        $msg = getMsg();
         return view('image/index')->with(array(
             'data' => $files,
+            'msg' => $msg,
             'url' => $url
         ));
     }
@@ -53,8 +55,10 @@ class ImageSettingController extends BaseController
         $data = $biz->delete($file);
         if (file_exists($src)) {
             unlink($src);
+            $_SESSION['msg'] = '图片删除成功！';
             return json('success');
         }
+        $_SESSION['msg'] = '图片删除失败！';
         return json('fail',403);
     }
 
@@ -76,8 +80,10 @@ class ImageSettingController extends BaseController
         $biz = new ImageBiz();
         $data = $biz->deleteMulti($files);
         if (isset($error)) {
+            $_SESSION['msg'] = implode(',', $error);
             return json($error,403);
         }
+        $_SESSION['msg'] = '图片删除成功！';
         return json('success');
     }
 
@@ -120,7 +126,8 @@ class ImageSettingController extends BaseController
         if ($is_article) {
             return $status ? "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(1,'".$url.'/images/'.$file_name."','');</script>" : "<font color=\"red\"size=\"2\">*文件格式不正确（必须为.jpg/.gif/.bmp/.png文件）</font>";
         } else {
-            return $status ? json('success！') : json('fault！', 403);
+            $_SESSION['msg'] = $status ? '图片上传成功！' : '图片上传失败！';
+            return redirect('image/index');
         }
     }
 

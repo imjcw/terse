@@ -38,8 +38,8 @@
         @endforeach
     </tbody>
 </table>
-    共 <?=$_SESSION['pagesize']?> 页 
-<?php pagination();?>
+    共 {{$_SESSION['pagesize']}} 页 
+{{pagination();}}
 </div>
 @stop
 @start('script')

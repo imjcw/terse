@@ -114,6 +114,9 @@ class CategorySettingController extends BaseController
         if (isset($params['nickname']) && $params['nickname']) {
             $data['nickname'] = strval($params['nickname']);
         }
+        if (isset($params['old_nickname']) && $params['old_nickname']) {
+            $data['old_nickname'] = strval($params['old_nickname']);
+        }
         if (isset($params['description']) && $params['description']) {
             $data['description'] = strval($params['description']);
         }
@@ -152,7 +155,7 @@ class CategorySettingController extends BaseController
             } else {
                 $article_biz->updateCategoryId($id);
             }
-            $data['id'] = $id;
+            $data['nickname'] = $params['nickname'];
             if (!$this->writeRoutes($data, 'delete')) {
                 $_SESSION['msg'] = '路由更新失败！请手动更新！';
                 return redirect('/category/index');
@@ -190,7 +193,7 @@ class CategorySettingController extends BaseController
     {
         require(ROOT.'/app-front/routes.php');
         if ($action == 'delete') {
-            unset($routes['article'][$data['id']]);
+            unset($routes[$data['nickname']]);
         } else {
             //检测是否存在nickname，不存在则拼音化栏目名
             if (isset($data['nickname']) && $data['nickname']) {
@@ -199,6 +202,7 @@ class CategorySettingController extends BaseController
                 $translate = new TranslateException();
                 $name = $translate->get_pinyin($data['name']);
             }
+            unset($routes[$data['old_nickname']]);
             $routes[$name] = array();
         }
         //写入app-front中的routes.php

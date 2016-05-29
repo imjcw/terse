@@ -5,6 +5,20 @@ use Front\Model\ArticleModel;
 
 class ArticleService
 {
+    public function getPre($id)
+    {
+        $model = new ArticleModel();
+        $sql = "SELECT * FROM `article` where `id` < " . $id . " ORDER BY `id` DESC";
+        $result = $model->query($sql);
+        return $model->toArray($result, 0);
+    }
+    public function getNext($id)
+    {
+        $model = new ArticleModel();
+        $sql = "SELECT * FROM `article` where `id` > " . $id;
+        $result = $model->query($sql);
+        return $model->toArray($result, 0);
+    }
     public function getArticle($name)
     {
         $model = new ArticleModel();
@@ -69,9 +83,12 @@ class ArticleService
      * @author marvin
      * @date   2016-03-03
      */
-    public function getNew($num)
+    public function getNew($num, $category_id = null)
     {
         $model = new ArticleModel();
+        if ($category_id) {
+            $model = $model->where('category_id', $category_id);
+        }
         $model = $model->where('is_show',1);
         $model = $model->where('is_use',1);
         return $model->orderBy('id')->paginate($num)->all();

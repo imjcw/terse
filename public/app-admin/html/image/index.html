@@ -97,6 +97,9 @@
 @start('script')
 <script type="text/javascript">
 $(document).ready(function(){
+    @if(!empty($msg))
+    showTips("{{$msg}}");
+    @endif
     //上传
     $('.upload.button').click(function(){
         $('.small.form.upload').modal({
@@ -137,6 +140,7 @@ $(document).ready(function(){
         $('.transition.info').modal({
             onApprove : function(){
                 $.post('/image-setting/delete',{image},function(){
+                    window.location.reload();
                     showTips('文件删除成功！');
                 },'json').error(function(){
                     showTips('文件删除失败！');
@@ -155,6 +159,7 @@ $(document).ready(function(){
                     checked += $(this).val()+',';
                 });
                 $.post('/image-setting/deleteMulti.html',{checked},function(){
+                    window.location.reload();
                     $('.remove.button').hide();
                     $('.ui.checkbox').hide();
                     $('.cancel.button').hide();

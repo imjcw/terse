@@ -1,6 +1,7 @@
 <?php
 namespace Admin\Controller;
 
+use ZipArchive;
 use Admin\Biz\FileBiz;
 use Admin\Controller\BaseController;
 use Admin\Service\TemplateService;
@@ -226,6 +227,73 @@ class FileSettingController extends BaseController
             chmod(ROOT.'/app-admin/public/tpl_img/'.$file_name, 0766);
         }
         return $status ? json('success！') : json('fault！', 403);
+    }
+
+    public function upload_zip()
+    {
+        $exts = array('zip');
+        //if (!file_exists(ROOT.'/uploads')) {
+        //    mkdir(ROOT.'/uploads', 0755, true);
+        //    chmod(ROOT.'/uploads', 0755);
+        //}
+        $uploads_dir = '/uploads';
+        $file = $_FILES['file'];dd('ehhe');
+        $error = $this->checkError($file['error']);
+        $status = false;
+        $index = false;
+        $article = false;
+        $list = false;
+        if ($error == 'ok') {
+            //检查是否为正确的上传方式
+            if (!is_uploaded_file($file['tmp_name'])) {
+                dd('请使用正确的上传方式');
+            }
+            //检查是否为合法的文件类型
+            $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+            if (!in_array($ext, $exts)) {
+                dd('请上传正确的文件格式');
+            }
+            //自定义文件名
+            $file_name = basename($file['name'], '.' . $ext);
+            $this->checkDir($file_name);
+            dd($file_name);
+            //判断是否存在应该存在的文件，index.html, article.html, list.html
+            $zip = zip_open($file['tmp_name']);
+            if ($zip) {
+                while ($zip_entry = zip_read($zip))
+                {
+                    if (zip_entry_name($zip_entry) == 'index.html') {
+                        $index = true;
+                    }
+                    if (zip_entry_name($zip_entry) == 'article.html') {
+                        $article = true;
+                    }
+                    if (zip_entry_name($zip_entry) == 'list.html') {
+                        $list = true;
+                    }
+                }
+                zip_close($zip);
+            }
+            if (!($index && $article && $list)) {
+                dd('不存在相应的模板文件');
+            }
+            $zip=new ZipArchive;//新建一个ZipArchive的对象
+                if($zip->open($file['tmp_name']) === TRUE){
+                $status = $zip->extractTo(ROOT . '/public/app-front/' . $file_name);
+                $zip->close();//关闭处理的zip文件
+            }
+        }
+        return $status ? json('success！') : json('不存在相应的模板文件', 403);
+    }
+
+    public function checkDir(&$path)
+    {
+        static $num = '';
+        if (is_dir(ROOT . '/public/app-front/' . $path . $num)) {
+            $num = $num != '' ? $num++ : 1;
+            $this->checkDir($path);
+            $path .= '_' . $num;
+        }
     }
 
     /**
