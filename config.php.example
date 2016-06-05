@@ -7,3 +7,5 @@ $database = [
 ];
 
 $template = 'html';
+
+$url_post = false;

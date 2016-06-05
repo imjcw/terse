@@ -75,6 +75,11 @@ class ArticleBiz
 
         $article_service = new ArticleService();
         $article_id = $article_service->addArticle($data);
+        if ($article_id && getConfig('url_post')) {
+            $category = $category_service->getCategory($data['category']);
+            $url = getSystem('url') . $category['nickname'] . '/' . $data['nickname'] . '.' . TEMPLATE_TYPE;
+            $this->postBDZZ($url, 'urls');
+        }
         //添加关系
         $tag_service = new TagService();
         //检测是否存在，存在则更新nums，不存在则新增
@@ -97,10 +102,16 @@ class ArticleBiz
         $content = $data['content'];
         unset($data['content']);
         //更新文章表
-        $category_service = new ArticleService();
-        $result = $category_service->updateArticle($id, $data);
+        $article_service = new ArticleService();
+        $result = $article_service->updateArticle($id, $data);
         if (!$result) {
             return false;
+        }
+        $category_service = new CategoryService();
+        if (getConfig('url_post')) {
+            $category = $category_service->getCategory($data['category']);
+            $url = getSystem('url') . $category['nickname'] . '/' . $data['nickname'] . '.' . TEMPLATE_TYPE;
+            $this->postBDZZ($url, 'update');
         }
         //更新文章内容表
         $content_service = new ContentService();
@@ -108,7 +119,6 @@ class ArticleBiz
 
         //更新栏目表中的文章数
         if ($data['category'] != $data['old_category']) {
-            $category_service = new CategoryService();
             $category_service->updateArticleNums($data['category'],'add');
             $category_service->updateArticleNums($data['old_category'],'subtract');
         }
@@ -163,8 +173,14 @@ class ArticleBiz
     public function disableArticle($data)
     {
         $category_service = new CategoryService();
-        $category_service->updateArticleNums($data['category'],'subtract');
         $service = new ArticleService();
+        if (getConfig('url_post')) {
+            $category = $category_service->getCategory($data['category']);
+            $article = $service->getArticle($data['id']);
+            $url = getSystem('url') . $category['nickname'] . '/' . $article['nickname'] . '.' . TEMPLATE_TYPE;
+            $this->postBDZZ($url, 'update');
+        }
+        $category_service->updateArticleNums($data['category'],'subtract');
         return $service->changeArticleStatus($data['id'],0);
     }
 
@@ -231,5 +247,25 @@ class ArticleBiz
         if (isset($add)) {
             $service->addTag($add);
         }
+    }
+
+    /**
+     * 百度站长链接提交
+     * @param  string $value [description]
+     * @return [type]        [description]
+     */
+    public function postBDZZ($url, $action)
+    {
+        $api = 'http://data.zz.baidu.com/' . $action . '?site=jcwblog.com&token=6sLr2TsTjhZLgnvv';
+        $ch = curl_init();
+        $options =  array(
+            CURLOPT_URL => $api,
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS => $url,
+            CURLOPT_HTTPHEADER => array('Content-Type: text/plain'),
+        );
+        curl_setopt_array($ch, $options);
+        curl_exec($ch);
     }
 }
