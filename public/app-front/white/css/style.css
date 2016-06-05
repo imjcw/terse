@@ -219,6 +219,12 @@ form input:focus {
     text-align: center;
     background-color: #00BCD4;
 }
+.section .content .copyright a {
+    color: #EEEEEE;
+}
+.section .content .copyright a:hover {
+    text-decoration: underline;
+}
 .section .sidemenu {
     float: right;
     width: calc(30% - 10px);
