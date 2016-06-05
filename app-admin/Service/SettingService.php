@@ -33,9 +33,9 @@ class SettingService
             $sql = $sql." WHEN 'url' THEN '".$params['url']."'";
             $where = $where."'url',";
         }
-        if (isset($params['title']) && $params['title']) {
-            $sql = $sql." WHEN 'title' THEN '".$params['title']."'";
-            $where = $where."'title',";
+        if (isset($params['name']) && $params['name']) {
+            $sql = $sql." WHEN 'title' THEN '".$params['name']."'";
+            $where = $where."'name',";
         }
         if (isset($params['description']) && $params['description']) {
             $sql = $sql." WHEN 'description' THEN '".$params['description']."'";

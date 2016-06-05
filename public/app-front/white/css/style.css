@@ -1,0 +1,422 @@
+@charset "utf-8";
+/*待删*/
+html, body {
+    background: #E7E8EA !important;
+    height: 100%;
+    font-family: Arial, 'Microsoft Yahei', sans-serif;
+}
+/*先懒一下，以后优化*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    overflow-x: hidden;
+}
+ul li {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+    color: #666666;
+}
+/*获得更好的阅读体验*/
+html, html a, body {
+    -webkit-font-smoothing: antialiased;
+    font-family: "Microsoft Yahei", sans-serif;
+}
+a {
+    text-decoration: none;
+}
+/*滚动条宽度*/  
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+/* Handle样式 */  
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: #3c8dbc;
+}
+/*改变选择文字的样式*/
+::selection {
+    color: #FFFFFF;
+    background: #00BDC4;
+    text-shadow: none;
+}
+::-webkit-selection {
+    color: #FFFFFF;
+    background: #00BDC4;
+    text-shadow: none;
+}
+::-moz-selection {
+    color: #FFFFFF;
+    background: #00BDC4;
+    text-shadow: none;
+}
+/*不知所云*/
+:active, :hover, :focus {
+    outline: none;
+}
+:after, :before {
+    box-sizing: border-box;
+}
+/**/
+.right {
+    float: right;
+}
+.left {
+    float: left;
+}
+.center {
+    text-align: center;
+}
+.container {
+    margin: 0 auto;
+}
+.show {
+    display: block;
+}
+.hide {
+    display: none;
+}
+.clearfix:before, .clearfix:after {
+    content: ' ';
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+/*color*/
+.white {
+    background: #FFFFFF;
+}
+
+/*header*/
+.header .container {
+    padding: 0 20px;
+    max-width: 1000px;
+}
+.header .logo {
+    float: left;
+}
+.header .logo a {
+    color: #00BCD4;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: bold;
+    font-family: Droid Serif, Arial, serif;
+    line-height: 80px;
+    text-transform: capitalize;
+}
+.header .navigation {
+    float: right;
+    display: block;
+}
+.header .navigation ul li {
+    float: left;
+}
+.header .navigation ul li a {
+    display: block;
+    padding: 20px;
+    line-height: 40px;
+}
+.header .navigation ul li a:hover {
+    color: rgba(0, 188, 212, 0.7);
+}
+form {
+    position: relative;
+}
+form input {
+    color: #666666;
+    width: 100%;
+    height: 34px;
+    line-height: 34px;
+    padding: 6px 30px 6px 12px;
+    border: 1px solid #CBD3DD;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+    font-weight: 300;
+}
+form input:focus {
+    border-color: #00BCD4;
+}
+.search-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #99A3B1;
+    font-size: 13px;
+}
+.title {
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 300;
+    color: #99A3B1;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.section {
+    max-width: 1000px;
+    margin: 0 auto;
+    word-break: break-word;
+}
+.section .breadcrumb {
+    margin: 10px 0;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px;
+    background-color: #FFFFFF;
+}
+.section .breadcrumb a:hover {
+    color: #00BCD4;
+}
+.section .content {
+    float: left;
+    width: 70%;
+    padding: 20px;
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+    color: #666666;
+}
+.section .content img {
+    max-width: 100%;
+    height: auto;
+}
+.section .content h1 {
+    font-size: 28px;
+    color: #333333;
+    text-align: center;
+}
+.section .content .subinfo {
+    text-align: center;
+    font-size: 14px;
+    color: #333333;
+    padding: 10px;
+}
+.section .content a {
+    color: #00BCD4;
+}
+.section .content p {
+    line-height: 1.5em;
+    text-align: justify;
+    margin-bottom: 10px;
+}
+.section .content code {
+    overflow: auto;
+    word-break: break-all;
+    margin-bottom: 10px;
+}
+.section .content p:last-child {
+    margin-bottom: 0;
+}
+.section .content .copyright {
+    padding: 4px;
+    color: #EEEEEE;
+    font-size: 14px;
+    text-align: center;
+    background-color: #00BCD4;
+}
+.section .sidemenu {
+    float: right;
+    width: calc(30% - 10px);
+}
+.section .card {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    background-color: #FFFFFF;
+}
+.section .sidemenu h3 {
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px 15px;
+    border-bottom: 1px solid #EEEEEE;
+}
+.section .sidemenu .list {
+    padding: 0 15px;
+}
+.section .sidemenu .list li {
+    height: 30px;
+    line-height: 30px;
+    border-top: 1px dashed #EBEEF6;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -moz-text-overflow: ellipsis;
+}
+.section .sidemenu .list li:first-child {
+    border-top: 0;
+}
+.section .sidemenu .list a:hover {
+    text-decoration: underline;
+}
+.section .sidemenu .list span {
+    display: inline-block;
+    background-color: #333;
+    color: #FFFFFF;
+    height: 16px;
+    line-height: 16px;
+    font-size: 12px;
+    padding: 0 7px;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+.section .sidemenu .list li:nth-child(-n+3) span {
+    background-color: #00BCD4;
+}
+
+.section .artlist {
+    float: left;
+    width: 70%;
+}
+.section .artlist .card {
+    padding: 10px 15px;
+    border: 1px solid #FFFFFF;
+}
+.section .artlist .card:hover {
+    border: 1px solid #00BCD4;
+}
+.section .artlist .card h3 {
+    color: #333333;
+}
+.section .artlist .card h3 a:hover {
+    color: #00BCD4;
+}
+.section .artlist .card .subinfo {
+    color: #999999;
+    font-size: 12px;
+    height: 30px;
+    line-height: 30px;
+}
+.section .artlist .card p {
+    color: #999999;
+    font-size: 12px;
+}
+.footer {
+    background-color: #FFFFFF;
+    line-height: 50px;
+    text-align: center;
+}
+/*media*/
+@media (min-width: 1500px) {
+    .header {
+        width: 260px;
+        height: 100%;
+        border-right: 2px solid #EFEFEF;
+        position: fixed;
+    }
+    .header .logo {
+        float: none;
+        text-align: center;
+        margin: 40px 25px;
+    }
+    .header .navigation {
+        display: block !important;
+        float: none;
+    }
+    .header .navigation ul li {
+        float: none;
+        border-top: 1px dashed #EBEEF6;
+    }
+    .header .navigation ul li>a {
+        line-height: 1em;
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px;
+        color: #34343C;
+        text-transform: uppercase;
+    }
+    .header .navigation ul li:last-child {
+        border-bottom: 1px dashed #EBEEF6;
+    }
+    .header .search {
+        display: block;
+    }
+    .section, .footer {
+        max-width: 100%;
+        margin: 0 0 0 260px;
+    }
+    .section .breadcrumb {
+        margin: 0;
+        height: 58px;
+        line-height: 58px;
+        padding: 0 20px;
+        background-color: #fff;
+    }
+    .section .content, .section .artlist {
+        width: 100%;
+        float: none;
+        margin: 0;
+    }
+    .section .sidemenu {
+        width: 100%;
+        float: none;
+    }
+    .section .sidemenu .card {
+        border-top: 1px solid #EEEEEE;
+        width: 50%;
+        float: left;
+        margin: 0;
+    }
+    .section .sidemenu .card:first-child {
+        border-right: 1px solid #EEEEEE;
+        margin-left: -1px;
+    }
+    .section .artlist .card {
+        margin: 0;
+        border-top: 1px solid #EEEEEE;
+    }
+    .footer {
+        border-top: 1px solid #EEEEEE;
+    }
+}
+@media (max-width: 768px) {
+    .header .bars {
+        line-height: 40px;
+        margin-left: 5px;
+        display: block;
+    }
+    .header .logo {
+        float: none;
+        text-align: center;
+        margin: 0 25px;
+    }
+    .header .logo a {
+        font-size: 20px;
+        line-height: 40px;
+    }
+    .header .navigation {
+        display: none;
+        float: none;
+    }
+    .header .navigation li {
+        float: none !important;
+        border-top: 1px dashed #EBEEF6;
+    }
+    .header .navigation li>a {
+        text-align: center;
+        padding: 0 !important;
+    }
+    .header .navigation ul li:last-child {
+        border-bottom: 1px dashed #EBEEF6;
+        margin-bottom: 10px;
+    }
+    .section {
+        max-width: 100%;
+        margin: 0 10px;
+    }
+    .section .content, .section .artlist, .section .sidemenu {
+        width: 100%;
+        float: none;
+    }
+    .section .content {
+        font-size: 12px;
+    }
+    .section .content h1 {
+        font-size: 18px;
+    }
+}

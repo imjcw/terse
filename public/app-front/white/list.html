@@ -1,0 +1,25 @@
+@extend('extend')
+@start('mainbody')
+<div class="breadcrumb"><a href="/">网站首页</a> &gt; <a href="/{{$category}}">{{$category_name}}</a></div>
+<div class="artlist">
+    @article(type:news num:10)
+    <div class="card">           
+        <h3><a href="{{$article['url']}}">{{$article['title']}}</a></h3>
+        <div class="subinfo">
+            <i class="fa fa-user" aria-hidden="true"></i> {{$article['author']}} | <i class="fa fa-calendar" aria-hidden="true"></i> {{$article['create_time']}} | <i class="fa fa-archive" aria-hidden="true"></i> {{$article['category_name']}}
+        </div>
+        <p>{{$article['description']}}</p>
+    </div>
+    @endarticle
+</div>
+<div class="sidemenu clearfix">
+    <div class="card">
+        <h3>相关推荐</h3>
+        <ul class="list">
+            @article(type:hot num:10)
+            <li><a href="{{$article['url']}}"><span>{{$key + 1}}</span>{{$article['title']}}</a></li>
+            @endarticle
+        </ul>
+    </div>
+</div>
+@stop

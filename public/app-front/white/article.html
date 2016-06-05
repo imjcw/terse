@@ -1,0 +1,28 @@
+@extend('extend')
+@start('style')
+<link href="/resources/zenburn.css" rel="stylesheet">
+@stop
+@start('mainbody')
+<div class="breadcrumb"><a href="/">网站首页</a> &gt; <a href="/{{$data['category_nickname']}}">{{$data['category_name']}}</a></div>
+<div class="content">
+    <h1>{{$data['title']}}</h1>
+    <div class="subinfo">
+        <i class="fa fa-user" aria-hidden="true"></i> {{$data['author']}}&nbsp; | &nbsp;<i class="fa fa-calendar" aria-hidden="true"></i> {{$data['create_time']}}&nbsp; | &nbsp;<i class="fa fa-eye" aria-hidden="true"></i> ({{$data['views']}})
+    </div>
+    {{$data['content']}}
+</div>
+<div class="sidemenu clearfix">
+    <div class="card">
+        <h3>相关推荐</h3>
+        <ul class="list">
+            @article(type:hot num:10)
+            <li><a href="{{$article['url']}}"><span>{{$key + 1}}</span>{{$article['title']}}</a></li>
+            @endarticle
+        </ul>
+    </div>
+</div>
+@stop
+@start('script')
+<script src="/resources/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+@stop
