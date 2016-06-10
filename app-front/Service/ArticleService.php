@@ -43,7 +43,7 @@ class ArticleService
         $model = new ArticleModel();
         $model = $model->where('is_show',1);
         $model = $model->where('is_use',1);
-        return $model->paginate($num)->all();
+        return $model->limit(0, $num)->all();
     }
 
     /**
@@ -58,7 +58,7 @@ class ArticleService
         $model = new ArticleModel();
         $model = $model->where('is_show',1);
         $model = $model->where('is_use',1);
-        return $model->orderBy('id')->paginate($num)->all();
+        return $model->orderBy('id')->limit(0, $num)->all();
     }
 
     /**
@@ -73,7 +73,7 @@ class ArticleService
         $model = new ArticleModel();
         $model = $model->where('is_show',1);
         $model = $model->where('is_use',1);
-        return $model->orderBy('views')->paginate($num)->all();
+        return $model->orderBy('views')->limit(0, $num)->all();
     }
 
     /**

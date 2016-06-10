@@ -1,8 +1,19 @@
 <?php
 use Front\Biz\ArticleBiz;
 use Front\Biz\CategoryBiz;
+use Front\Util\Pagination;
 
 $category_data = array();
+/**
+ * 分页
+ */
+if (!function_exists('paginate')) {
+    function paginate(){
+        $paginate = new Pagination();
+        echo $paginate->pagination();
+    }
+}
+
 /**
  * 栏目
  */

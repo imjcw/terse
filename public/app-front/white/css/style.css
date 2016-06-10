@@ -306,6 +306,32 @@ form input:focus {
     line-height: 50px;
     text-align: center;
 }
+.pagination {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.pagination .item {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    line-height: 24px;
+    text-align: center;
+    border: 1px solid #FFFFFF;
+    background-color: #FFFFFF;
+}
+.pagination span.disabled {
+    color: #EEEEEE;
+    border: 1px solid #FFFFFF;
+    background-color: #FFFFFF;
+}
+.pagination span.active {
+    color: #FFFFFF;
+    border: 1px solid #00BCD4;
+    background-color: #00BCD4;
+}
+.pagination a.item {
+    color: #00BCD4;
+}
 /*media*/
 @media (min-width: 1500px) {
     .header {
