@@ -320,7 +320,7 @@ form input:focus {
     background-color: #FFFFFF;
 }
 .pagination span.disabled {
-    color: #EEEEEE;
+    color: #E7E8EA;
     border: 1px solid #FFFFFF;
     background-color: #FFFFFF;
 }
