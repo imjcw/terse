@@ -67,6 +67,9 @@ class ArticleService
         if (isset($params['nickname']) && $params['nickname']) {
             $data['nickname'] = $params['nickname'];
         }
+        if (isset($params['author']) && $params['author']) {
+            $data['author'] = $params['author'];
+        }
         if (isset($params['category']) && $params['category']) {
             $data['category_id'] = $params['category'];
         }

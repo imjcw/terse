@@ -92,7 +92,16 @@ a {
 .white {
     background: #FFFFFF;
 }
-
+a.link {
+    color: #FFFFFF !important;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: #00BCD4;
+    display: inline-block;
+}
+a.link>i {
+    margin-right: 4px;
+}
 /*header*/
 .header .container {
     padding: 0 20px;
@@ -195,6 +204,20 @@ form input:focus {
     font-size: 14px;
     color: #333333;
     padding: 10px;
+}
+.section .content .subtitle{
+    display: block;
+    margin-left: -20px;
+    padding-left: 15px;
+    border-left: 5px solid #00BCD4;
+}
+.section .content .preface {
+    color: #999;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 4px;
+    line-height: 1.25em;
+    border: 1px dashed #BBBBBB;
 }
 .section .content a {
     color: #00BCD4;

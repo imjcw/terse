@@ -2,6 +2,7 @@
 use Front\Biz\ArticleBiz;
 use Front\Biz\CategoryBiz;
 use Front\Util\Pagination;
+use Admin\Model\AdminModel;
 
 $category_data = array();
 /**
@@ -107,6 +108,13 @@ if (!function_exists('news')) {
             $category_data = category();
         }
         $data = array();
+        $admin_mdl = new AdminModel();
+        $admins_tmp = $admin_mdl->all();
+        $admins = array();
+        foreach ($admins_tmp as $admin) {
+            $admins[$admin['id']] = $admin['nickname'];
+        }
+
         foreach ($articles as $key => $article) {
             //category
             $category = $category_data[$article['category_id']];
@@ -114,7 +122,7 @@ if (!function_exists('news')) {
             $data[$key]['category_url'] = $category['url'];
             //article
             $data[$key]['title'] = $article['title'];
-            $data[$key]['author'] = $article['author'];
+            $data[$key]['author'] = $admins[$article['author']];
             $data[$key]['nickname'] = $article['nickname'];
             $data[$key]['url'] = "{$category['url']}/{$article['nickname']}.".TEMPLATE_TYPE;
             $data[$key]['description'] = $article['description'];

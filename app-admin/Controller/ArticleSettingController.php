@@ -143,7 +143,7 @@ class ArticleSettingController extends BaseController
         if (isset($params['content']) && $params['content']) {
             $data['content'] = addslashes(htmlspecialchars($params['content']));
         }
-        $data['author'] = 'test';
+        $data['author'] = $_SESSION['user_id'];
         $article_biz = new ArticleBiz();
         $result = $article_biz->addArticle($data);
         $_SESSION['msg'] = $result ? '添加文章成功！' : '添加文章失败！';

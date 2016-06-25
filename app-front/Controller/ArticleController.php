@@ -5,6 +5,7 @@ use Front\Biz\ArticleBiz;
 use Front\Biz\CategoryBiz;
 use Front\Controller\BaseController;
 use Admin\Service\TagService;
+use Admin\Service\AdminService;
 
 class ArticleController
 {
@@ -34,6 +35,9 @@ class ArticleController
         if (!$article) {
             redirect('/404');
         }
+        $admin_service = new AdminService();
+        $admin = $admin_service->getAdmin($article['author']);
+        $article['author'] = $admin['nickname'];
         $article['create_time'] = date('Y-m-d',strtotime($article['create_time']));
         if ($article['pre_url']) {
             $article['pre_url'] = '/' . $categorys[$article['pre_url']]['nickname'] . '/' . $article['pre_nickname'] . '.html';
