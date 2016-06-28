@@ -1,0 +1,340 @@
+<?php start('style'); ?>
+<style type="text/css">
+    .ui.attached.header{
+        margin-top: 0;
+    }
+    .circular.icon.link:hover{
+        color: #3c8dbc;
+    }
+    .terse.icon{
+        cursor: default;
+        padding: 5px;
+        position: absolute;
+        border-radius: 0 .28571429rem .28571429rem 0;
+        top: 10px;
+        left: 0px;
+        display: none;
+        background-color: rgba(255,255,255,0.7) !important;
+        z-index:999;
+        overflow:hidden;
+    }
+</style>
+<?php stop(); ?>
+<?php start('content'); ?>
+<!--内容-->
+<h3 class="ui top attached header">
+    <i class="archive icon"></i> 模板管理
+</h3>
+<div class="ui attached segment">
+<div class="ui five column doubling cards" style="margin-right: -7px;margin-left: -7px;">
+    <?php foreach($templates as $id => $template): ?>
+        <div class="ui link card <?=$template['is_use'] ? '' : 'template' ?>">
+            <div class="image">
+            <?php if($template['is_use']): ?>
+                <span class="terse icon">
+                    <i class="mini circular write icon link" data-id="<?=$id ?>" data-description="<?=$template['description'] ?>"></i>
+                </span>
+                <div class="ui red bottom right attached label">已启用</div>
+            <?php else: ?>
+                <span class="terse icon">
+                    <i class="mini circular write icon link" data-id="<?=$id ?>" data-description="<?=$template['description'] ?>"></i>
+                    <i class="mini circular trash outline icon link" href="/template-setting/deleteTemplate?id=<?=$id ?>&name=<?=$template['name'] ?>"></i>
+                </span>
+            <?php endif ?>
+                <img src="<?=$template['img_src'] ?>">
+            </div>
+            <div class="content">
+                <span class="header terse center" href="/template-setting/choose?id=<?=$id ?>&name=<?=$template['name'] ?>"><?=$template['nickname'] ?></span>
+            </div>
+        </div>
+    <?php endforeach ?>
+    <div class="ui link card" style="border: 1px dashed #D4D4D5; box-shadow: 0px 0px 0px; color: #AAAAAA;">
+        <i class="massive plus outline icon" style="margin: auto; position: absolute; top: 0; left: 0; bottom: 0; right: 0;"></i>
+    </div>
+</div>
+</div>
+<form id="add" class="ui small modal form" onsubmit="return false;" onkeydown="if (event.keyCode == 13) { return false; }">
+    <div class="header">添加模板</div>
+    <div class="content" style="position:relative">
+        <div class="ui two column very relaxed grid">
+            <div class="column">
+                <div class="field">
+                    <label>模板名：</label>
+                    <input name="name" type="text" placeholder="请输入模板名称">
+                </div>
+                <div class="field">
+                    <label>模板描述：</label>
+                    <textarea name="description"></textarea>
+                </div>
+            </div>
+            <div class="ui vertical divider">and</div>
+            <div class="column">
+                <div class="blurring dimmable image">
+                    <div class="ui dimmer">
+                        <div class="content">
+                            <div class="center">
+                                <div class="ui inverted button change_img">更换封面图</div>
+                            </div>
+                        </div>
+                    </div>
+                    <img class="ui medium rounded image" style="max-height:243px;width:auto;margin:0 auto;" src="/public/tpl_img/default.png">
+                    <input type="hidden" name="img">
+                </div>
+            </div>
+        </div>
+        <input type="file" name="file" style="display:none">
+    </div>
+    <div id="upload_template" class="terse center" style="font-size:18px;cursor:pointer;padding:20px 0;border-top:1px dotted rgba(34,36,38,.15)">
+        <i class="icon blue upload"></i> <span>请上传模板文件</span>
+    </div>
+    <input type="file" name="template" style="display:none">
+    <div class="actions terse center">
+        <button class="ui blue button">
+            <i class="save icon"></i>
+            确认
+        </button>
+        <div class="ui negative button">
+            <i class="close icon"></i>
+            关闭
+        </div>
+    </div>
+</form>
+<form id="edit" class="ui small modal form">
+    <div class="header">编辑模板</div>
+    <div class="content" style="position:relative">
+        <div class="ui two column very relaxed grid">
+            <div class="column">
+                <div class="field">
+                    <label>模板名：</label>
+                    <input name="name" type="text" placeholder="请输入模板名称">
+                </div>
+                <div class="field">
+                    <label>模板描述：</label>
+                    <textarea name="description"></textarea>
+                </div>
+            </div>
+            <div class="ui vertical divider">and</div>
+            <div class="column">
+                <div class="blurring dimmable image">
+                    <div class="ui dimmer">
+                        <div class="content">
+                            <div class="center">
+                                <div class="ui inverted button change_img">更换封面图</div>
+                            </div>
+                        </div>
+                    </div>
+                    <img class="ui medium rounded image" style="max-height:243px;width:auto;margin:0 auto;" src="">
+                    <input type="hidden" name="img">
+                </div>
+            </div>
+        </div>
+        <input name="id" type="hidden">
+        <input type="file" name="file" style="display:none">
+    </div>
+    <div class="actions terse center">
+        <button class="ui save blue button">
+            <i class="save icon"></i>
+            确认
+        </button>
+        <div class="ui negative button">
+            <i class="close icon"></i>
+            关闭
+        </div>
+    </div>
+</form>
+<form id="upload" enctype="multipart/form-data" style="display:none">
+    <input type="file" name="file">
+    <button class="ui blue button">
+        确认
+    </button>
+</form>
+<div class="ui small modal transition info" style="margin-top: -98px;">
+    <div class="header">title</div>
+    <div class="content">
+        <p>content</p>
+    </div>
+    <div class="actions">
+        <div class="ui right labeled icon negative button cancel">
+            不
+            <i class="close icon"></i>
+        </div>
+        <div class="ui positive right labeled icon button">
+            是
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script type="text/javascript">
+    var action = '';
+    $('.blurring.image').dimmer({
+      on: 'hover'
+    });
+    //监听窗口变化，设置最后一个card的高度
+    $(window).resize(function () {
+        $('.ui.link.card').last().css('height','0');
+        $('.ui.link.card').last().css('height',$('.ui.link.card').eq(0).css('height'));
+    });
+
+    //添加模板
+    $('.ui.link.card').last().click(function(){
+        $('#add.small.modal.form').modal({
+            closable: false
+        }).modal('show');
+        $('input[name=name]').val('');
+        $('textarea').html('');
+        $('#add.small.modal.form img').attr('src','/public/tpl_img/default.png');
+        $('#add.small.modal.form input[name=img]').val('/public/tpl_img/default.png');
+    });
+
+    //编辑模板
+    $('.write.link').click(function(e){
+        //阻止冒泡事件
+        e.stopPropagation();
+        //显示弹出层
+        $('#edit.small.modal.form').modal({
+            closable: false
+        }).modal('show');
+        //重置相关信息
+        var tpl_name = $(this).parents('.image').siblings('.content').children('span').html();
+        var tpl_img = $(this).parent('span').siblings('img').attr('src');
+        $('input[name=name]').val(tpl_name);
+        $('textarea').html($(this).attr('data-description'));
+        $('#edit.small.modal.form img').attr('src',tpl_img);
+        $('#edit.small.modal.form input[name=img]').val(tpl_img);
+        $('#edit.small.modal.form input[name=id]').val($(this).attr('data-id'));
+    });
+
+    //编辑模板操作
+    $('#edit').api({
+        url : '/template-setting/doEdit',
+        method : 'post',
+        serializeForm: true,
+        onSuccess: function(response){
+            
+        },
+        onFailure: function(response) {
+          
+        }
+    });
+
+    //上传图片
+    $('#edit .change_img').click(function(){
+        $('#edit input:file').click();
+    });
+    $('#edit input:file').change(function(e){
+        var formData = new FormData();
+        formData.append('file', $(this)[0].files[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/file-setting/upload',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success:function(response){
+                var name = e.target.files[0].name;
+                $('#edit img').attr('src',"/public/tpl_img/"+name);
+                $('#add input[name=img]').val("/public/tpl_img/"+name);
+            },
+            error:function(response){
+                showTips(response['msg']);
+            }
+        });
+    });
+    $('#add .change_img').click(function(){
+        $('#add input[name=file]').click();
+    });
+    $('#add input[name=file]').change(function(e){
+        var formData = new FormData();
+        formData.append('file', $(this)[0].files[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/file-setting/upload',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success:function(response){
+                var name = e.target.files[0].name;
+                $('#add img').attr('src',"/public/tpl_img/"+name);
+                $('#add input[name=img]').val("/public/tpl_img/"+name);
+            },
+            error:function(response){
+                showTips(response['msg']);
+            }
+        });
+    });
+    $('#upload_template').click(function(){
+        $('input[name=template]').click();
+    });
+    $('input[name=template]').change(function(e){
+        var name = e.target.files[0].name;
+        $('#upload_template span').html(name);
+    });
+    $('#add .blue.button').click(function(){
+        var formData = new FormData();
+        formData.append('file', $('#add input[name=template]')[0].files[0]);
+        formData.append('name', $('#add input[name=name]').val());
+        formData.append('description', $('#add textarea').html());
+        formData.append('image', $('#add input[name=img]').val());
+        $.ajax({
+            type: 'POST',
+            url: '/template-setting/upload_zip',
+            data: formData,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success:function(response){
+                if (response['status'] == '200') {
+                    window.location.reload();
+                } else {
+                    alert(response['message']);
+                }
+            },
+            error:function(response){
+                alert(response.responseJSON.message);
+            }
+        });
+        return false;
+    });
+
+
+    //删除模板
+    $('.trash.link').click(function(e){
+        e.stopPropagation();
+        var href = $(this).attr('href');
+        $('.small.modal.info .header').html('删除模板');
+        $('.small.modal.info .content p').html('模板删除后，将无法恢复，确认删除？');
+        $('.small.modal.info').modal({
+            closable: false,
+            onApprove: function(){
+                window.open(href,'_self');
+            }
+        }).modal('show');
+    });
+
+    //显示编辑/删除
+    $('.ui.link.card .image').mouseover(function(){
+        $(this).children('span').show();
+    });
+
+    //隐藏编辑/删除
+    $('.ui.link.card .image').mouseout(function(){
+        $(this).children('span').hide();
+    });
+
+    //选择模板
+    $('.template').click(function(){
+        var href = $(this).children('.content').children('span').attr('href');
+        $('.small.modal.info .header').html('选择模板');
+        $('.small.modal.info .content p').html('是否选择启用当前模板？');
+        $('.small.modal.info').modal({
+            closable: false,
+            onApprove: function(){
+                window.open(href,'_self');
+            }
+        }).modal('show');
+    });
+</script>
+<?php stop(); ?>
+<?php extend('extend/extend'); ?>

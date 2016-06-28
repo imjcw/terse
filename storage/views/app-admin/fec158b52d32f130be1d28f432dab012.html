@@ -1,0 +1,243 @@
+<?php start('style'); ?>
+<style type="text/css">
+    .ui.attached.header{
+        margin-top: 0;
+    }
+    ul,li{
+        list-style: none;
+    }
+    li:hover{
+        background-color: #EFEFEF;
+    }
+    .ui.segment{
+        padding: 0;
+    }
+    .terse.list .item{
+        line-height: 30px;
+        border-bottom: 1px solid #EEEEEE;
+        padding: 5px 20px;
+        color: #444444;
+    }
+    .terse.list .item .button{
+        vertical-align: top;
+    }
+    .terse.list .text{
+        font-size: 16px;
+    }
+    .terse.list .item:last-child{
+        border: 0;
+    }
+    .terse.list a{
+        font-size: 16px;
+        color: #444444;
+    }
+    .ui.popup{
+        padding: .3em .5em;
+    }
+    .icon.link{
+        color: #000000;
+    }
+    .terse.edit{
+        display: inline-block;
+        padding: 0 5px;
+    }
+</style>
+<?php stop(); ?>
+<?php start('content'); ?>
+<!--内容-->
+<h3 class="ui top attached header">
+    <i class="archive icon"></i> 文件管理
+</h3>
+<div class="ui attached segment">
+    <ul class="terse list">
+        <?php if(empty($data)): ?>
+        <li class="item terse center text">
+            该文件夹下没有任何文件或文件夹
+        </li>
+        <?php endif ?>
+        <?php if(isset($data['dir'])): ?>
+            <?php foreach($data['dir'] as $dir): ?>
+            <li class="item">
+                <span class="terse right">
+                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path=<?=$realPath.'/'.$dir['name'] ?>"></i>
+                    <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path=<?=$realPath.'/'.$dir['name'] ?>"></i>
+                </span>
+                <i class="blue <?=$dir['class'] ?> icon"></i>
+                <a href="?path=<?=$realPath.'/'.$dir['name'] ?>" class="name"><?=$dir['name'] ?></a>
+            </li>
+            <?php endforeach ?>
+        <?php endif ?>
+        <?php if(isset($data['file'])): ?>
+            <?php foreach($data['file'] as $file): ?>
+            <li class="item">
+                <span class="terse right">
+                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/file-setting/edit?path=<?=$realPath.'/'.$file['name'].'&ext='.$file['ext'] ?>"></i>
+                    <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/file-setting/delete?path=<?=$realPath.'/'.$file['name'] ?>"></i>
+                </span>
+                <i class="blue <?=$file['class'] ?> icon"></i>
+                <span class="text name"><?=$file['name'] ?></span>.<span class="text ext"><?=$file['ext'] ?></span>
+            </li>
+            <?php endforeach ?>
+        <?php endif ?>
+        <li class="item" style="display: none;">
+            <div class="ui mini action input">
+                <i></i>
+                <input type="text" placeholder="填写文件夹名">
+                <div class="ui blue button">确认</div>
+                <div class="ui button">取消</div>
+            </div>
+        </li>
+        <li class="item display_none">
+            <span class="terse right">
+                <i class="circular blue upload icon link create" data-content="上传文件" data-position="bottom center" data-variation="inverted"></i>
+            </span>
+            <i class="reply icon"></i>
+            <a href="?path=">返回上级目录</a>
+        </li>
+    </ul>
+</div>
+<!--删除提示-->
+<div class="ui small modal transition delete" style="margin-top: -98px;">
+    <div class="header">删除提示！</div>
+    <div class="content">
+        <p>删除文件后将无法恢复，确认删除？</p>
+    </div>
+    <div class="actions">
+        <div class="ui right labeled icon negative button cancel">
+            不
+            <i class="close icon"></i>
+        </div>
+        <div class="ui positive right labeled icon button">
+            是
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+<form class="ui small modal form" action="/file-setting/upload" method="post" enctype="multipart/form-data">
+    <div class="header">上传文件</div>
+    <div class="content terse center" style="font-size:18px;cursor:pointer">
+        <i class="icon blue upload"></i> <span>请选择上传文件</span>
+    </div>
+    <input type="file" name="file" style="display:none">
+    <div class="actions terse center">
+        <button class="ui blue button">
+            <i class="save icon"></i>
+            确认
+        </button>
+        <div class="ui negative button">
+            <i class="close icon"></i>
+            取消
+        </div>
+    </div>
+</form>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    var old_name = '';
+    var edting = false;
+    //开启提示框
+    $('.icon.link').popup({
+        inline: true
+    });
+
+    //编辑
+    $('.write.link').click(function(){
+        //如果其中一个在编辑，则返回
+        if (edting) {
+            return;
+        }
+        //锁定当前编辑
+        edting = true;
+        $('.write.link').addClass('grey');
+        $(this).removeClass('grey');
+        var href = $(this).attr('data-action');
+        var ext = $(this).parent('span').siblings('span.ext').html();
+        if ((ext == 'html') || (ext == 'js')|| (ext == 'css')) {
+            window.location = href;
+            return;
+        }
+        if ($(this).parent('span').siblings('.name').attr('contenteditable')) {
+            $(this).parent('span').siblings('.name').focus();
+            return;
+        }
+        $(this).parent('span').siblings('.name').attr('contenteditable', "true");
+        $(this).parent('span').siblings('.name').focus();
+        $(this).parent('span').siblings('.name').addClass('terse edit');
+        old_name = $(this).parent('span').siblings('.name').html();
+        $(this).parents('.item').append('<button class="ui mini blue basic button rename" data-name=\"'+old_name+'\">确认</button>');
+        $(this).parents('.item').append('<button class="ui mini grey basic button">取消</button>');
+        //window.location = href;
+    });
+
+    //取消
+    $('.item').on('click','.grey.button',function(){
+        edting = false;
+        $('.write.link').removeClass('grey');
+        $(this).siblings('.name').removeAttr('contenteditable');
+        $(this).siblings('.name').removeClass('terse edit');
+        $(this).siblings('.name').html(old_name);
+        $(this).siblings('button').remove();
+        $(this).remove();
+    });
+
+    $('.item').on('click','.rename',function(){
+        var new_name = $(this).siblings('.name').html();
+        var ext = $(this).siblings('.ext').html();
+        var path = "";
+        if (new_name == old_name) {
+            showTips('貌似没有变化');
+            return;
+        }
+        $.post('/file-setting/rename',{new_name,old_name,ext,path},function(){
+            edting = false;
+            $('.write.link').removeClass('grey');
+            $('.rename').siblings('.name').removeAttr('contenteditable');
+            $('.rename').siblings('.name').removeClass('terse edit');
+            $('.rename').siblings('.name').html(new_name);
+            $('.rename').siblings('button').remove();
+            $('.rename').remove();
+            showTips('文件名修改成功!');
+        }).error(function(){
+            showTips('文件名修改失败!');
+        });
+    });
+
+    //查看
+    $('.unhide.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_blank');
+    });
+
+    //删除提示
+    $('.trash.link').click(function(){
+        $('.small.modal.delete').modal({
+            closable: false
+        }).modal('show');
+        del_href = $(this).attr('data-action');
+    });
+
+    //删除
+    $('.delete .positive').click(function(){
+        $.get(del_href,function(e){
+            console.log(e);
+        });
+    });
+
+    //上传
+    $('.circular.upload').click(function(){
+        $('.small.form').modal({
+            closable: false
+        }).modal('show');
+    });
+    $('.small.form .content').click(function(){
+        $('.small.form input:file').click();
+    });
+    $('.small.form input:file').change(function(e){
+        var name = e.target.files[0].name;
+        $('.small.form .content span').html(name);
+    });
+});
+</script>
+<?php stop(); ?>
+<?php extend('extend/extend'); ?>

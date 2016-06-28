@@ -1,0 +1,147 @@
+<?php start('style'); ?>
+<style type="text/css">
+    .ui.attached.header{
+        margin-top: 0;
+    }
+    .ui.toggle.checkbox input:checked~.box:before, .ui.toggle.checkbox input:checked~label:before{
+        background-color: #2185D0 !important;
+    }
+    .ui.popup{
+        padding: .3em .5em;
+    }
+    .icon.link{
+        color: #000000;
+    }
+</style>
+<?php stop(); ?>
+<?php start('content'); ?>
+<!--内容-->
+<h3 class="ui top attached header">
+    <i class="file text outline icon"></i> 文档管理
+</h3>
+<div class="ui attached segment">
+<a class="ui blue basic button" href="/article-setting/add"><i class="tiny plus icon"></i> 添加</a>
+<table class="ui blue unstackable selectable celled table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>标题</th>
+            <th>作者</th>
+            <th>所属栏目</th>
+            <th>是否显示</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if(empty($articles)): ?>
+            <tr class="terse center">
+                <td colspan="7">暂时没有任何文章</td>
+            </tr>
+        <?php endif ?>
+        <?php foreach($articles as $id => $article): ?>
+        <tr>
+            <td class="collapsing"><?=$i++ ?></td>
+            <td><?=$article['title'] ?></td>
+            <td><a href="/article-setting/search?author=<?=$article['author'] ?>"><?=$article['author'] ?></a></td>
+            <td><?=$article['category'] ?></td>
+            <td>
+                <span class="ui toggle checkbox">
+                    <?php if($article['is_show']): ?>
+                    <input type="checkbox" name="public" checked="checked" data-id="<?=$id ?>">
+                    <label>显示</label>
+                    <?php else: ?>
+                    <input type="checkbox" name="public" data-id="<?=$id ?>">
+                    <label>隐藏</label>
+                    <?php endif ?>
+                </span>
+            </td>
+            <td><?=$article['create_time'] ?></td>
+            <td style="font-size: 12px;">
+                <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/article-setting/edit?id=<?=$id ?>"></i>
+                <i class="circular blue unhide icon link" data-content="查看" data-position="bottom center" data-variation="inverted" data-action="<?=$url ?>/<?=$article['category_nickname'] ?>/<?=$article['article_nickname'] ?>.html"></i>
+                <i class="circular blue trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/article-setting/doDelete?id=<?=$id ?>&category=<?=$article['category_id'] ?>"></i>
+            </td>
+        </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+    共 <?=$_SESSION['pagesize'] ?> 页 
+<?=pagination(); ?>
+</div>
+<div class="terse tip">
+    <span style="margin: 0 5px;">这是一个小提示！</span>
+    <i class="remove icon" style="margin-right: -10px;"></i>
+</div>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    <?php if(!empty($msg)): ?>
+    showTips("<?=$msg ?>");
+    <?php endif ?>
+    //获取回车搜索响应事件
+    $(function(){
+        $('#search').on('keypress',function(event){
+            if(event.keyCode == '13'){
+                if (!$(this).val()) {
+                    showTips('请输入搜索内容！');
+                    return;
+                }
+            }
+        });
+    });
+
+    //开启提示框
+    $('.icon.link').popup({
+        inline: true
+    });
+
+    //编辑
+    $('.write.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_self');
+    });
+
+    //查看
+    $('.unhide.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_blank');
+    });
+
+    //删除
+    $('.trash.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_self');
+    });
+
+    for (var i = $('.toggle.checkbox').length - 1; i >= 0; i--) {
+        $('.toggle.checkbox:eq('+i+')').checkbox().first().checkbox({
+            onChecked: function() {
+                var id = $(this).attr('data-id');
+                var msg = '显示';
+                $.post('/article-setting/changeVisible',{id,status:1}).success(function(){
+                    showTips('文章显示成功！');
+                }).error(function(){
+                    msg = '隐藏';
+                    showTips('文章显示失败！');
+                });
+                $(this).siblings('label').html(msg);
+            },
+            onUnchecked: function() {
+                var id = $(this).attr('data-id');
+                var msg = '隐藏';
+                $.post('/article-setting/changeVisible',{id,status:0}).success(function(){
+                    showTips('文章隐藏成功！');
+                }).error(function(){
+                    msg = '显示';
+                    showTips('文章隐藏失败！');
+                });
+                $(this).siblings('label').html(msg);
+            },
+        });
+    }
+});
+</script>
+<?php stop(); ?>
+<?php extend('extend/extend'); ?>

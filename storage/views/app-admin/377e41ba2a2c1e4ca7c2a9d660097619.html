@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title><?=$_SESSION['position'] ?> - Terse管理后台</title>
+    <link rel="stylesheet" type="text/css" href="/public/include/semantic/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/main.css">
+    <?php export('style'); ?>
+</head>
+<body style="overflow: hidden;">
+    <div class="terse page left">
+        <div class="logo">
+            Terse
+        </div>
+        <ul class="terse nav">
+            <li class="tip">MAIN NAVIGATION</li>
+            <li>
+                <a href="#">
+                    <i class="dropdown icon terse right"></i>
+                    <i class="setting icon"></i>
+                    内容管理
+                </a>
+                <ul class="subnav">
+                    <li>
+                        <a href="/category-setting/index">
+                            <i class="radio icon"></i>
+                            栏目管理
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/article-setting/index">
+                            <i class="radio icon"></i>
+                            文档管理
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/recycle-setting/index">
+                            <i class="radio icon"></i>
+                            回收站
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="dropdown icon terse right"></i>
+                    <i class="archive icon"></i>
+                    模板管理
+                </a>
+                <ul class="subnav">
+                    <li>
+                        <a href="/template-setting/index">
+                            <i class="radio icon"></i>
+                            模板选择
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/file-setting/index">
+                            <i class="radio icon"></i>
+                            文件管理
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="dropdown icon terse right"></i>
+                    <i class="file image outline icon"></i>
+                    图片管理
+                </a>
+                <ul class="subnav">
+                    <li>
+                        <a href="/image-setting/index">
+                            <i class="radio icon"></i>
+                            图片管理
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="dropdown icon terse right"></i>
+                    <i class="users icon"></i>
+                    管理员设置
+                </a>
+                <ul class="subnav">
+                    <li>
+                        <a href="/admin-setting/index">
+                            <i class="radio icon"></i>
+                            管理员设置
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="dropdown icon terse right"></i>
+                    <i class="settings icon"></i>
+                    系统设置
+                </a>
+                <ul class="subnav">
+                    <li>
+                        <a href="/system-setting/index">
+                            <i class="radio icon"></i>
+                            系统设置
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+        <!--left toolbar end-->
+    <div class="terse page right">
+        <div class="terse page top">
+            <span class="terse left">
+                <i class="calendar icon"></i>
+                <?=current_time() ?> | 
+                <i class="user icon"></i>欢迎，超级管理员            </span>
+            <span class="terse right">
+                <a class="item" href="/">
+                    <i class="dashboard icon"></i>
+                    系统首页
+                </a> | 
+                <a class="item" href="/auth/outLogin">
+                    <i class="sign out icon"></i>
+                    登出
+                </a>
+            </span>
+        </div>
+        <div class="terse page bottom">
+            <?php export('content'); ?>
+        </div>
+    </div>
+    <div class="terse tip">
+        <span style="margin: 0 5px;">这是一个小提示！</span>
+        <i class="remove icon" style="margin-right: -10px;"></i>
+    </div>
+</body>
+<script type="text/javascript" src="/public/include/jquery/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="/public/include/semantic/semantic.min.js"></script>
+<script type="text/javascript" src="/public/js/main.js"></script>
+<?php export('script'); ?>
+</html>

@@ -1,0 +1,76 @@
+<?php start('content'); ?>
+<!--内容-->
+<h3 class="ui top attached header">
+    <i class="file text outline icon"></i> 栏目管理
+</h3>
+<div class="ui attached segment">
+<form class="ui form" action="/category-setting/doEdit?id=<?=$id ?>" method="post">
+    <div class="field">
+        <label>栏目名称：</label>
+        <input type="text" name="name" placeholder="栏目名称" value="<?=$name ?>">
+    </div>
+    <div class="field">
+        <label>栏目别名：</label>
+        <input type="text" name="nickname" placeholder="使用在URL中的别名，美化URL" value="<?=$nickname ?>">
+    </div>
+    <div class="field">
+        <label>栏目描述：</label>
+        <input name="description" placeholder="栏目描述(不多于50字)" value="<?=$description ?>">
+    </div>
+    <input type="hidden" name="old_nickname" value="<?=$nickname ?>">
+    <div class="field" style="text-align: center;">
+        <button class="ui blue submit button">保存</button>
+        <a class="ui button go_back" href="#">放弃</a>
+    </div>
+</form>
+</div>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    //表单验证
+    $('.ui.form').form({
+        inline : true,
+        on : 'blur',
+        fields: {
+            name : {
+                identifier : 'name',
+                rules : [
+                {
+                    type : 'maxLength[30]',
+                    prompt : '请输入30字以下的栏目名'
+                },
+                {
+                    type : 'empty',
+                    prompt : '请输入栏目名'
+                }
+                ]
+            },
+            nickname : {
+                identifier : 'nickname',
+                rules : [
+                {
+                    type : 'maxLength[30]',
+                    prompt : '请输入30字以下的栏目名'
+                },
+                {
+                    type : 'regExp[/^[a-zA-Z0-9\-]{0,45}$/gi]',
+                    prompt : '请输入英文、数字和-组成的别名'
+                }
+                ]
+            },
+            description : {
+                identifier : 'description',
+                rules : [
+                {
+                    type : 'maxLength[50]',
+                    prompt : '请输入50字及以下的栏目描述'
+                }
+                ]
+            },
+        }
+  });
+});
+</script>
+<?php stop(); ?>
+<?php extend('extend/extend'); ?>

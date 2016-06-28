@@ -1,0 +1,151 @@
+<?php start('style'); ?>
+<style type="text/css">
+    .ui.popup{
+        padding: .3em .5em;
+    }
+</style>
+<?php stop(); ?>
+<?php start('content'); ?>
+<!--内容-->
+<h3 class="ui top attached header">
+    <i class="grid layout icon"></i> 栏目管理
+</h3>
+<div class="ui attached segment">
+    <a class="ui blue basic button" href="/category-setting/add">
+        <i class="tiny plus icon"></i> 添加
+    </a>
+    <table class="ui blue unstackable selectable celled table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>栏目</th>
+                <th>别名</th>
+                <th>文章数</th>
+                <th>是否启用</th>
+                <th>简介</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if(empty($categorys)): ?>
+                <tr class="terse center">
+                    <td colspan="8">暂时没有任何栏目</td>
+                </tr>
+            <?php endif ?>
+            <?php foreach($categorys as $id => $category): ?>
+            <tr>
+                <td class="collapsing"><?=$id ?></td>
+                <td><?=$category['name'] ?></td>
+                <td><?=$category['nickname'] ?></td>
+                <td><a href="/article-setting/search.html?category=<?=$id ?>"><?=$category['articles'] ?> 篇</a></td>
+                <td>
+                    <span class="ui toggle checkbox">
+                        <?php if($category['is_show']): ?>
+                        <input type="checkbox" name="public" checked="checked" data-id="<?=$id ?>">
+                        <label></label>
+                        <?php else: ?>
+                        <input type="checkbox" name="public" data-id="<?=$id ?>">
+                        <label></label>
+                        <?php endif ?>
+                    </span>
+                </td>
+                <td class="break"><?=$category['description'] ?></td>
+                <td style="font-size: 12px;">
+                    <i class="circular blue write icon link" data-content="编辑" data-position="bottom center" data-variation="inverted" data-action="/category-setting/edit?id=<?=$id ?>"></i>
+                    <i class="circular red trash outline icon link" data-content="删除" data-position="bottom center" data-variation="inverted" data-action="/category-setting/doDelete?id=<?=$id ?>&nickname=<?=$category['nickname'] ?>"  data-article="<?=$category['articles'] ?>"></i>
+                </td>
+            </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
+</div>
+<div class="ui small modal transition info" style="margin-top: -98px;">
+    <div class="header">title</div>
+    <div class="content">
+        <p>content</p>
+    </div>
+    <div class="actions">
+        <div class="ui right labeled icon negative button cancel">
+            不，只删除该栏目
+            <i class="close icon"></i>
+        </div>
+        <div class="ui positive right labeled icon button">
+            是，删除该栏目下所有文章
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    var del_href;
+    <?php if(!empty($msg)): ?>
+    showTips("<?=$msg ?>");
+    <?php endif ?>
+    //开启提示框
+    $('.icon.link').popup({
+        inline: true
+    });
+
+    //弹出框
+    function show_model(title,content){
+        $('.small.modal').modal('show');
+        $('.small.modal .header').html(title);
+        $('.small.modal .content p').html(content);
+    }
+
+    //编辑
+    $('.write.link').click(function(){
+        var href = $(this).attr('data-action');
+        window.open(href,'_self');
+    });
+
+    //删除
+    $('.trash.link').click(function(){
+        del_href = $(this).attr('data-action');
+        if ($(this).attr('data-article')) {
+            show_model('删除提示！','由于该栏目下存在文章，是否删除该栏目下所有文章？');
+        } else {
+            window.open(del_href,'_self');
+        }
+    });
+
+    //只删除该栏目
+    $('.negative.icon.button').click(function(){
+        window.open(del_href,'_self');
+    });
+
+    //删除该栏目，及栏目下文章
+    $('.positive.icon.button').click(function(){
+        del_href = del_href + "&article=all";
+        window.open(del_href,'_self');
+    });
+
+    for (var i = $('.toggle.checkbox').length - 1; i >= 0; i--) {
+        $('.toggle.checkbox:eq('+i+')').checkbox().first().checkbox({
+            onChecked: function() {
+                var check = $(this);
+                var id = $(this).attr('data-id');
+                $.post('/category-setting/changeVisible',{id,status:1}).success(function(){
+                    showTips('栏目启用成功！');
+                }).error(function(){
+                    showTips('栏目启用失败！');
+                    $('input[data-id='+id+']').parent().checkbox('set unchecked');
+                });
+            },
+            onUnchecked: function() {
+                var id = $(this).attr('data-id');
+                $.post('/category-setting/changeVisible',{id,status:0}).success(function(){
+                    showTips('栏目禁用成功！');
+                }).error(function(){
+                    showTips('栏目禁用失败！');
+                    $('input[data-id='+id+']').parent().checkbox('set checked');
+                });
+            },
+        });
+    }
+});
+</script>
+<?php stop(); ?>
+<?php extend('extend/extend'); ?>

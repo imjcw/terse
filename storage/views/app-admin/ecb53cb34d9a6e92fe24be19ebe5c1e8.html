@@ -1,0 +1,92 @@
+<?php start('content'); ?>
+<!--内容-->
+<h3 class="ui top attached header">
+    <i class="users icon"></i> 管理员管理
+</h3>
+<div class="ui attached segment">
+    <form class="ui form" action="/admin-setting/doAdd" method="post">
+        <div class="field">
+            <label>管理员昵称</label>
+            <input type="text" name="nickname" placeholder="管理员昵称" value="">
+        </div>
+        <div class="field">
+            <label>管理员账号</label>
+            <input type="text" name="name" placeholder="管理员账号" value="">
+        </div>
+        <div class="field">
+            <label>管理员密码</label>
+            <input type="password" name="password" placeholder="管理员密码" value="">
+        </div>
+        <div class="field">
+            <label>管理员简介</label>
+            <textarea name="description" placeholder="管理员简介"></textarea>
+        </div>
+        <div class="field" style="text-align: center;">
+            <button class="ui blue submit button">保存</button>
+            <a class="ui button go_back" href="#">放弃</a>
+        </div>
+    </form>
+</div>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    //表单验证
+    $('.ui.form').form({
+        inline : true,
+        on : 'blur',
+        fields: {
+            nickname : {
+                identifier : 'nickname',
+                rules : [
+                {
+                    type : 'maxLength[32]',
+                    prompt : '请输入32字以下的管理员昵称'
+                },
+                {
+                    type : 'empty',
+                    prompt : '请输入管理员昵称'
+                }
+                ]
+            },
+            name : {
+                identifier : 'name',
+                rules : [
+                {
+                    type : 'maxLength[15]',
+                    prompt : '请输入15字以下的管理员账号'
+                },
+                {
+                    type : 'regExp[/^[a-zA-Z0-9]{1,15}/gi]',
+                    prompt : '请输入字母、数字的账号组合'
+                },
+                {
+                    type : 'empty',
+                    prompt : '请输入管理员账号'
+                }
+                ]
+            },
+            password : {
+                identifier : 'password',
+                rules : [
+                {
+                    type : 'regExp[/^[a-zA-Z0-9\!\@\#\$\%\^\&\*\.]{8,}/gi]',
+                    prompt : '请输入8位以上的字母、数字、!@#$%^&*.的密码组合'
+                }
+                ]
+            },
+            description : {
+                identifier : 'description',
+                rules : [
+                {
+                    type : 'maxLength[300]',
+                    prompt : '请输入300字及以下的管理员简介'
+                }
+                ]
+            },
+        }
+  });
+});
+</script>
+<?php stop(); ?>
+<?php extend('extend/extend'); ?>

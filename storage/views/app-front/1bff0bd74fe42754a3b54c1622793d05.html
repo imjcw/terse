@@ -1,0 +1,29 @@
+<?php start('style'); ?>
+<link href="/resources/zenburn.css" rel="stylesheet">
+<?php stop(); ?>
+<?php start('mainbody'); ?>
+<div class="breadcrumb"><a href="/">网站首页</a> &gt; <a href="/<?=$data['category_nickname'] ?>"><?=$data['category_name'] ?></a></div>
+<div class="content">
+    <h1><?=$data['title'] ?></h1>
+    <div class="subinfo">
+        <i class="fa fa-user" aria-hidden="true"></i> <?=$data['author'] ?>&nbsp; | &nbsp;<i class="fa fa-calendar" aria-hidden="true"></i> <?=$data['create_time'] ?>&nbsp; | &nbsp;<i class="fa fa-eye" aria-hidden="true"></i> (<?=$data['views'] ?>)
+    </div>
+    <?=$data['content'] ?>
+</div>
+<div class="sidemenu clearfix">
+    <div class="card">
+        <h3>相关推荐</h3>
+        <ul class="list">
+            <?php $articles = hot(10); foreach($articles as $key => $article): ?>
+            <li><a href="<?=$article['url'] ?>"><span><?=$key + 1 ?></span><?=$article['title'] ?></a></li>
+            <?php endforeach ?>
+        </ul>
+    </div>
+</div>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script src="/resources/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<?php stop(); ?>
+
+<?php extend('extend'); ?>

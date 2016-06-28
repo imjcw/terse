@@ -1,0 +1,98 @@
+<?php start('content'); ?>
+<!--内容-->
+<h3 class="ui top attached header">
+    <i class="settings icon"></i> 系统设置
+</h3>
+<div class="ui attached segment">
+    <form class="ui form container" action="updateSystemInfo" method="post">
+        <div class="field">
+            <label>站点网址：</label>
+            <input name="url" type="text" placeholder="http://" value="<?=$system['url'] ?>">
+        </div>
+        <div class="field">
+            <label>网站名称：</label>
+            <input name="name" type="text" placeholder="×××网站" value="<?=$system['name'] ?>">
+        </div>
+        <div class="field">
+            <label>网站简介：</label>
+            <textarea name="description" placeholder="网站简介(建议不超过80字)"><?=$system['description'] ?></textarea>
+        </div>
+        <div class="field">
+            <label>网站关键词：</label>
+            <input name="keywords" type="text" placeholder="关键词之间用英文','间隔" value="<?=$system['keywords'] ?>">
+        </div>
+        <div class="field">
+            <label>版权信息：</label>
+            <input name="copyright" type="text" placeholder="版权信息(建议不超过20字)" value="<?=$system['copyright'] ?>">
+        </div>
+        <div class="ui field centered grid">
+            <button class="ui blue labeled icon button">
+                <i class="plus icon"></i>
+                保存
+            </button>
+        </div>
+    </form>
+</div>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    <?php if(!empty($msg)): ?>
+    showTips("<?=$msg ?>");
+    <?php endif ?>
+    //表单验证
+    $('.ui.form').form({
+        inline : true,
+        on : 'blur',
+        fields: {
+            url : {
+                identifier : 'url',
+                rules : [
+                {
+                    type : 'url',
+                    prompt : '请输入正确的网址'
+                }
+                ]
+            },
+            title : {
+                identifier : 'title',
+                rules : [
+                {
+                    type : 'maxLength[300]',
+                    prompt : '请输入300字以下的网站名称'
+                }
+                ]
+            },
+            description : {
+                identifier : 'description',
+                rules : [
+                {
+                    type : 'maxLength[300]',
+                    prompt : '请输入300字及以下的网站简介'
+                }
+                ]
+            },
+            keywords : {
+                identifier : 'keywords',
+                rules : [
+                {
+                    type : 'maxLength[300]',
+                    prompt : '请输入300字及以下的网站关键词'
+                }
+                ]
+            },
+            copyright : {
+                identifier : 'copyright',
+                rules : [
+                {
+                    type : 'maxLength[300]',
+                    prompt : '请输入300字及以下的版权信息'
+                }
+                ]
+            },
+        }
+  });
+});
+</script>
+<?php stop(); ?>
+<?php extend('extend/extend'); ?>

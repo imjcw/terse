@@ -1,0 +1,53 @@
+<?php start('content'); ?>
+<!--内容-->
+<h3 class="ui top attached header">
+    <i class="file text outline icon"></i> 文档管理
+</h3>
+<div class="ui attached segment">
+<table class="ui blue unstackable selectable celled table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>标题</th>
+            <th>作者</th>
+            <th>所属栏目</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if(empty($articles)): ?>
+            <tr class="terse center">
+                <td colspan="6">干净的回收站</td>
+            </tr>
+        <?php endif ?>
+        <?php foreach($articles as $id => $article): ?>
+        <tr>
+            <td class="collapsing"><?=$i++ ?></td>
+            <td><?=$article['title'] ?></td>
+            <td><?=$article['author'] ?></td>
+            <td><?=$article['category'] ?></td>
+            <td><?=$article['create_time'] ?></td>
+            <td>
+                <a class="edit" href="/recycle-setting/reuse?id=<?=$id ?>&category=<?=$article['category_id'] ?>">恢复</a>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <a class="delete text red" href="/recycle-setting/doDelete?id=<?=$id ?>&content=<?=$article['content_id'] ?>">彻底删除</a>
+            </td>
+        </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+    共 <?=$_SESSION['pagesize'] ?> 页 
+<?=pagination(); ?>
+</div>
+<?php stop(); ?>
+<?php start('script'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+    <?php if(!empty($msg)): ?>
+    showTips("<?=$msg ?>");
+    <?php endif ?>
+});
+</script>
+<?php stop(); ?>
+<?php extend('extend/extend'); ?>

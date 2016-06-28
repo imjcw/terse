@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title><?php $session = $_SESSION;
+        $title = '';
+        if (isset($session['category'])) {
+            $title .= $session['category'].' - ';
+            unset($_SESSION['category']);
+        }
+        if (isset($session['article'])) {
+            $title .= $session['article'].' - ';
+            unset($_SESSION['article']);
+        }
+        if (isset($session['webname'])) {
+            $title .= $session['webname'];
+        }
+        echo $title; ?></title>
+    <meta name="keywords" content="蒋陈伟,蒋陈伟的个人博客,前端笔记,后端笔记,毕业设计,PPT手绘" />
+    <meta name="description" content="蒋陈伟的个人博客，记录HTML、CSS、JS、PHP、C++和PPT的学习创作生活。" />
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <?php export('style'); ?>
+</head>
+<body>
+<!--header start-->
+<header class="header white">
+    <div class="container clearfix">
+        <span class="bars left hide">
+            <i class="fa fa-bars"></i>
+        </span>
+        <div class="logo">
+            <a href="/" title="imjcw">imjcw</a>
+        </div>
+        <nav class="navigation">
+            <ul class="clearfix">
+                <li><a href="/" title="首页">首页</a></li>
+                <?php $categorys = category(); foreach($categorys as $category): ?>
+                <li><a href="<?= $category['url']  ?>" title="<?= $category['name']  ?>"><?= $category['name']  ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        </nav>
+    </div>
+</header>
+<!--header end-->
+<div class="section clearfix">
+<?php export('mainbody'); ?>
+</div>
+<div class="footer">
+    ©CopyRight 2016. Design By Marvin.
+</div>
+<?php export('script'); ?>
+<script src="http://cdn.bootcss.com/jquery/3.0.0-beta1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.bars').click(function(){
+            $('.navigation').css('display') == 'block' ? $('.navigation').slideUp('fast') : $('.navigation').slideDown('fast');
+        });
+    });
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?f395dc40dc3b05e2afc007c2785843be";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+</body>
+</html>
