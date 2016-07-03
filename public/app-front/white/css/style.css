@@ -204,12 +204,14 @@ form input:focus {
     font-size: 14px;
     color: #333333;
     padding: 10px;
+    margin-bottom: 10px;
 }
 .section .content .subtitle{
     display: block;
     margin-left: -20px;
     padding-left: 15px;
     border-left: 5px solid #00BCD4;
+    margin-bottom: 10px;
 }
 .section .content .preface {
     color: #999;
