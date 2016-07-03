@@ -204,7 +204,6 @@ form input:focus {
     font-size: 14px;
     color: #333333;
     padding: 10px;
-    margin-bottom: 10px;
 }
 .section .content .subtitle{
     display: block;
@@ -220,6 +219,7 @@ form input:focus {
     border-radius: 4px;
     line-height: 1.25em;
     border: 1px dashed #BBBBBB;
+    margin-bottom: 10px;
 }
 .section .content a {
     color: #00BCD4;
