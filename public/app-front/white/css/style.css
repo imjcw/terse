@@ -190,6 +190,10 @@ form input:focus {
     margin-bottom: 10px;
     color: #666666;
 }
+.section .content ul li {
+    padding-bottom: 10px;
+    text-indent: 1em;
+}
 .section .content img {
     max-width: 100%;
     height: auto;
